@@ -1,18 +1,8 @@
 import Head from "next/head";
-import RegisterForm from "components/RegisterForm";
-import LoginForm from "components/LoginForm";
-import fetchTokenData from "utils/fetchTokenData";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import checkPermission from "utils/checkPermission";
 
 const Home = ({ userId }: { userId: string | null }) => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    checkPermission(userId, dispatch);
-  }, [userId]);
-
   return (
     <>
       <Head>
@@ -52,16 +42,6 @@ const Home = ({ userId }: { userId: string | null }) => {
                       </a>
                     </li>
                   </ul>
-                </div>
-
-                <div className="tab-content">
-                  <div className="tab-pane " id="register">
-                    <RegisterForm />
-                  </div>
-
-                  <div className="tab-pane active" id="login">
-                    <LoginForm />
-                  </div>
                 </div>
               </div>
             </div>
@@ -105,10 +85,8 @@ const Home = ({ userId }: { userId: string | null }) => {
 };
 
 Home.getInitialProps = async ({ req }) => {
-  const res = await (await fetchTokenData(req)).json();
-
   return {
-    userId: res?.userId || null,
+    userId: null,
   };
 };
 
