@@ -1,11 +1,7 @@
-import links from "constants/links";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { logout } from "utils/checkPermission";
 
 const Header = () => {
-  const dispatch = useDispatch();
-
   return (
     <header id="header">
       <nav className="navbar navbar-default navbar-fixed-top menu">
@@ -201,11 +197,11 @@ const Header = () => {
             </ul>
           </li>
            */}
-              <li className="dropdown">
+              {/* <li className="dropdown">
                 {/* <Link href="/"> */}
-                <a onClick={() => logout(dispatch)}>Logout</a>
-                {/* </Link> */}
-              </li>
+              {/* <a onClick={() => logout(dispatch)}>Logout</a> */}
+              {/* </Link> 
+              </li> */}
             </ul>
             {/* <form className="navbar-form navbar-right hidden-sm">
           <div className="form-group">
