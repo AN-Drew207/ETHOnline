@@ -2,9 +2,9 @@ import {ReactNode, useMemo} from "react";
 import {Web3ReactHooks, Web3ReactProvider} from "@web3-react/core";
 import {Connector} from "@web3-react/types";
 
-import {Connection, ConnectionType} from "@helpers/connection";
-import {getConnectionName, getConnection} from "@helpers/connection/utils";
-import {useAppSelector} from "store/index";
+import {Connection, ConnectionType} from "utils/connection";
+import {getConnectionName, getConnection} from "utils/connection/utils";
+import {useAppSelector} from "redux/store";
 
 const SELECTABLE_WALLETS = [
   ConnectionType.INJECTED,
