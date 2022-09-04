@@ -1,5 +1,6 @@
 import "styles/globals.css";
-import "toastr/build/toastr.min.css";
+import "styles/global-tailwind.css";
+import "styles/index.css";
 import AppWrapper from "components/AppWrapper";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
