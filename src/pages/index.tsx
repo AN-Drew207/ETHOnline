@@ -1,8 +1,6 @@
 import Head from "next/head";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 
-const Home = ({ userId }: { userId: string | null }) => {
+const Home = () => {
   return (
     <>
       <Head>
@@ -13,12 +11,6 @@ const Home = ({ userId }: { userId: string | null }) => {
       <div id="lp-register"></div>
     </>
   );
-};
-
-Home.getInitialProps = async ({ req }) => {
-  return {
-    userId: null,
-  };
 };
 
 export default Home;
