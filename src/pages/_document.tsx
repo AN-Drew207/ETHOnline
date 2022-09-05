@@ -10,7 +10,7 @@ import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document {
   static async getInitialProps(
-    ctx: DocumentContext
+    ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
@@ -58,6 +58,8 @@ export default class MyDocument extends Document {
               `,
             }}
           />
+          <link rel="icon" type="image/png" href="/icons/logo.png" />
+          <title>ShareEth</title>
         </Head>
         <body>
           <Main />
