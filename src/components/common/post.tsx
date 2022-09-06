@@ -25,18 +25,18 @@ export const SimplePostComponent: React.FC<any> = ({
       <div className="w-14 p-2 shrink-0">
         <img src={photo} className="w-10 h-10 rounded-full" alt="" />
       </div>
-      <div className="w-full flex lg:flex-row flex-col justify-between">
+      <div className="w-full flex lg:flex-row flex-col gap-2 justify-between">
         <div className="flex lg:flex-row flex-col">
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2">
             <div className="flex mb-2 gap-2">
               <p className="font-bold text-dark truncate flex gap-2 text-md">
                 {name}
                 <span className="font-thin lowercase text-gray-500">
-                  {address}
+                  {address.substring(0, 10)}...
                 </span>
               </p>
             </div>
-            <p>{message}</p>
+            <p className="text-justify">{message}</p>
             {image && <img src={image} className="w-full rounded-xl" alt="" />}
             {video && <video src={video} className="w-full rounded-xl" />}
           </div>

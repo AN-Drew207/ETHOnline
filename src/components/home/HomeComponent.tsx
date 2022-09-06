@@ -34,7 +34,7 @@ const HomeComponent = () => {
     <div className="flex flex-col md:py-8 w-full">
       <h1 className="text-dark text-2xl font-bold pb-4">Home</h1>
       <div className="flex w-full gap-4">
-        <div className="flex flex-col lg:w-2/3">
+        <div className="flex flex-col 2xl:w-2/3">
           <div className="flex flex-col gap-2 w-full">
             {postsMock.map(
               ({
@@ -66,7 +66,7 @@ const HomeComponent = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-col border border-gray-400 w-1/3 rounded-xl p-4 sticky top-24">
+        <div className="2xl:flex hidden flex-col border border-gray-400 w-1/3 rounded-xl p-4 sticky top-24">
           <h2 className="font-bold text-2xl">Contacts</h2>
         </div>
       </div>
