@@ -10,7 +10,7 @@ import {resolve} from "path";
 import "solidity-coverage";
 import "tsconfig-paths/register";
 
-import "@tasks/index";
+//import "@tasks/index";
 
 dotenvConfig({path: resolve(__dirname, "./.env")});
 
@@ -45,7 +45,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: "0.8.13",
+        version: "0.8.10",
       },
       {
         version: "0.4.24",
