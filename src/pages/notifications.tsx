@@ -1,4 +1,6 @@
 import Head from "next/head";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const Home = () => {
   return (
