@@ -1,0 +1,20 @@
+.onActive{
+	background-color:#1bb7df;
+	transition: 0.2s ease-in;
+}
+
+.onUnactive{
+	background-color:#03111f;
+	transition: 0.2s ease-in;
+}
+
+.offActive{
+	background-color:#fff;
+	color:#03111f;
+	transition: 0.2s ease-in;
+}
+
+.offUnactive{
+	background-color:#161b25;
+	transition: 0.2s ease-in;
+}
