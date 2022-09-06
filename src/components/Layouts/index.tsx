@@ -77,7 +77,7 @@ export default function AppLayout({ children }) {
       <nav
         className={clsx(
           "bg-overlay",
-          "xl:w-auto md:w-80 w-full xl:px-16 px-8 flex md:flex-col flex-row items-center shadow-md md:py-8 py-2 md:border-r border-gray-400",
+          "xl:w-auto md:w-80 w-full shrink-0 xl:px-16 px-8 flex md:flex-col flex-row items-center shadow-md md:py-8 py-2 md:border-r border-gray-400",
         )}
       >
         <div className="flex md:flex-col items-center md:justify-start justify-between w-full">
@@ -126,10 +126,7 @@ export default function AppLayout({ children }) {
         sidebarOpen={sidebarOpen}
         navItems={navItems}
       />
-      <div
-        className="bg-overlay md:px-10 px-6 xl:w-3/4 w-full"
-        style={styles.content}
-      >
+      <div className="bg-overlay md:px-10 px-6 w-full" style={styles.content}>
         {children}
       </div>
     </Layout>
