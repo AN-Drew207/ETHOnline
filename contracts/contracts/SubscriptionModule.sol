@@ -4,113 +4,103 @@ pragma solidity ^0.8.10;
 
 import { IFollowModule } from "@aave/lens-protocol/contracts/interfaces/IFollowModule.sol";
 import { ILensHub } from "@aave/lens-protocol/contracts/interfaces/ILensHub.sol";
+import { IModuleGlobals } from "@aave/lens-protocol/contracts/interfaces/IModuleGlobals.sol";
 import { Errors } from "@aave/lens-protocol/contracts/libraries/Errors.sol";
+import { Events } from "@aave/lens-protocol/contracts/libraries/Events.sol";
 import { FeeModuleBase } from "@aave/lens-protocol/contracts/core/modules/FeeModuleBase.sol";
 import { ModuleBase } from "@aave/lens-protocol/contracts/core/modules/ModuleBase.sol";
 import { FollowValidatorFollowModuleBase } from "@aave/lens-protocol/contracts/core/modules/follow/FollowValidatorFollowModuleBase.sol";
+
+import { ISuperfluidToken } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
-/**
- * @notice A struct containing the necessary data to execute follow actions on a given profile.
- *
- * @param currency The currency associated with this profile.
- * @param amount The following cost associated with this profile.
- * @param recipient The recipient address associated with this profile.
- */
+import { ITransferManager } from "./interfaces/ITransferManager.sol";
+
 struct ProfileData {
-  address currency;
-  uint256 amount;
-  address recipient;
+    address currency;
+    int96 flowRate;
+    address recipient;
 }
 
-/**
- * @title FeeFollowModule
- * @author Lens Protocol
- *
- * @notice This is a simple Lens FollowModule implementation, inheriting from the IFollowModule interface, but with additional
- * variables that can be controlled by governance, such as the governance & treasury addresses as well as the treasury fee.
- */
-contract FeeFollowModule is FeeModuleBase, FollowValidatorFollowModuleBase {
-  using SafeERC20 for IERC20;
+contract SubscriptionModule is FollowValidatorFollowModuleBase {
+    using SafeERC20 for IERC20;
 
-  mapping(uint256 => ProfileData) internal _dataByProfile;
+    uint16 internal constant BPS_MAX = 10000;
+    address public immutable MODULE_GLOBALS;
+    ITransferManager transferManager;
 
-  constructor(address hub, address moduleGlobals) FeeModuleBase(moduleGlobals) ModuleBase(hub) {}
+    mapping(uint256 => ProfileData) internal _dataByProfile;
 
-  /**
-   * @notice This follow module levies a fee on follows.
-   *
-   * @param profileId The profile ID of the profile to initialize this module for.
-   * @param data The arbitrary data parameter, decoded into:
-   *      address currency: The currency address, must be internally whitelisted.
-   *      uint256 amount: The currency total amount to levy.
-   *      address recipient: The custom recipient address to direct earnings to.
-   *
-   * @return bytes An abi encoded bytes parameter, which is the same as the passed data parameter.
-   */
-  function initializeFollowModule(uint256 profileId, bytes calldata data)
-    external
-    override
-    onlyHub
-    returns (bytes memory)
-  {
-    (uint256 amount, address currency, address recipient) = abi.decode(
-      data,
-      (uint256, address, address)
-    );
-    if (!_currencyWhitelisted(currency) || recipient == address(0) || amount == 0)
-      revert Errors.InitParamsInvalid();
+    constructor(
+        ITransferManager _transferManager,
+        address hub,
+        address moduleGlobals
+    ) ModuleBase(hub) {
+        transferManager = _transferManager;
+        if (moduleGlobals == address(0)) revert Errors.InitParamsInvalid();
+        MODULE_GLOBALS = moduleGlobals;
 
-    _dataByProfile[profileId].amount = amount;
-    _dataByProfile[profileId].currency = currency;
-    _dataByProfile[profileId].recipient = recipient;
-    return data;
-  }
+        emit Events.FeeModuleBaseConstructed(moduleGlobals, block.timestamp);
+    }
 
-  /**
-   * @dev Processes a follow by:
-   *  1. Charging a fee
-   */
-  function processFollow(
-    address follower,
-    uint256 profileId,
-    bytes calldata data
-  ) external override onlyHub {
-    uint256 amount = _dataByProfile[profileId].amount;
-    address currency = _dataByProfile[profileId].currency;
-    _validateDataIsExpected(data, currency, amount);
+    function _currencyWhitelisted(address currency) internal view returns (bool) {
+        return IModuleGlobals(MODULE_GLOBALS).isCurrencyWhitelisted(currency);
+    }
 
-    (address treasury, uint16 treasuryFee) = _treasuryData();
-    address recipient = _dataByProfile[profileId].recipient;
-    uint256 treasuryAmount = (amount * treasuryFee) / BPS_MAX;
-    uint256 adjustedAmount = amount - treasuryAmount;
+    function _treasuryData() internal view returns (address, uint16) {
+        return IModuleGlobals(MODULE_GLOBALS).getTreasuryData();
+    }
 
-    IERC20(currency).safeTransferFrom(follower, recipient, adjustedAmount);
-    if (treasuryAmount > 0) IERC20(currency).safeTransferFrom(follower, treasury, treasuryAmount);
-  }
+    function _validateDataIsExpected(
+        bytes calldata data,
+        address currency,
+        int96 flowRate
+    ) internal pure {
+        (address decodedCurrency, int96 decodedAmount) = abi.decode(data, (address, int96));
+        if (decodedAmount != flowRate || decodedCurrency != currency) revert Errors.ModuleDataMismatch();
+    }
 
-  /**
-   * @dev We don't need to execute any additional logic on transfers in this follow module.
-   */
-  function followModuleTransferHook(
-    uint256 profileId,
-    address from,
-    address to,
-    uint256 followNFTTokenId
-  ) external override {}
+    function initializeFollowModule(uint256 profileId, bytes calldata data)
+        external
+        override
+        onlyHub
+        returns (bytes memory)
+    {
+        (int96 flowRate, address currency, address recipient) = abi.decode(data, (int96, address, address));
+        if (!_currencyWhitelisted(currency) || recipient == address(0) || flowRate == 0)
+            revert Errors.InitParamsInvalid();
 
-  /**
-   * @notice Returns the profile data for a given profile, or an empty struct if that profile was not nitialized
-   * with this module.
-   *
-   * @param profileId The token ID of the profile to query.
-   *
-   * @return ProfileData The ProfileData struct mapped to that profile.
-   */
-  function getProfileData(uint256 profileId) external view returns (ProfileData memory) {
-    return _dataByProfile[profileId];
-  }
+        _dataByProfile[profileId].flowRate = flowRate;
+        _dataByProfile[profileId].currency = currency;
+        _dataByProfile[profileId].recipient = recipient;
+        return data;
+    }
+
+    function processFollow(
+        address follower,
+        uint256 profileId,
+        bytes calldata data
+    ) external override onlyHub {
+        int96 flowRate = _dataByProfile[profileId].flowRate;
+        address currency = _dataByProfile[profileId].currency;
+        _validateDataIsExpected(data, currency, flowRate);
+
+        address recipient = _dataByProfile[profileId].recipient;
+
+        transferManager.createFlow(ISuperfluidToken(currency), follower, recipient, flowRate);
+    }
+
+    function followModuleTransferHook(
+        uint256 profileId,
+        address from,
+        address to,
+        uint256 followNFTTokenId
+    ) external override {}
+
+    function getProfileData(uint256 profileId) external view returns (ProfileData memory) {
+        return _dataByProfile[profileId];
+    }
 }
