@@ -4,12 +4,7 @@ import {HardhatRuntimeEnvironment} from "hardhat/types";
 import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
 import {BigNumberish} from "ethers";
 
-import {
-  SuperToken,
-  SuperTokenFactory,
-  Superfluid,
-  ConstantFlowAgreementV1,
-} from "../../types/index";
+import {SuperToken, SuperTokenFactory, Superfluid, ConstantFlowAgreementV1} from "../../types/index";
 
 import {attach} from "@utils/contracts";
 
@@ -31,7 +26,7 @@ export const createFlow = async (
     sender: SignerWithAddress;
     flowRate: BigNumberish;
     superfluid: Framework;
-  }
+  },
 ) => {
   const {
     cfaV1: {address: cfaAddress},
@@ -41,12 +36,7 @@ export const createFlow = async (
   const cfa = <ConstantFlowAgreementV1>await attach(hre, "ConstantFlowAgreementV1", cfaAddress);
 
   const finalReceiver = typeof receiver === "string" ? receiver : receiver.address;
-  const callData = cfa.interface.encodeFunctionData("createFlow", [
-    superToken.address,
-    finalReceiver,
-    flowRate,
-    [],
-  ]);
+  const callData = cfa.interface.encodeFunctionData("createFlow", [superToken.address, finalReceiver, flowRate, []]);
 
   const receipt = await host.connect(sender).callAgreement(cfaAddress, callData, "0x");
   const flow = await cfa.getFlow(superToken.address, sender.address, finalReceiver);
@@ -60,17 +50,17 @@ export const approveFlow = async (
   hre: HardhatRuntimeEnvironment,
   {
     sender,
-    manager,
+    receiver,
     superToken,
     flowRate,
     superfluid,
   }: {
     sender: SignerWithAddress;
-    manager: string;
+    receiver: string;
     superToken: SuperToken;
     flowRate: BigNumberish;
     superfluid: Framework;
-  }
+  },
 ) => {
   const {
     cfaV1: {address: cfaAddress},
@@ -83,7 +73,7 @@ export const approveFlow = async (
   if (flowRate > 0)
     callData = cfa.interface.encodeFunctionData("updateFlowOperatorPermissions", [
       superToken.address,
-      manager,
+      receiver,
       1,
       flowRate,
       [],
@@ -91,7 +81,7 @@ export const approveFlow = async (
   else
     callData = cfa.interface.encodeFunctionData("authorizeFlowOperatorWithFullControl", [
       superToken.address,
-      manager,
+      receiver,
       [],
     ]);
 
@@ -116,7 +106,7 @@ export const upgradeToken = async ({
 
 export const createSuperToken = async (
   hre: HardhatRuntimeEnvironment,
-  {token, superfluid}: {token: MockERC20; superfluid: Framework}
+  {token, superfluid}: {token: MockERC20; superfluid: Framework},
 ) => {
   const {
     host: {address: hostAddress},
@@ -127,23 +117,18 @@ export const createSuperToken = async (
     await attach(hre, "SuperTokenFactory", await host.getSuperTokenFactory())
   );
   console.log({superTokenFactory: superTokenFactory.address});
-  const superTokenAddress = await superTokenFactory.callStatic[
-    "createERC20Wrapper(address,uint8,string,string)"
-  ](token.address, 0, "Super mock", "SMT");
-
-  await superTokenFactory["createERC20Wrapper(address,uint8,string,string)"](
+  const superTokenAddress = await superTokenFactory.callStatic["createERC20Wrapper(address,uint8,string,string)"](
     token.address,
-    1,
+    0,
     "Super mock",
-    "SMT"
+    "SMT",
   );
+
+  await superTokenFactory["createERC20Wrapper(address,uint8,string,string)"](token.address, 1, "Super mock", "SMT");
   return <SuperToken>await attach(hre, "SuperToken", superTokenAddress);
 };
 
-export const deployEnvironment = async (
-  hre: HardhatRuntimeEnvironment,
-  signer: SignerWithAddress
-) => {
+export const deployEnvironment = async (hre: HardhatRuntimeEnvironment, signer: SignerWithAddress) => {
   const errorHandler = (err: Error) => {
     if (err) throw err;
   };

@@ -32,6 +32,7 @@ specifiers:
   eslint-config-prettier: ^8.5.0
   ethereum-waffle: ^3.4.4
   ethers: ^5.7.0
+  graphql: ^16.6.0
   hardhat: ^2.11.0
   hardhat-contract-sizer: ^2.6.1
   hardhat-gas-reporter: ^1.0.8
@@ -55,10 +56,11 @@ dependencies:
   '@aave/lens-protocol': 1.0.2
   '@ethersproject/contracts': 5.7.0
   '@superfluid-finance/ethereum-contracts': 1.4.0
-  '@superfluid-finance/sdk-core': 0.5.5_wmlnqxx3ckk3562ao6asxcwrwu
+  '@superfluid-finance/sdk-core': 0.5.5_wnsz3rbd4kjxa4ya4nervbtvv4
   '@types/chai': 4.3.3
   '@types/mocha': 9.1.1
   chai: 4.3.6
+  graphql: 16.6.0
   mocha: 10.0.0
 
 devDependencies:
@@ -1323,7 +1325,7 @@ packages:
   /@superfluid-finance/js-sdk/0.6.3:
     resolution: {integrity: sha512-bSeV//KLAyseYwFVMGwrZmmS0iIZWx5FLGEEjXfi0oS42NFomD0MEt+iRyF7o/Jx6/8bfHGMH9I4s8LAWR27bQ==}
     dependencies:
-      '@superfluid-finance/metadata': github.com/superfluid-finance/metadata/953ad5b6846021122df2c9e8d64e50be6693f4e3
+      '@superfluid-finance/metadata': github.com/superfluid-finance/metadata/6dd96b0ade8efb2fd5ae44a49577815f43d9c467
       '@truffle/contract': 4.5.23
       auto-bind: 4.0.0
       node-fetch: 2.6.7
@@ -1334,17 +1336,18 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@superfluid-finance/sdk-core/0.5.5_wmlnqxx3ckk3562ao6asxcwrwu:
+  /@superfluid-finance/sdk-core/0.5.5_wnsz3rbd4kjxa4ya4nervbtvv4:
     resolution: {integrity: sha512-r38j2ps4/wdmCNcoCxSVBriQ1TNzegJTs88xXrHJkgPj88zGApjAGjb+6n5My5Vt7HHQiXxSGUptk6lbp5i/hg==}
     engines: {node: '>=12'}
     peerDependencies:
       ethers: ^5.6.9
       graphql: ^16.0.0
     dependencies:
-      '@superfluid-finance/metadata': github.com/superfluid-finance/metadata/953ad5b6846021122df2c9e8d64e50be6693f4e3
+      '@superfluid-finance/metadata': github.com/superfluid-finance/metadata/6dd96b0ade8efb2fd5ae44a49577815f43d9c467
       browserify: 17.0.0
       ethers: 5.7.0
-      graphql-request: 4.3.0
+      graphql: 16.6.0
+      graphql-request: 4.3.0_graphql@16.6.0
       lodash: 4.17.21
       tsify: 5.0.4_75esxreavtlqwkjzak6a45kska
     transitivePeerDependencies:
@@ -6192,7 +6195,7 @@ packages:
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
 
-  /graphql-request/4.3.0:
+  /graphql-request/4.3.0_graphql@16.6.0:
     resolution: {integrity: sha512-2v6hQViJvSsifK606AliqiNiijb1uwWp6Re7o0RTyH+uRTv/u7Uqm2g4Fjq/LgZIzARB38RZEvVBFOQOVdlBow==}
     peerDependencies:
       graphql: 14 - 16
@@ -6200,8 +6203,14 @@ packages:
       cross-fetch: 3.1.5
       extract-files: 9.0.0
       form-data: 3.0.1
+      graphql: 16.6.0
     transitivePeerDependencies:
       - encoding
+    dev: false
+
+  /graphql/16.6.0:
+    resolution: {integrity: sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
     dev: false
 
   /growl/1.10.5:
@@ -12497,8 +12506,8 @@ packages:
       ethereumjs-util: 6.2.1
     dev: true
 
-  github.com/superfluid-finance/metadata/953ad5b6846021122df2c9e8d64e50be6693f4e3:
-    resolution: {tarball: https://codeload.github.com/superfluid-finance/metadata/tar.gz/953ad5b6846021122df2c9e8d64e50be6693f4e3}
+  github.com/superfluid-finance/metadata/6dd96b0ade8efb2fd5ae44a49577815f43d9c467:
+    resolution: {tarball: https://codeload.github.com/superfluid-finance/metadata/tar.gz/6dd96b0ade8efb2fd5ae44a49577815f43d9c467}
     name: '@superfluid-finance/metadata'
     version: 1.1.0
     dev: false

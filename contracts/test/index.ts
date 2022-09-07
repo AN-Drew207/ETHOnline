@@ -1,12 +1,11 @@
 import hre from "hardhat";
-import {
-  FollowNFT__factory,
-  LensHub__factory,
-} from "../types/factories/@aave/lens-protocol/contracts/core";
+import {FollowNFT__factory, LensHub__factory} from "../types/factories/@aave/lens-protocol/contracts/core";
 import {DataTypes} from "../types/@aave/lens-protocol/contracts/core/LensHub";
+import {lensFixture} from "./fixtures/lens";
 
-describe("test-module", () => {
+describe.only("test-module", () => {
   it("Should deploy and interact with lens", async () => {
+    await lensFixture();
     //const addrs = getAddrs();
     //const lensHub = LensHub__factory.connect(addrs["lensHub proxy"], governance);
     //await waitForTx(lensHub.setState(ProtocolState.Unpaused));

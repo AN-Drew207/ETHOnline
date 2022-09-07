@@ -28,7 +28,9 @@ const config: HardhatUserConfig = {
     src: "./contracts",
   },
   networks: {
-    hardhat: {},
+    hardhat: {
+      allowUnlimitedContractSize: true,
+    },
     rinkeby: {
       url: process.env.RINKEBY_PROVIDER,
       accounts: [process.env.PRIVATE_KEY || ""],
