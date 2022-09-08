@@ -9,7 +9,7 @@ import { CFAv1Library } from "@superfluid-finance/ethereum-contracts/contracts/a
 import { IConstantFlowAgreementV1 } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
 import { SuperAppBase } from "@superfluid-finance/ethereum-contracts/contracts/apps/SuperAppBase.sol";
 
-contract LendingPool is SuperAppBase {
+contract TransferManager is SuperAppBase {
     using SafeERC20 for ISuperToken;
     using CFAv1Library for CFAv1Library.InitData;
 

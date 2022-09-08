@@ -139,9 +139,8 @@ export const deployEnvironment = async (hre: HardhatRuntimeEnvironment, signer: 
   });
 
   const sf = await Framework.create({
-    networkName: "custom",
+    chainId: hre.network.config.chainId || 1,
     provider: hre.ethers,
-    dataMode: "WEB3_ONLY",
     resolverAddress: process.env.TEST_RESOLVER, //this is how you get the resolver address
     protocolReleaseVersion: "test",
   });

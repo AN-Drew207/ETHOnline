@@ -18,7 +18,3 @@ export const superfluidFixture = async (): Promise<SuperfluidFixture> => {
     accounts,
   };
 };
-
-export const lensFixture = async (): Promise<{}> => {
-  return {};
-};

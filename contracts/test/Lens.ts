@@ -6,7 +6,7 @@ import {getReceipt} from "@utils/contracts";
 
 const {loadFixture} = waffle;
 
-describe("test-module", () => {
+describe.only("Lens", () => {
   it("Should deploy and interact with lens", async () => {
     const {lensHub, accounts} = await loadFixture(lensFixture);
     const user = accounts[1]; //interactor cant be owner
