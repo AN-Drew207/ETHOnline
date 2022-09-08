@@ -21,7 +21,7 @@ export const SimplePostComponent: React.FC<any> = ({
   liked,
 }) => {
   return (
-    <div className="border border-gray-300 shadow-md rounded-xl gap-2 sm:px-4 py-4 px-2 flex">
+    <div className="border border-gray-300 shadow-md rounded-xl gap-2  sm:px-4 py-4 px-2 flex">
       <div className="sm:w-14 w-12 p-2 shrink-0 rounded-full">
         <img
           src={photo}
