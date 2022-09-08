@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { DotsHorizontalIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
 import { Typography } from "../typography";
-import { Icons } from "@shared/const/Icons";
+// import { Icons } from "const/Icons";
 import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 
 export const Dropdown: React.FC<any> = ({ title, children }) => {
