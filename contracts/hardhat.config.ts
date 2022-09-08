@@ -31,12 +31,12 @@ const config: HardhatUserConfig = {
     hardhat: {
       allowUnlimitedContractSize: true,
     },
-    rinkeby: {
-      url: process.env.RINKEBY_PROVIDER,
-      accounts: [process.env.PRIVATE_KEY || ""],
-      timeout: 100000,
-      //gasPrice: 65000000000,
-    },
+    // rinkeby: {
+    //   url: process.env.RINKEBY_PROVIDER,
+    //   accounts: [process.env.PRIVATE_KEY || ""],
+    //   timeout: 100000,
+    //   //gasPrice: 65000000000,
+    // },
   },
   paths: {
     artifacts: "./artifacts",

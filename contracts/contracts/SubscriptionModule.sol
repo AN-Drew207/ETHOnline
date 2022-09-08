@@ -25,7 +25,7 @@ struct ProfileData {
     address recipient;
 }
 
-contract SubscriptionModule is FollowValidatorFollowModuleBase {
+contract SubscriptionModule is IFollowModule, FollowValidatorFollowModuleBase {
     using SafeERC20 for IERC20;
 
     uint16 internal constant BPS_MAX = 10000;
