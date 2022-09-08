@@ -16,7 +16,7 @@ const HomeComponent = () => {
       comments: 100,
     },
     {
-      postId: 1,
+      postId: 2,
       name: "Andres",
       photo: "/icons/logo.png",
       address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
@@ -31,11 +31,13 @@ const HomeComponent = () => {
     },
   ];
   return (
-    <div className="flex flex-col md:py-8 w-full">
-      <h1 className="text-dark text-2xl font-bold pb-4">Home</h1>
+    <div className="flex flex-col md:py-8 py-4 w-full">
+      <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">
+        Home
+      </h1>
       <div className="flex w-full gap-4">
         <div className="flex flex-col 2xl:w-2/3">
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex flex-col gap-4 w-full">
             {postsMock.map(
               ({
                 name,
@@ -66,8 +68,10 @@ const HomeComponent = () => {
             )}
           </div>
         </div>
-        <div className="2xl:flex hidden flex-col border border-gray-400 w-1/3 rounded-xl p-4 sticky top-24">
-          <h2 className="font-bold text-2xl">Contacts</h2>
+        <div className="2xl:flex hidden flex-col border border-gray-300 shadow-md  w-1/3 rounded-xl p-4 sticky top-24">
+          <h2 className="font-bold text-xl text-center text-primary">
+            Suggestions
+          </h2>
         </div>
       </div>
     </div>

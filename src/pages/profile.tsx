@@ -1,11 +1,9 @@
-import Head from "next/head";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import ProfileComponent from "components/Profile/MyProfile";
 
 const Home = () => {
   return (
     <>
-      <div id="lp-register"></div>
+      <ProfileComponent />
     </>
   );
 };

@@ -1,13 +1,14 @@
 import Head from "next/head";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import Notifications from "components/notifications/Notifications";
 
-const Home = () => {
+const NotificationsPage = () => {
   return (
     <>
-      <div id="lp-register"></div>
+      <Notifications />
     </>
   );
 };
 
-export default Home;
+export default NotificationsPage;
