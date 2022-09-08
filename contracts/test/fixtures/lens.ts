@@ -1,44 +1,36 @@
 import hre from "hardhat";
 import {hexlify, keccak256, RLP} from "ethers/lib/utils";
-import {task} from "hardhat/config";
 import {core, libraries, misc, upgradeability} from "../../types/factories/@aave/lens-protocol/contracts";
+import {MockERC20__factory} from "../../types/index";
+import {getReceipt} from "@utils/contracts";
 
 const {LensHub__factory, CollectNFT__factory, FollowNFT__factory, modules} = core;
-const {collect, follow, reference, FeeModuleBase__factory, ModuleBase__factory, ModuleGlobals__factory} = modules;
-const {FreeCollectModule__factory, LimitedFeeCollectModule__factory, RevertCollectModule__factory} = collect;
+const {collect, follow, reference, ModuleGlobals__factory} = modules;
 const {
-  ApprovalFollowModule__factory,
-  FeeFollowModule__factory,
-  ProfileFollowModule__factory,
-  RevertFollowModule__factory,
-} = follow;
+  FreeCollectModule__factory,
+  LimitedFeeCollectModule__factory,
+  RevertCollectModule__factory,
+  FeeCollectModule__factory,
+  LimitedTimedFeeCollectModule__factory,
+  TimedFeeCollectModule__factory,
+} = collect;
+const {FeeFollowModule__factory, ProfileFollowModule__factory, RevertFollowModule__factory} = follow;
 const {FollowerOnlyReferenceModule__factory} = reference;
 const {InteractionLogic__factory, PublishingLogic__factory, ProfileTokenURILogic__factory} = libraries;
 const {TransparentUpgradeableProxy__factory} = upgradeability;
 const {LensPeriphery__factory, UIDataProvider__factory, ProfileCreationProxy__factory} = misc;
 
-//import {
-////Currency__factory,
-////FeeCollectModule__factory,
-////LimitedTimedFeeCollectModule__factory,
-//TimedFeeCollectModule__factory,
-//} from "../typechain-types";
-
 const TREASURY_FEE_BPS = 50;
 const LENS_HUB_NFT_NAME = "Lens Protocol Profiles";
 const LENS_HUB_NFT_SYMBOL = "LPP";
 
-export async function waitForTx(tx: Promise<any>) {
-  await (await tx).wait();
-}
-
-export async function deployContract(tx: any): Promise<any> {
+async function deployContract(tx: any): Promise<any> {
   const result = await tx;
   await result.deployTransaction.wait();
   return result;
 }
 
-export const lensFixture = async (): Promise<any> => {
+export const lensFixture = async () => {
   // Note that the use of these signers is a placeholder and is not meant to be used in
   // production.
   const ethers = hre.ethers;
@@ -124,33 +116,33 @@ export const lensFixture = async (): Promise<any> => {
 
   // Currency
   console.log("\n\t-- Deploying Currency --");
-  //const currency = await deployContract(new Currency__factory(deployer).deploy({nonce: deployerNonce++}));
+  const currency = await deployContract(new MockERC20__factory(deployer).deploy({nonce: deployerNonce++}));
 
   // Deploy collect modules //By Rcontre360 comment
-  //console.log("\n\t-- Deploying feeCollectModule --");
-  //const feeCollectModule = await deployContract(
-  //new FeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
-  //nonce: deployerNonce++,
-  //}),
-  //);
+  console.log("\n\t-- Deploying feeCollectModule --");
+  const feeCollectModule = await deployContract(
+    new FeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
+      nonce: deployerNonce++,
+    }),
+  );
   console.log("\n\t-- Deploying limitedFeeCollectModule --");
   const limitedFeeCollectModule = await deployContract(
     new LimitedFeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
       nonce: deployerNonce++,
     }),
   );
-  //console.log("\n\t-- Deploying timedFeeCollectModule --");
-  //const timedFeeCollectModule = await deployContract(
-  //new TimedFeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
-  //nonce: deployerNonce++,
-  //}),
-  //);
-  //console.log("\n\t-- Deploying limitedTimedFeeCollectModule --");
-  //const limitedTimedFeeCollectModule = await deployContract(
-  //new LimitedTimedFeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
-  //nonce: deployerNonce++,
-  //}),
-  //);
+  console.log("\n\t-- Deploying timedFeeCollectModule --");
+  const timedFeeCollectModule = await deployContract(
+    new TimedFeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
+      nonce: deployerNonce++,
+    }),
+  );
+  console.log("\n\t-- Deploying limitedTimedFeeCollectModule --");
+  const limitedTimedFeeCollectModule = await deployContract(
+    new LimitedTimedFeeCollectModule__factory(deployer).deploy(lensHub.address, moduleGlobals.address, {
+      nonce: deployerNonce++,
+    }),
+  );
 
   console.log("\n\t-- Deploying revertCollectModule --");
   const revertCollectModule = await deployContract(
@@ -212,52 +204,52 @@ export const lensFixture = async (): Promise<any> => {
   // Whitelist the collect modules
   console.log("\n\t-- Whitelisting Collect Modules --");
   let governanceNonce = await ethers.provider.getTransactionCount(governance.address);
-  //await waitForTx(lensHub.whitelistCollectModule(feeCollectModule.address, true, {nonce: governanceNonce++})); // by Rcontre360
-  await waitForTx(
+  await getReceipt(lensHub.whitelistCollectModule(feeCollectModule.address, true, {nonce: governanceNonce++})); // by Rcontre360
+  await getReceipt(
     lensHub.whitelistCollectModule(limitedFeeCollectModule.address, true, {
       nonce: governanceNonce++,
     }),
   );
-  //await waitForTx(
-  //lensHub.whitelistCollectModule(timedFeeCollectModule.address, true, {
-  //nonce: governanceNonce++,
-  //}),
-  //);
-  //await waitForTx(
-  //lensHub.whitelistCollectModule(limitedTimedFeeCollectModule.address, true, {
-  //nonce: governanceNonce++,
-  //}),
-  //);
-  await waitForTx(lensHub.whitelistCollectModule(revertCollectModule.address, true, {nonce: governanceNonce++}));
-  await waitForTx(lensHub.whitelistCollectModule(freeCollectModule.address, true, {nonce: governanceNonce++}));
+  await getReceipt(
+    lensHub.whitelistCollectModule(timedFeeCollectModule.address, true, {
+      nonce: governanceNonce++,
+    }),
+  );
+  await getReceipt(
+    lensHub.whitelistCollectModule(limitedTimedFeeCollectModule.address, true, {
+      nonce: governanceNonce++,
+    }),
+  );
+  await getReceipt(lensHub.whitelistCollectModule(revertCollectModule.address, true, {nonce: governanceNonce++}));
+  await getReceipt(lensHub.whitelistCollectModule(freeCollectModule.address, true, {nonce: governanceNonce++}));
 
   // Whitelist the follow modules
   console.log("\n\t-- Whitelisting Follow Modules --");
-  await waitForTx(lensHub.whitelistFollowModule(feeFollowModule.address, true, {nonce: governanceNonce++}));
-  await waitForTx(lensHub.whitelistFollowModule(profileFollowModule.address, true, {nonce: governanceNonce++}));
-  await waitForTx(lensHub.whitelistFollowModule(revertFollowModule.address, true, {nonce: governanceNonce++}));
+  await getReceipt(lensHub.whitelistFollowModule(feeFollowModule.address, true, {nonce: governanceNonce++}));
+  await getReceipt(lensHub.whitelistFollowModule(profileFollowModule.address, true, {nonce: governanceNonce++}));
+  await getReceipt(lensHub.whitelistFollowModule(revertFollowModule.address, true, {nonce: governanceNonce++}));
   // --- COMMENTED OUT AS THIS IS NOT A LAUNCH MODULE ---
-  // await waitForTx(
+  // await getReceipt(
   // lensHub.whitelistFollowModule(approvalFollowModule.address, true, { nonce: governanceNonce++ })
   // );
 
   // Whitelist the reference module
   console.log("\n\t-- Whitelisting Reference Module --");
-  await waitForTx(
+  await getReceipt(
     lensHub.whitelistReferenceModule(followerOnlyReferenceModule.address, true, {
       nonce: governanceNonce++,
     }),
   );
 
   // Whitelist the currency
-  //console.log("\n\t-- Whitelisting Currency in Module Globals --");
-  //await waitForTx(
-  //moduleGlobals.connect(governance).whitelistCurrency(currency.address, true, {nonce: governanceNonce++}),
-  //);
+  console.log("\n\t-- Whitelisting Currency in Module Globals --");
+  await getReceipt(
+    moduleGlobals.connect(governance).whitelistCurrency(currency.address, true, {nonce: governanceNonce++}),
+  );
 
   // Whitelist the profile creation proxy
   console.log("\n\t-- Whitelisting Profile Creation Proxy --");
-  await waitForTx(
+  await getReceipt(
     lensHub.whitelistProfileCreator(profileCreationProxy.address, true, {
       nonce: governanceNonce++,
     }),
@@ -271,13 +263,13 @@ export const lensFixture = async (): Promise<any> => {
     interactionLogic,
     followNFTImplAddress,
     collectNFTImplAddress,
-    //currency: currency.address,
+    currency,
     lensPeriphery,
     moduleGlobals,
-    //"fee collect module": feeCollectModule.address, //by Rcontre360
+    feeCollectModule, //by Rcontre360
     limitedFeeCollectModule,
-    //"timed fee collect module": timedFeeCollectModule.address,
-    //"limited timed fee collect module": limitedTimedFeeCollectModule.address,
+    timedFeeCollectModule,
+    limitedTimedFeeCollectModule,
     revertCollectModule,
     freeCollectModule,
     feeFollowModule,
@@ -288,5 +280,6 @@ export const lensFixture = async (): Promise<any> => {
     followerOnlyReferenceModule,
     uiDataProvider,
     profileCreationProxy,
+    accounts,
   };
 };
