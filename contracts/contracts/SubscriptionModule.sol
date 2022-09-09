@@ -97,8 +97,7 @@ contract SubscriptionModule is IFollowModule, FollowValidatorFollowModuleBase {
         _validateDataIsExpected(data, currency, flowRate);
         address recipient = _dataByProfile[profileId].recipient;
 
-        uint256 passcode = abi.decode(data, (uint256));
-        moneyRouter.createFlowFromContract(superToken, address(this), flowRate);
+        moneyRouter.createFlowFromContract(superToken, recipient, flowRate);
     }
 
     function followModuleTransferHook(

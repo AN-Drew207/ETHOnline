@@ -117,21 +117,18 @@ describe.only("test-module", () => {
     await daix.connect(account2).upgrade(tenKEther)
 
     
-    // const subscriptionModule = await deployContract(
-    //   new SubscriptionModule__factory(governance).deploy(moneyRouter.address ,daix.address, lensHub.address, lensHub.address)
-    //   );
-    //   await waitForTx(lensHub.whitelistFollowModule(subscriptionModule.address, true));
-      // await waitForTx(lensHub.connect(user).setFollowModule(1, subscriptionModule.address, data));
-    
-    const secretFollowModule = await deployContract(
-      new SecretCodeFollowModule__factory(governance).deploy(lensHub.address, moneyRouter.address, daix.address)
-      )
-    await waitForTx(lensHub.whitelistFollowModule(secretFollowModule.address, true));
-
     const data = defaultAbiCoder.encode(['int96'], ['0']);
+    const subscriptionModule = await deployContract(
+      new SubscriptionModule__factory(governance).deploy(moneyRouter.address ,daix.address, lensHub.address, lensHub.address)
+      );
+      await waitForTx(lensHub.whitelistFollowModule(subscriptionModule.address, true));
+      await waitForTx(lensHub.connect(user).setFollowModule(1, subscriptionModule.address, data));
+    
+    await waitForTx(lensHub.whitelistFollowModule(subscriptionModule.address, true));
 
 
-    await waitForTx(lensHub.connect(user).setFollowModule(1, secretFollowModule.address, data));
+
+    await waitForTx(lensHub.connect(user).setFollowModule(1, subscriptionModule.address, data));
 
 
     await waitForTx(lensHub.connect(user).follow([1], [data]));
