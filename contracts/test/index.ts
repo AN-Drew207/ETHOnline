@@ -10,13 +10,81 @@ import {
   waitForTx,
   ZERO_ADDRESS,
 } from '../utils/index';
-
 import {SubscriptionModule__factory} from "../types/factories/contracts/SubscriptionModule__factory";
+import { SecretCodeFollowModule__factory } from "../types/factories/contracts/SecretCodeFollowModule__factory";
 import {LendingPool__factory} from "../types/factories/contracts/TransferManager.sol/LendingPool__factory";
+import { Contract } from "ethers";
+import { defaultAbiCoder } from 'ethers/lib/utils';
+const { ethers } = require("hardhat");
+const { deployFramework, deployWrapperSuperToken } = require("./fixtures/deploy-sf")
+const { Framework } = require("@superfluid-finance/sdk-core")
+
+
+
+let addrs:any;
+let owner: any;
+let account1: any;
+let account2: any;
+let contractsFramework: any;
+let dai: any;
+let daix: any;
+let sf: any;
+let moneyRouter: Contract;
+const tenKEther = ethers.utils.parseEther("10000")
+
+before(async function () {
+  addrs = await lensFixture();
+  [owner, account1, account2] = await ethers.getSigners()
+
+  //deploy the framework
+  contractsFramework = await deployFramework(owner)
+  const tokenPair = await deployWrapperSuperToken(
+      owner,
+      contractsFramework.superTokenFactory,
+      "fDAI",
+      "fDAI"
+  )
+
+  dai = tokenPair.underlyingToken
+  daix = tokenPair.superToken
+
+  // initialize the superfluid framework...put custom and web3 only bc we are using hardhat locally
+  sf = await Framework.create({
+      chainId: 31337,
+      provider: owner.provider,
+      resolverAddress: contractsFramework.resolver, //this is how you get the resolver address
+      protocolReleaseVersion: "test"
+  })
+
+  let MoneyRouter = await ethers.getContractFactory("MoneyRouter", owner)
+
+  moneyRouter = await MoneyRouter.deploy(
+      sf.settings.config.hostAddress,
+      owner.address
+  )
+  await moneyRouter.deployed()
+
+
+})
+
+beforeEach(async function () {
+  await dai.mint(owner.address, tenKEther)
+
+  await dai.mint(account1.address, tenKEther)
+
+  await dai.mint(account2.address, tenKEther)
+
+  await dai.connect(owner).approve(daix.address, tenKEther)
+  await dai.connect(account1).approve(daix.address, tenKEther)
+  await dai.connect(account2).approve(daix.address, tenKEther)
+
+  await daix.upgrade(tenKEther)
+  await daix.connect(account1).upgrade(tenKEther)
+  await daix.connect(account2).upgrade(tenKEther)
+})
 
 describe.only("test-module", () => {
-  it("Should deploy and interact with lens", async () => {
-    const addrs = await lensFixture();
+  it("Create a profile", async () => {
     const [governance, , user] = await initEnv(hre);
     const lensHub = LensHub__factory.connect(addrs.lensHub.address, governance);
     await waitForTx(lensHub.setState(ProtocolState.Unpaused));
@@ -33,19 +101,53 @@ describe.only("test-module", () => {
     };
     await waitForTx(lensHub.connect(user).createProfile(inputStruct));
 
-    // const transferManager = await deployContract(
-    //   new LendingPool__factory.deploy(23,342) 
-    // );
 
-    // const secretCodeFollowModule = await deployContract(
-    //   new SubscriptionModule__factory(governance).deploy(32,lensHub.address, lensHub.address)
-    // );
-    // await waitForTx(lensHub.whitelistFollowModule(secretCodeFollowModule.address, true));
+    await dai.mint(owner.address, tenKEther)
+
+    await dai.mint(account1.address, tenKEther)
   
-    // const data = defaultAbiCoder.encode(['uint256'], ['42069']);
-    // await waitForTx(lensHub.connect(user).setFollowModule(1, secretCodeFollowModule.address, data));
+    await dai.mint(account2.address, tenKEther)
   
-    // const badData = defaultAbiCoder.encode(['uint256'], ['1337']);
+    await dai.connect(owner).approve(daix.address, tenKEther)
+    await dai.connect(account1).approve(daix.address, tenKEther)
+    await dai.connect(account2).approve(daix.address, tenKEther)
+  
+    await daix.upgrade(tenKEther)
+    await daix.connect(account1).upgrade(tenKEther)
+    await daix.connect(account2).upgrade(tenKEther)
+
+    
+    // const subscriptionModule = await deployContract(
+    //   new SubscriptionModule__factory(governance).deploy(moneyRouter.address ,daix.address, lensHub.address, lensHub.address)
+    //   );
+    //   await waitForTx(lensHub.whitelistFollowModule(subscriptionModule.address, true));
+      // await waitForTx(lensHub.connect(user).setFollowModule(1, subscriptionModule.address, data));
+    
+    const secretFollowModule = await deployContract(
+      new SecretCodeFollowModule__factory(governance).deploy(lensHub.address, moneyRouter.address, daix.address)
+      )
+    await waitForTx(lensHub.whitelistFollowModule(secretFollowModule.address, true));
+
+    const data = defaultAbiCoder.encode(['int96'], ['0']);
+
+
+    await waitForTx(lensHub.connect(user).setFollowModule(1, secretFollowModule.address, data));
+
+
+    await waitForTx(lensHub.connect(user).follow([1], [data]));
+
+    const followNFTAddr = await lensHub.getFollowNFT(1);
+    const followNFT = FollowNFT__factory.connect(followNFTAddr, user);
+
+    const totalSupply = await followNFT.totalSupply();
+    const ownerOf = await followNFT.ownerOf(1);
+
+    console.log(`Follow NFT total supply (should be 1): ${totalSupply}`);
+    console.log(
+      `Follow NFT owner of ID 1: ${ownerOf}, user address (should be the same): ${user.address}`
+    );
+      
+
 
   });
 });

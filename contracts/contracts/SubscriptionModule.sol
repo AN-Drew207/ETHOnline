@@ -18,6 +18,10 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 import { ITransferManager } from "./interfaces/ITransferManager.sol";
+import { IMoneyRouter } from "./interfaces/IMoneyRouter.sol";
+
+import {ISuperfluidToken} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidToken.sol";
+
 
 struct ProfileData {
     address currency;
@@ -26,20 +30,24 @@ struct ProfileData {
 }
 
 contract SubscriptionModule is IFollowModule, FollowValidatorFollowModuleBase {
+    ISuperfluidToken superToken;
     using SafeERC20 for IERC20;
-
     uint16 internal constant BPS_MAX = 10000;
     address public immutable MODULE_GLOBALS;
     ITransferManager transferManager;
-
+    IMoneyRouter moneyRouter;
     mapping(uint256 => ProfileData) internal _dataByProfile;
 
     constructor(
-        ITransferManager _transferManager,
+        // ITransferManager _transferManager,
+        IMoneyRouter _moneyRouter,
+        ISuperfluidToken _superToken,
         address hub,
         address moduleGlobals
     ) ModuleBase(hub) {
-        transferManager = _transferManager;
+        // transferManager = _transferManager;
+        moneyRouter = _moneyRouter;
+        superToken = _superToken;
         if (moduleGlobals == address(0)) revert Errors.InitParamsInvalid();
         MODULE_GLOBALS = moduleGlobals;
 
@@ -87,10 +95,10 @@ contract SubscriptionModule is IFollowModule, FollowValidatorFollowModuleBase {
         int96 flowRate = _dataByProfile[profileId].flowRate;
         address currency = _dataByProfile[profileId].currency;
         _validateDataIsExpected(data, currency, flowRate);
-
         address recipient = _dataByProfile[profileId].recipient;
 
-        transferManager.createFlow(ISuperfluidToken(currency), follower, recipient, flowRate);
+        uint256 passcode = abi.decode(data, (uint256));
+        moneyRouter.createFlowFromContract(superToken, address(this), flowRate);
     }
 
     function followModuleTransferHook(
