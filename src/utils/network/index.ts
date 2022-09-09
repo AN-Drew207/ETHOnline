@@ -33,7 +33,8 @@ export const networkConfigs = {
   },
   rinkeby: {
     isActive: true,
-    provider: process.env.NEXT_PUBLIC_RINKEBY_PROVIDER,
+    provider:
+      "https://eth-rinkeby.alchemyapi.io/v2/Az46mnE6lzw8ErBWbFNn_SBo-KnCzzmv",
     addresses: {},
     graphEndpoints: {},
     settings: {
