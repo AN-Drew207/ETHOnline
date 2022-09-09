@@ -26,7 +26,7 @@ const [walletConnect, walletConnectHooks] = initializeConnector<WalletConnect>(
       actions,
       options: {
         rpc: {
-          "4": "https://eth-rinkeby.alchemyapi.io/v2/Az46mnE6lzw8ErBWbFNn_SBo-KnCzzmv",
+          "4": process.env.NEXT_PUBLIC_RINKEBY_PROVIDER,
         },
       },
     }),
@@ -76,7 +76,7 @@ export const [network, networkHooks] = initializeConnector<Network>(
     new Network({
       actions,
       urlMap: {
-        "4": "https://eth-rinkeby.alchemyapi.io/v2/Az46mnE6lzw8ErBWbFNn_SBo-KnCzzmv",
+        "4": process.env.NEXT_PUBLIC_RINKEBY_PROVIDER,
       },
     }),
 );
