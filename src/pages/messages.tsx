@@ -1,15 +1,13 @@
-import React from "react";
+import React, {useContext} from "react";
 import {useWeb3React} from "@web3-react/core";
 import useConversation from "hooks/useConversation";
-import {Input} from "components/common/form/input";
-import {Button} from "components/common/button";
+import XmtpContext from "components/XMTPProvider/context";
 
 const Home = () => {
   const [message, setMessage] = React.useState("");
-  const {account} = useWeb3React();
-  const {messages, sendMessage, loading} = useConversation(account, onMessageCallback);
-
-  console.log({messages, loading});
+  const [recipient, setRecipient] = React.useState("");
+  const {client} = useContext(XmtpContext);
+  const {messages, sendMessage, loading} = useConversation(recipient, onMessageCallback);
 
   function onMessageCallback() {
     console.log("on message callback");
@@ -19,15 +17,24 @@ const Home = () => {
     setMessage(e.target.value);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     sendMessage(message);
   };
 
+  console.log({messages});
   return (
     <>
       <div id="lp-register">
-        <Input onChange={handleChange} />
-        <Button onClick={handleSendMessage} />
+        <input className="bg-gray-300" onChange={handleChange} />
+        <button className="bg-red-300 p-3" onClick={handleSendMessage}>
+          send
+        </button>
+
+        <input
+          placeholder="recipient"
+          className="bg-gray-300"
+          onChange={(e) => setRecipient(e.target.value)}
+        />
       </div>
     </>
   );

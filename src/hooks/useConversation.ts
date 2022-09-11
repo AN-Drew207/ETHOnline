@@ -1,83 +1,84 @@
-import {Conversation, Message, Stream} from "@xmtp/xmtp-js";
-import {useState, useEffect, useContext} from "react";
-import XmtpContext from "components/XMTPProvider/context";
-import useMessageStore from "./useMessageStore";
+import React from "react";
+import {ethers} from "ethers";
+import {Conversation, Message} from "@xmtp/xmtp-js";
+import useXMTP from "hooks/useXMTP";
 
 type OnMessageCallback = () => void;
 
 const useConversation = (peerAddress: string, onMessageCallback?: OnMessageCallback) => {
-  const {client} = useContext(XmtpContext);
-  const {messageStore, dispatchMessages} = useMessageStore();
-  const [conversation, setConversation] = useState<Conversation | null>(null);
-  const [stream, setStream] = useState<Stream<Message>>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const {client} = useXMTP();
+  const [messages, setMessages] = React.useState<Record<string, Message[]>>({});
+  const [conversations, setConversations] = React.useState<Conversation[]>(null);
+  const [loading, setLoading] = React.useState<Record<"conversation" | "sendMessage", boolean>>({
+    conversation: false,
+    sendMessage: false,
+  });
 
-  useEffect(() => {
-    const getConvo = async () => {
-      if (!client || !peerAddress) {
-        return;
-      }
-      setConversation(await client.conversations.newConversation(peerAddress));
-    };
-    getConvo();
-  }, [peerAddress]);
-
-  useEffect(() => {
-    const closeStream = async () => {
-      if (!stream) return;
-      await stream.return();
-    };
-    closeStream();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (!conversation) return;
-    const listMessages = async () => {
-      setLoading(true);
-      const msgs = await conversation.messages();
-      if (messageStore && msgs.length !== messageStore[conversation.peerAddress]?.length) {
-        console.log("Listing messages for peer address", conversation.peerAddress);
-        if (dispatchMessages) {
-          await dispatchMessages({
-            peerAddress: conversation.peerAddress,
-            messages: msgs,
-          });
-        }
-        if (onMessageCallback) {
-          onMessageCallback();
-        }
-      }
-      setLoading(false);
-    };
-    const streamMessages = async () => {
-      const stream = await conversation.streamMessages();
-      setStream(stream);
-      for await (const msg of stream) {
-        if (dispatchMessages) {
-          dispatchMessages({
-            peerAddress: conversation.peerAddress,
-            messages: [msg],
-          });
-        }
-        if (onMessageCallback) {
-          onMessageCallback();
-        }
-      }
-    };
-    listMessages();
-    streamMessages();
-  }, [conversation, dispatchMessages, onMessageCallback]);
-
-  const handleSend = async (message: string) => {
-    if (!conversation) return;
-    await conversation.send(message);
+  const handleLoading = (field: keyof typeof loading, value: boolean) => {
+    setLoading((prev) => ({...prev, [field]: value}));
   };
 
+  const loadConversations = async () => {
+    const conversations = await client.conversations.list();
+    setConversations(conversations);
+    return conversations;
+  };
+
+  const loadMessages = async (conversations: Conversation[]) => {
+    const map = {};
+    for (const conv of conversations) {
+      const messages = await conv.messages();
+      map[conv.peerAddress] = messages;
+    }
+    setMessages((prev) => ({...prev, ...map}));
+  };
+
+  const sendMessage = async (message: string) => {
+    handleLoading("conversation", true);
+    const conv = conversations?.find((conv) => conv.peerAddress === peerAddress);
+    if (conv) {
+      const curMessage = await conv.send(message);
+      const newMessages = messages[conv.peerAddress].concat([curMessage]);
+      setMessages((prev) => ({...prev, [conv.peerAddress]: newMessages}));
+    }
+    handleLoading("conversation", false);
+  };
+
+  const listenConversation = async () => {
+    const conv = conversations?.find((conv) => conv.peerAddress === peerAddress);
+    if (!conv) return;
+    for await (const message of await conv.streamMessages()) {
+      if (message.senderAddress === client.address) {
+        continue;
+      }
+      console.log("NEW MESSAGES");
+      const newMessages = messages[conv.peerAddress].concat([message]);
+      setMessages((prev) => ({...prev, [conv.peerAddress]: newMessages}));
+    }
+  };
+
+  React.useEffect(() => {
+    if (!client || !ethers.utils.isAddress(peerAddress)) return;
+
+    listenConversation();
+  }, [peerAddress]);
+
+  React.useEffect(() => {
+    const load = async () => {
+      handleLoading("conversation", true);
+      await loadMessages(await loadConversations());
+      handleLoading("conversation", false);
+    };
+
+    if (!client) return;
+
+    load();
+  }, [client]);
+
   return {
+    messages,
+    sendMessage,
     loading,
-    messages: messageStore[peerAddress] ?? [],
-    sendMessage: handleSend,
   };
 };
 

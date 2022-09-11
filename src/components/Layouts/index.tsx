@@ -1,25 +1,18 @@
 import React from "react";
 import Link from "next/link";
-import { Layout } from "antd";
-import { useRouter } from "next/dist/client/router";
+import {useRouter} from "next/dist/client/router";
 import clsx from "clsx";
-import { Button } from "../common/button/button";
-import { SidebarMobile } from "./sidebars/mobile";
+import {Button} from "../common/button/button";
+import {SidebarMobile} from "./sidebars/mobile";
 import {
-  AppstoreFilled,
-  AreaChartOutlined,
   BellOutlined,
-  GoldenFilled,
   HomeOutlined,
   MessageOutlined,
-  NotificationOutlined,
-  SettingFilled,
   SettingOutlined,
-  ShopOutlined,
-  TwitterOutlined,
   UserOutlined,
-  WalletOutlined,
 } from "@ant-design/icons";
+import WalletModal from "components/WalletModal";
+import {useWeb3React} from "@web3-react/core";
 
 const styles = {
   content: {
@@ -42,7 +35,7 @@ const navItems = [
     link: "/notifications",
     icon: <BellOutlined />,
   },
-  { name: "Messages", link: "/messages", icon: <MessageOutlined /> },
+  {name: "Messages", link: "/messages", icon: <MessageOutlined />},
   {
     link: "/profile",
     name: "Profile",
@@ -63,15 +56,10 @@ const navItems = [
   },
 ];
 
-export default function AppLayout({ children }) {
+export default function AppLayout({children}) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const {account} = useWeb3React();
   const refSidebarMobile = React.useRef(null);
-  const [isExecuted, setIsExecuted] = React.useState(false);
-  const [notAvailable, setNotAvailable] = React.useState({
-    message: "",
-    value: false,
-  });
-
   const router = useRouter();
 
   return (
@@ -84,7 +72,7 @@ export default function AppLayout({ children }) {
     >
       <nav
         className={clsx(
-          "xl:w-auto md:w-80 w-full shrink-0 xl:pl-10 pl-8 flex md:flex-col flex-row items-center md:py-8 py-2 bg-primary md:pr-0 pr-8",
+          "xl:w-auto md:w-80 w-full shrink-0 xl:pl-10 pl-8 flex md:flex-col flex-row items-center md:py-8 py-2 bg-primary md:pr-0 pr-8"
         )}
       >
         <div className="flex md:flex-col items-center md:justify-start justify-between w-full sticky top-12">
@@ -95,11 +83,7 @@ export default function AppLayout({ children }) {
                 <>
                   {item.button ? (
                     <div className="w-full pl-8">
-                      <Button
-                        decoration="fill"
-                        size="small"
-                        onClick={item.onClick}
-                      >
+                      <Button decoration="fill" size="small" onClick={item.onClick}>
                         {item.name}
                       </Button>
                     </div>
@@ -147,12 +131,10 @@ export default function AppLayout({ children }) {
         sidebarOpen={sidebarOpen}
         navItems={navItems}
       />
-      <div
-        className="bg-overlay md:px-10 px-6 w-full rounded-xl"
-        style={styles.content}
-      >
+      <div className="bg-overlay md:px-10 px-6 w-full rounded-xl" style={styles.content}>
         {children}
       </div>
+      <WalletModal showModal={!Boolean(account)} setShowModal={() => 1} />
     </div>
   );
 }
@@ -161,14 +143,14 @@ export const Message: React.FunctionComponent<{
   content: string;
   open: boolean;
 }> = (props) => {
-  const { content, open } = props;
+  const {content, open} = props;
 
   return (
     <div
       className={clsx(
         `absolute bottom-3.5 left-3.5 bg-purple-300 px-10 py-4 rounded-md`,
         "ease-out duration-300",
-        open ? "scale-100" : "scale-0",
+        open ? "scale-100" : "scale-0"
       )}
     >
       {content}
@@ -184,16 +166,12 @@ export const Logo = () => (
         src={"/icons/logo_simple.svg"}
         alt="logo"
       />
-      <img
-        className="md:block hidden h-12"
-        src={"/icons/logo.svg"}
-        alt="logo"
-      />
+      <img className="md:block hidden h-12" src={"/icons/logo.svg"} alt="logo" />
     </div>
   </Link>
 );
 
-export const NavbarItem = ({ name, link, route, icon }) => {
+export const NavbarItem = ({name, link, route, icon}) => {
   return (
     <Link href={link}>
       <React.Fragment>
@@ -207,16 +185,14 @@ export const NavbarItem = ({ name, link, route, icon }) => {
 
         <a
           className={clsx(
-            { "text-white": link !== route },
-            { "bg-white text-primary rounded-l-full": link === route },
-            "pl-8 xl:pr-12 pr-8 py-2 relative w-full",
+            {"text-white": link !== route},
+            {"bg-white text-primary rounded-l-full": link === route},
+            "pl-8 xl:pr-12 pr-8 py-2 relative w-full"
           )}
           href={link}
         >
           <div className={clsx("gap-2 flex items-center")}>
-            <div className="flex items-center md:text-[46px] text-[38px]">
-              {icon}
-            </div>
+            <div className="flex items-center md:text-[46px] text-[38px]">{icon}</div>
             <h3 className={clsx("md:text-xl text-lg font-bold")}>{name}</h3>
           </div>
         </a>
