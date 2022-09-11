@@ -1,16 +1,14 @@
-import {expect} from "chai";
-import {Framework, ConstantFlowAgreementV1 as CFA, WrapperSuperToken} from "@superfluid-finance/sdk-core";
-import {HardhatRuntimeEnvironment} from "hardhat/types";
-import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
-import {BigNumberish} from "ethers";
+import { Framework, ConstantFlowAgreementV1 as CFA, WrapperSuperToken } from "@superfluid-finance/sdk-core";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { BigNumberish } from "ethers";
 
-import {Superfluid, ConstantFlowAgreementV1} from "../../types/index";
+import { Superfluid, ConstantFlowAgreementV1, SuperToken } from "../../types/index";
 
-import {attach} from "@utils/contracts";
-import {Provider} from "@ethersproject/providers";
-import {ITokenOptions} from "@superfluid-finance/sdk-core/dist/module/SuperToken";
+import { attach } from "@utils/contracts";
+import { Provider } from "@ethersproject/providers";
 
-const deployFramework = require("@superfluid-finance/ethereum-contracts/scripts/deploy-framework");
+import { deployFramework, deployWrapperSuperToken } from "@utils/superfluid/deploy";
 
 type MockERC20 = any; //erc20 type
 
@@ -25,7 +23,7 @@ export const createFlow = async (
     sender,
     superfluid,
   }: {
-    superToken: WrapperSuperToken;
+    superToken: SuperToken;
     receiver: string;
     sender: SignerWithAddress;
     flowRate: string;
@@ -52,14 +50,14 @@ export const approveFlow = async (
   }: {
     sender: SignerWithAddress;
     receiver: string;
-    superToken: WrapperSuperToken;
+    superToken: SuperToken;
     flowRate?: BigNumberish;
     superfluid: Framework;
   },
 ) => {
   const {
-    cfaV1: {address: cfaAddress},
-    host: {address: hostAddress},
+    cfaV1: { address: cfaAddress },
+    host: { address: hostAddress },
   } = superfluid.contracts;
   const host = <Superfluid>await attach(hre, "Superfluid", hostAddress);
   const cfa = <ConstantFlowAgreementV1>await attach(hre, "ConstantFlowAgreementV1", cfaAddress);
@@ -83,59 +81,41 @@ export const upgradeToken = async ({
   amount,
   signer,
 }: {
-  superToken: WrapperSuperToken;
+  superToken: SuperToken;
   amount: string;
   signer: SignerWithAddress;
 }) => {
-  await superToken.upgrade({amount}).exec(signer);
+  await superToken.connect(signer).upgrade(amount);
 };
 
 export const createSuperToken = async (
   hre: HardhatRuntimeEnvironment,
-  {token, superfluid}: {token: MockERC20; superfluid: Framework},
+  { token, superfluid, signer }: { token: MockERC20; superfluid: Framework; signer: SignerWithAddress },
 ) => {
   const {
-    host: {address: hostAddress},
-    cfaV1: {address: cfaV1Address},
-    idaV1: {address: idaV1Address},
-    governance: {address: governanceAddress},
-    resolver: {address: resolverAddress},
+    host: { address: hostAddress },
   } = superfluid.contracts;
-  const config: ITokenOptions["config"] = {
-    hostAddress,
-    cfaV1Address,
-    idaV1Address,
-    governanceAddress,
-    resolverAddress,
-  };
-
-  const st = await WrapperSuperToken.create({
-    address: token.address,
-    config,
-    provider: hre.ethers.provider,
-    chainId: HARDHAT_CHAIN_ID,
+  const host = <Superfluid>await attach(hre, "Superfluid", hostAddress);
+  const superToken = await deployWrapperSuperToken({
+    admin: signer,
+    superTokenFactoryAddress: await host.getSuperTokenFactory(),
+    token: token.address,
+    name: "MOCK",
+    symbol: "MOCK",
   });
-  return st as WrapperSuperToken;
+
+  return superToken as SuperToken;
 };
 
 export const deployEnvironment = async (hre: HardhatRuntimeEnvironment, signer: SignerWithAddress) => {
-  const errorHandler = (err: Error) => {
-    if (err) throw err;
-  };
+  const contractsFramework = await deployFramework(signer);
 
-  await deployFramework(errorHandler, {
-    web3: hre.web3,
-    from: signer.address,
-  });
-
-  const [deployer] = await hre.ethers.getSigners();
   const sf = await Framework.create({
-    chainId: HARDHAT_CHAIN_ID,
-    provider: deployer.provider as Provider,
-    resolverAddress: process.env.TEST_RESOLVER, //this is how you get the resolver address
+    chainId: 31337,
+    provider: signer.provider as Provider,
+    resolverAddress: contractsFramework.resolver, //this is how you get the resolver address
     protocolReleaseVersion: "test",
   });
-  console.log("SUCCESS");
 
   return sf;
 };
