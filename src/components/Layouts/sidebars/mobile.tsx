@@ -132,6 +132,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                           icon={item.icon}
                           link={item.link}
                           route={router.asPath}
+                          onClick={() => setSidebarOpen(false)}
                         />
                         <div className="divider mx-3 mt-4"></div>
                       </div>

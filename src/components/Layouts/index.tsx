@@ -57,11 +57,13 @@ const navItems = [
   },
 ];
 
-export default function AppLayout({ children }) {
+const AppLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const { account } = useWeb3React();
   const refSidebarMobile = React.useRef(null);
   const router = useRouter();
+
+  console.log(account, "xd");
 
   return (
     <div
@@ -185,7 +187,7 @@ export default function AppLayout({ children }) {
       <WalletModal showModal={!Boolean(account)} setShowModal={() => 1} />
     </div>
   );
-}
+};
 
 export const Message: React.FunctionComponent<{
   content: string;
@@ -207,7 +209,7 @@ export const Message: React.FunctionComponent<{
 };
 
 export const Logo = () => (
-  <Link href="/dashboard">
+  <Link href="/">
     <div className="md:py-0 py-2 xl:pl-8 md:pl-0 pl-8 flex gap-1 cursor-pointer xl:w-full md:w-auto ">
       <img
         className="xl:hidden block md:h-12 md:w-12 h-10 w-10"
@@ -225,16 +227,15 @@ export const Logo = () => (
 
 export const NavbarItem = ({ name, link, route, icon }) => {
   return (
-    <Link href={link}>
-      <React.Fragment>
-        <div className="h-4 w-full md:block hidden bg-white">
-          <div
-            className={clsx("h-full  relative bg-primary", {
-              "rounded-br-[1000px]": link === route,
-            })}
-          ></div>
-        </div>
-
+    <React.Fragment>
+      <div className="h-4 w-full md:block hidden bg-white">
+        <div
+          className={clsx("h-full  relative bg-primary", {
+            "rounded-br-[1000px]": link === route,
+          })}
+        ></div>
+      </div>
+      <Link href={link}>
         <a
           className={clsx(
             { "text-white": link !== route },
@@ -244,7 +245,7 @@ export const NavbarItem = ({ name, link, route, icon }) => {
             },
             "pl-8 xl:pr-12 pr-8 py-2 relative w-full",
           )}
-          href={link}
+          // href={link}
         >
           <div
             className={clsx(
@@ -263,40 +264,44 @@ export const NavbarItem = ({ name, link, route, icon }) => {
             </h3>
           </div>
         </a>
-        <div className="h-4 md:block hidden w-full bg-white">
-          <div
-            className={clsx("h-full relative bg-primary", {
-              "rounded-tr-[1000px]": link === route,
-            })}
-          ></div>
+      </Link>
+
+      <div className="h-4 md:block hidden w-full bg-white">
+        <div
+          className={clsx("h-full relative bg-primary", {
+            "rounded-tr-[1000px]": link === route,
+          })}
+        ></div>
+      </div>
+    </React.Fragment>
+  );
+};
+
+export const NavbarItemSidebar = ({ name, link, route, icon, onClick }) => {
+  return (
+    <Link href={link}>
+      {/* <React.Fragment> */}
+      <a
+        className={clsx(
+          { "text-white": link !== route },
+          {
+            "text-white rounded-l-full": link === route,
+          },
+          "pl-8 xl:pr-12 pr-8 py-2 relative w-full",
+        )}
+        // href={link}
+        onClick={onClick}
+      >
+        <div className={clsx("gap-2 flex items-center")}>
+          <div className="flex items-center md:text-[46px] text-[38px]">
+            {icon}
+          </div>
+          <h3 className={clsx("text-lg font-bold")}>{name}</h3>
         </div>
-      </React.Fragment>
+      </a>
+      {/* </React.Fragment> */}
     </Link>
   );
 };
 
-export const NavbarItemSidebar = ({ name, link, route, icon }) => {
-  return (
-    <Link href={link}>
-      <React.Fragment>
-        <a
-          className={clsx(
-            { "text-white": link !== route },
-            {
-              "text-white rounded-l-full": link === route,
-            },
-            "pl-8 xl:pr-12 pr-8 py-2 relative w-full",
-          )}
-          href={link}
-        >
-          <div className={clsx("gap-2 flex items-center")}>
-            <div className="flex items-center md:text-[46px] text-[38px]">
-              {icon}
-            </div>
-            <h3 className={clsx("text-lg font-bold")}>{name}</h3>
-          </div>
-        </a>
-      </React.Fragment>
-    </Link>
-  );
-};
+export default AppLayout;
