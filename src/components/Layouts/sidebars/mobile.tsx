@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 import { FormOutlined } from "@ant-design/icons";
-import { Logo, NavbarItemSidebar } from "..";
+import { Logo, LogoSidebar, NavbarItemSidebar } from "..";
 import { Button } from "components/common/button";
 
 interface LayoutDashboardProps {
@@ -92,11 +92,11 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
-                <nav className="mt-5 flex-1 px-7">
+              <div className="flex-1 h-0 py-10 overflow-y-auto">
+                <nav className="flex-1 px-7">
                   <Link href="/">
                     <a className={clsx("cursor-pointer w-full")}>
-                      <Logo />
+                      <LogoSidebar />
                     </a>
                   </Link>
                   {navItems?.map((item, index) => {
@@ -109,7 +109,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                         >
                           <FormOutlined className="text-white xl:hidden md:flex hidden text-2xl" />
 
-                          <p className="xl:block md:hidden block">
+                          <p className="xl:block md:hidden block whitespace-nowrap">
                             {item.name}
                           </p>
                         </Button>

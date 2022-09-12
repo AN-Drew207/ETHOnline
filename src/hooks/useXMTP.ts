@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import { useContext } from "react";
 import XmtpContext from "components/XMTPProvider/context";
 
 const useXMTP = () => {

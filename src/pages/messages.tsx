@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import useConversation from "hooks/useConversation";
 import XmtpContext from "components/XMTPProvider/context";
 import { SendOutlined } from "@ant-design/icons";
-import { MessageChat } from "components/common/messageChat";
+import { MessageChat } from "components/Chat/messageChat";
 
 const Home = () => {
   const [message, setMessage] = React.useState("");

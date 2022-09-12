@@ -1,8 +1,7 @@
 import React from "react";
 import { ethers } from "ethers";
-import { Conversation, Message, Stream } from "@xmtp/xmtp-js";
+import { Conversation, Message } from "@xmtp/xmtp-js";
 import useXMTP from "hooks/useXMTP";
-import useMessageStore from "./useMessageStore";
 
 type OnMessageCallback = () => void;
 
@@ -12,7 +11,6 @@ const useConversation = (
 ) => {
   const { client } = useXMTP();
   const [messages, setMessages] = React.useState<Record<string, Message[]>>({});
-  const { messageStore, dispatchMessages } = useMessageStore();
   const [conversations, setConversations] =
     React.useState<Conversation[]>(null);
   const [loading, setLoading] = React.useState<
@@ -21,68 +19,6 @@ const useConversation = (
     conversation: false,
     sendMessage: false,
   });
-  const [stream, setStream] = React.useState<Stream<Message>>();
-  const [conversation, setConversation] = React.useState<Conversation | null>(
-    null,
-  );
-
-  React.useEffect(() => {
-    const getConvo = async () => {
-      if (!client || !peerAddress) {
-        return;
-      }
-      setConversation(await client.conversations.newConversation(peerAddress));
-    };
-    getConvo();
-  }, [peerAddress]);
-
-  React.useEffect(() => {
-    if (!conversation) return;
-    const listMessages = async () => {
-      setLoading((prev) => {
-        return { ...prev, conversation: true };
-      });
-      const msgs = await conversation.messages();
-      if (
-        messageStore &&
-        msgs.length !== messageStore[conversation.peerAddress]?.length
-      ) {
-        console.log(
-          "Listing messages for peer address",
-          conversation.peerAddress,
-        );
-        if (dispatchMessages) {
-          await dispatchMessages({
-            peerAddress: conversation.peerAddress,
-            messages: msgs,
-          });
-        }
-        if (onMessageCallback) {
-          onMessageCallback();
-        }
-      }
-      setLoading((prev) => {
-        return { ...prev, conversation: false };
-      });
-    };
-    const streamMessages = async () => {
-      const stream = await conversation.streamMessages();
-      setStream(stream);
-      for await (const msg of stream) {
-        if (dispatchMessages) {
-          dispatchMessages({
-            peerAddress: conversation.peerAddress,
-            messages: [msg],
-          });
-        }
-        if (onMessageCallback) {
-          onMessageCallback();
-        }
-      }
-    };
-    listMessages();
-    streamMessages();
-  }, [conversation, dispatchMessages, onMessageCallback]);
 
   const handleLoading = (field: keyof typeof loading, value: boolean) => {
     setLoading((prev) => ({ ...prev, [field]: value }));
@@ -150,7 +86,7 @@ const useConversation = (
   }, [client]);
 
   return {
-    messages: messageStore[peerAddress] ?? [],
+    messages,
     sendMessage,
     loading,
   };
