@@ -4,17 +4,9 @@ import clsx from "clsx";
 import Link from "next/link";
 
 import { useRouter } from "next/router";
-import {
-  AppstoreFilled,
-  AreaChartOutlined,
-  DownOutlined,
-  GoldenFilled,
-  RightOutlined,
-  ShopOutlined,
-  TwitterOutlined,
-  WalletOutlined,
-} from "@ant-design/icons";
-import { Logo, NavbarItem } from "..";
+import { FormOutlined } from "@ant-design/icons";
+import { Logo, NavbarItemSidebar } from "..";
+import { Button } from "components/common/button";
 
 interface LayoutDashboardProps {
   title?: string;
@@ -42,7 +34,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
         <Dialog
           as="div"
           static
-          className="fixed h-screen top-0 flex z-40 md:hidden bg-overlay"
+          className="fixed h-screen top-0 flex z-40 bg-overlay"
           open={sidebarOpen}
           onClose={setSidebarOpen}
           initialFocus={initialFocus}
@@ -67,7 +59,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
             leaveFrom="translate-x-0"
             leaveTo="-translate-x-full"
           >
-            <div className="bg-overlay relative flex-1 flex flex-col max-w-xs w-full w-64">
+            <div className="bg-primary relative flex-1 flex flex-col max-w-xs w-full w-64">
               <Transition.Child
                 as={Fragment}
                 enter="ease-in-out duration-300"
@@ -79,7 +71,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
               >
                 <div className="absolute top-0 right-0 -mr-12 pt-2">
                   <button
-                    className="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                    className="ml-1 text-white border  border-primary rounded-full bg-primary flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="sr-only">Close sidebar</span>
@@ -108,9 +100,33 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                     </a>
                   </Link>
                   {navItems?.map((item, index) => {
-                    return (
-                      <Fragment key={"nav-mobile-" + index}>
-                        <NavbarItem
+                    return item.button ? (
+                      <div className="w-full xl:pl-8 pl-0 flex items-center xl:justify-start md:justify-center justify-start items-start">
+                        <Button
+                          decoration="fill"
+                          size="small"
+                          onClick={item.onClick}
+                        >
+                          <FormOutlined className="text-white xl:hidden md:flex hidden text-2xl" />
+
+                          <p className="xl:block md:hidden block">
+                            {item.name}
+                          </p>
+                        </Button>
+                      </div>
+                    ) : (
+                      <div
+                        className={clsx(
+                          {
+                            ["opacity-100"]: router.asPath === item.link,
+                          },
+                          {
+                            ["opacity-75"]: router.asPath !== item.link,
+                          },
+                        )}
+                        key={"nav-mobile-" + index}
+                      >
+                        <NavbarItemSidebar
                           key={index}
                           name={item.name}
                           icon={item.icon}
@@ -118,7 +134,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                           route={router.asPath}
                         />
                         <div className="divider mx-3 mt-4"></div>
-                      </Fragment>
+                      </div>
                     );
                   })}
                 </nav>
