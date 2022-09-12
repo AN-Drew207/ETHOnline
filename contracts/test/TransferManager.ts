@@ -1,12 +1,12 @@
 import {expect} from "chai";
 import hre, {waffle} from "hardhat";
 
-import {approveFlow, createFlow} from "@utils/superfluid";
+import {approveFlow} from "@utils/superfluid";
 import {basicFixture} from "./fixtures";
 
 const {loadFixture} = waffle;
 
-describe.only("TransferManager", () => {
+describe("TransferManager", () => {
   it("Should deploy properly", async () => {
     const {superfluid, accounts, transferManager, superToken} = await loadFixture(basicFixture);
     const receiver = accounts[3];
