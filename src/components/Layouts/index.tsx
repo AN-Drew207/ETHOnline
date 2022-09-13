@@ -179,7 +179,10 @@ const AppLayout = ({ children }) => {
         navItems={navItems}
       />
       <div
-        className="bg-overlay md:px-10 px-6 w-full rounded-xl"
+        className={clsx(
+          { ["md:px-10 px-6"]: router.asPath !== "/messages" },
+          "bg-overlay  w-full rounded-xl",
+        )}
         style={styles.content}
       >
         {children}

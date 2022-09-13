@@ -17,3 +17,44 @@ a {
 * {
   box-sizing: border-box;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #04371D;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #f1f1f1;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #FF8A00;
+}
+
+
+#chat ::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+#chat ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+#chat ::-webkit-scrollbar-thumb {
+  background: #04371D;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+#chat ::-webkit-scrollbar-thumb:hover {
+  background: #FF8A00;
+}
