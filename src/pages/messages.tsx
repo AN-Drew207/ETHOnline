@@ -21,6 +21,7 @@ const Home = () => {
   }
 
   const handleChange = (e: React.ChangeEvent<any>) => {
+    console.log("message", message);
     setMessage(e.target.value);
   };
 
