@@ -1,11 +1,11 @@
 import hre from "hardhat";
-import {hexlify, keccak256, RLP} from "ethers/lib/utils";
-import {core, libraries, misc, upgradeability} from "../../types/factories/@aave/lens-protocol/contracts";
-import {MockERC20__factory} from "../../types/index";
-import {getReceipt} from "@utils/contracts";
+import { hexlify, keccak256, RLP } from "ethers/lib/utils";
+import { core, libraries, misc, upgradeability } from "../../types/factories/@aave/lens-protocol/contracts";
+import { MockERC20__factory } from "../../types/index";
+import { getReceipt } from "@utils/contracts";
 
-const {LensHub__factory, CollectNFT__factory, FollowNFT__factory, modules} = core;
-const {collect, follow, reference, ModuleGlobals__factory} = modules;
+const { LensHub__factory, CollectNFT__factory, FollowNFT__factory, modules } = core;
+const { collect, follow, reference, ModuleGlobals__factory } = modules;
 const {
   FreeCollectModule__factory,
   LimitedFeeCollectModule__factory,
@@ -14,11 +14,11 @@ const {
   LimitedTimedFeeCollectModule__factory,
   TimedFeeCollectModule__factory,
 } = collect;
-const {FeeFollowModule__factory, ProfileFollowModule__factory, RevertFollowModule__factory} = follow;
-const {FollowerOnlyReferenceModule__factory} = reference;
-const {InteractionLogic__factory, PublishingLogic__factory, ProfileTokenURILogic__factory} = libraries;
-const {TransparentUpgradeableProxy__factory} = upgradeability;
-const {LensPeriphery__factory, UIDataProvider__factory, ProfileCreationProxy__factory} = misc;
+const { FeeFollowModule__factory, ProfileFollowModule__factory, RevertFollowModule__factory } = follow;
+const { FollowerOnlyReferenceModule__factory } = reference;
+const { InteractionLogic__factory, PublishingLogic__factory, ProfileTokenURILogic__factory } = libraries;
+const { TransparentUpgradeableProxy__factory } = upgradeability;
+const { LensPeriphery__factory, UIDataProvider__factory, ProfileCreationProxy__factory } = misc;
 
 const TREASURY_FEE_BPS = 50;
 const LENS_HUB_NFT_NAME = "Lens Protocol Profiles";
@@ -54,13 +54,13 @@ export const lensFixture = async () => {
   console.log("\n\t-- Deploying Logic Libs --");
 
   const publishingLogic = await deployContract(
-    new PublishingLogic__factory(deployer).deploy({nonce: deployerNonce++}),
+    new PublishingLogic__factory(deployer).deploy({ nonce: deployerNonce++ }),
   );
   const interactionLogic = await deployContract(
-    new InteractionLogic__factory(deployer).deploy({nonce: deployerNonce++}),
+    new InteractionLogic__factory(deployer).deploy({ nonce: deployerNonce++ }),
   );
   const profileTokenURILogic = await deployContract(
-    new ProfileTokenURILogic__factory(deployer).deploy({nonce: deployerNonce++}),
+    new ProfileTokenURILogic__factory(deployer).deploy({ nonce: deployerNonce++ }),
   );
   const hubLibs = {
     "@aave/lens-protocol/contracts/libraries/PublishingLogic.sol:PublishingLogic": publishingLogic.address,
@@ -81,7 +81,7 @@ export const lensFixture = async () => {
 
   // Next, we deploy first the hub implementation, then the followNFT implementation, the collectNFT, and finally the
   // hub proxy with initialization.
-  console.log("\n\t-- Deploying Hub Implementation --");
+  console.log("\n\t-- Deploying Hub Implementation --", { followNFTImplAddress, collectNFTImplAddress });
 
   const lensHubImpl = await deployContract(
     new LensHub__factory(hubLibs, deployer).deploy(followNFTImplAddress, collectNFTImplAddress, {
@@ -90,8 +90,8 @@ export const lensFixture = async () => {
   );
 
   console.log("\n\t-- Deploying Follow & Collect NFT Implementations --");
-  await deployContract(new FollowNFT__factory(deployer).deploy(hubProxyAddress, {nonce: deployerNonce++}));
-  await deployContract(new CollectNFT__factory(deployer).deploy(hubProxyAddress, {nonce: deployerNonce++}));
+  await deployContract(new FollowNFT__factory(deployer).deploy(hubProxyAddress, { nonce: deployerNonce++ }));
+  await deployContract(new CollectNFT__factory(deployer).deploy(hubProxyAddress, { nonce: deployerNonce++ }));
 
   let data = lensHubImpl.interface.encodeFunctionData("initialize", [
     LENS_HUB_NFT_NAME,
@@ -116,7 +116,7 @@ export const lensFixture = async () => {
 
   // Currency
   console.log("\n\t-- Deploying Currency --");
-  const currency = await deployContract(new MockERC20__factory(deployer).deploy({nonce: deployerNonce++}));
+  const currency = await deployContract(new MockERC20__factory(deployer).deploy({ nonce: deployerNonce++ }));
 
   // Deploy collect modules //By Rcontre360 comment
   console.log("\n\t-- Deploying feeCollectModule --");
@@ -146,11 +146,11 @@ export const lensFixture = async () => {
 
   console.log("\n\t-- Deploying revertCollectModule --");
   const revertCollectModule = await deployContract(
-    new RevertCollectModule__factory(deployer).deploy({nonce: deployerNonce++}),
+    new RevertCollectModule__factory(deployer).deploy({ nonce: deployerNonce++ }),
   );
   console.log("\n\t-- Deploying freeCollectModule --");
   const freeCollectModule = await deployContract(
-    new FreeCollectModule__factory(deployer).deploy(lensHub.address, {nonce: deployerNonce++}),
+    new FreeCollectModule__factory(deployer).deploy(lensHub.address, { nonce: deployerNonce++ }),
   );
 
   // Deploy follow modules
@@ -204,7 +204,7 @@ export const lensFixture = async () => {
   // Whitelist the collect modules
   console.log("\n\t-- Whitelisting Collect Modules --");
   let governanceNonce = await ethers.provider.getTransactionCount(governance.address);
-  await getReceipt(lensHub.whitelistCollectModule(feeCollectModule.address, true, {nonce: governanceNonce++})); // by Rcontre360
+  await getReceipt(lensHub.whitelistCollectModule(feeCollectModule.address, true, { nonce: governanceNonce++ })); // by Rcontre360
   await getReceipt(
     lensHub.whitelistCollectModule(limitedFeeCollectModule.address, true, {
       nonce: governanceNonce++,
@@ -220,14 +220,14 @@ export const lensFixture = async () => {
       nonce: governanceNonce++,
     }),
   );
-  await getReceipt(lensHub.whitelistCollectModule(revertCollectModule.address, true, {nonce: governanceNonce++}));
-  await getReceipt(lensHub.whitelistCollectModule(freeCollectModule.address, true, {nonce: governanceNonce++}));
+  await getReceipt(lensHub.whitelistCollectModule(revertCollectModule.address, true, { nonce: governanceNonce++ }));
+  await getReceipt(lensHub.whitelistCollectModule(freeCollectModule.address, true, { nonce: governanceNonce++ }));
 
   // Whitelist the follow modules
   console.log("\n\t-- Whitelisting Follow Modules --");
-  await getReceipt(lensHub.whitelistFollowModule(feeFollowModule.address, true, {nonce: governanceNonce++}));
-  await getReceipt(lensHub.whitelistFollowModule(profileFollowModule.address, true, {nonce: governanceNonce++}));
-  await getReceipt(lensHub.whitelistFollowModule(revertFollowModule.address, true, {nonce: governanceNonce++}));
+  await getReceipt(lensHub.whitelistFollowModule(feeFollowModule.address, true, { nonce: governanceNonce++ }));
+  await getReceipt(lensHub.whitelistFollowModule(profileFollowModule.address, true, { nonce: governanceNonce++ }));
+  await getReceipt(lensHub.whitelistFollowModule(revertFollowModule.address, true, { nonce: governanceNonce++ }));
   // --- COMMENTED OUT AS THIS IS NOT A LAUNCH MODULE ---
   // await getReceipt(
   // lensHub.whitelistFollowModule(approvalFollowModule.address, true, { nonce: governanceNonce++ })
@@ -244,7 +244,7 @@ export const lensFixture = async () => {
   // Whitelist the currency
   console.log("\n\t-- Whitelisting Currency in Module Globals --");
   await getReceipt(
-    moduleGlobals.connect(governance).whitelistCurrency(currency.address, true, {nonce: governanceNonce++}),
+    moduleGlobals.connect(governance).whitelistCurrency(currency.address, true, { nonce: governanceNonce++ }),
   );
 
   // Whitelist the profile creation proxy
@@ -255,6 +255,7 @@ export const lensFixture = async () => {
     }),
   );
 
+  await lensHub.connect(accounts[1]).setState(1); //unpaused
   // Save and log the addresses
   return {
     lensHub,
@@ -283,3 +284,5 @@ export const lensFixture = async () => {
     accounts,
   };
 };
+
+lensFixture();

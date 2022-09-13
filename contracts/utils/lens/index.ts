@@ -1,6 +1,6 @@
-import { ethers } from "ethers";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { DataTypes, LensHub } from "../../types/@aave/lens-protocol/contracts/core/LensHub";
+import {ethers} from "ethers";
+import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
+import {DataTypes, LensHub} from "../../types/@aave/lens-protocol/contracts/core/LensHub";
 
 export const createSubscriptionProfile = async (args: {
   user: SignerWithAddress;
@@ -12,7 +12,7 @@ export const createSubscriptionProfile = async (args: {
     superToken: string;
   };
 }) => {
-  const { user, profile, lensHub, subscription } = args;
+  const {user, profile, lensHub, subscription} = args;
 
   await lensHub.whitelistProfileCreator(user.address, true);
   const profileId = await lensHub.connect(user).callStatic.createProfile(profile);
@@ -22,7 +22,6 @@ export const createSubscriptionProfile = async (args: {
     ["int96", "address", "address"],
     [subscription.flowRate, subscription.superToken, user.address],
   );
-  await lensHub.setFollowModule(profileId, subscription.followModule, data);
-
+  await lensHub.connect(user).setFollowModule(profileId, subscription.followModule, data);
   return profileId;
 };

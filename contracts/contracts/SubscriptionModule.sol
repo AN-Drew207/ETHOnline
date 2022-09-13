@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.10;
 
+import "hardhat/console.sol";
 import { IFollowModule } from "@aave/lens-protocol/contracts/interfaces/IFollowModule.sol";
 import { ILensHub } from "@aave/lens-protocol/contracts/interfaces/ILensHub.sol";
 import { IModuleGlobals } from "@aave/lens-protocol/contracts/interfaces/IModuleGlobals.sol";
@@ -86,8 +87,6 @@ contract SubscriptionModule is FollowValidatorFollowModuleBase {
     ) external override onlyHub {
         int96 flowRate = _dataByProfile[profileId].flowRate;
         address currency = _dataByProfile[profileId].currency;
-        _validateDataIsExpected(data, currency, flowRate);
-
         address recipient = _dataByProfile[profileId].recipient;
 
         transferManager.createFlow(ISuperfluidToken(currency), follower, recipient, flowRate);
