@@ -1,17 +1,11 @@
 import React from "react";
-import { convertArrayCards } from "../convertCards";
+// import { convertArrayCards } from "../convertCards";
 
-const cards = convertArrayCards();
+// const cards = convertArrayCards();
 
 export const AddressText = ({ text }) => {
   return (
-    <>
-      {"(" +
-        (text?.substring(0, 5) || "") +
-        "..." +
-        (text?.substring(36) || "") +
-        ")"}
-    </>
+    <>{+(text?.substring(0, 5) || "") + "..." + (text?.substring(36) || "")}</>
   );
 };
 
@@ -21,14 +15,14 @@ export const TransactionText = ({ text }) => {
   );
 };
 
-export const Type = ({ id }) => {
+export const formatDate = (d: Date | undefined): string =>
+  d ? d.toLocaleDateString("en-US") : "";
 
-  return (
-    <>
-      {cards[id]?.properties?.attack?.value
-        ? "Guardian"
-        : cards[id].typeCard[0].toUpperCase() +
-          cards[id].typeCard.substring(1, cards[id].typeCard.length)}
-    </>
-  );
-};
+export const formatTime = (d: Date | undefined): string =>
+  d
+    ? d.toLocaleTimeString(undefined, {
+        hour12: true,
+        hour: "numeric",
+        minute: "2-digit",
+      })
+    : "";

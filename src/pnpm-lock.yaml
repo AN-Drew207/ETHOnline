@@ -55,6 +55,7 @@ specifiers:
   react: 18.2.0
   react-content-loader: ^6.2.0
   react-dom: 18.2.0
+  react-emoji-render: ^1.2.4
   react-hook-form: ^7.34.2
   react-redux: ^8.0.2
   react-toast-notifications: ^2.5.1
@@ -117,6 +118,7 @@ dependencies:
   react: 18.2.0
   react-content-loader: 6.2.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-emoji-render: 1.2.4_biqbaboplfbrettd7655fr4n2y
   react-hook-form: 7.34.2_react@18.2.0
   react-redux: 8.0.2_tl7unisewm4am63qgqnnh5dva4
   react-toast-notifications: 2.5.1_biqbaboplfbrettd7655fr4n2y
@@ -5442,6 +5444,10 @@ packages:
       minimalistic-crypto-utils: 1.0.1
     dev: false
 
+  /emoji-regex/6.5.1:
+    resolution: {integrity: sha512-PAHp6TxrCy7MGMFidro8uikr+zlJJKJ/Q6mm2ExZ7HwkyR9lSVFfE3kt36qcwa24BQL7y0G9axycGjK1A/0uNQ==}
+    dev: false
+
   /emoji-regex/7.0.3:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
     dev: false
@@ -7177,6 +7183,10 @@ packages:
 
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+    dev: false
+
+  /lodash.flatten/4.4.0:
+    resolution: {integrity: sha512-C5N2Z3DgnnKr0LOpv/hKCgKdb7ZZwafIrsesve6lmzvZIRZRGaZ/l6Q8+2W7NaT+ZwO3fFlSCzCzrDCFdJfZ4g==}
     dev: false
 
   /lodash.includes/4.3.0:
@@ -9131,6 +9141,21 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-emoji-render/1.2.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-AqktVXV38uDpgf02BoCXrzLYFsHAsxfdWwjrLexSJ22l1JgB01y1KejjxW/zTuCzod6O7BZfiMS866LEEfMHmA==}
+    peerDependencies:
+      react: '>=0.14.0'
+      react-dom: '>=0.14.0'
+    dependencies:
+      classnames: 2.3.1
+      emoji-regex: 6.5.1
+      lodash.flatten: 4.4.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      string-replace-to-array: 1.0.3
+    dev: false
+
   /react-hook-form/7.34.2_react@18.2.0:
     resolution: {integrity: sha512-1lYWbEqr0GW7HHUjMScXMidGvV0BE2RJV3ap2BL7G0EJirkqpccTaawbsvBO8GZaB3JjCeFBEbnEWI1P8ZoLRQ==}
     engines: {node: '>=12.22.0'}
@@ -9940,6 +9965,14 @@ packages:
 
   /string-convert/0.2.1:
     resolution: {integrity: sha512-u/1tdPl4yQnPBjnVrmdLo9gtuLvELKsAoRapekWggdiQNvvvum+jYF329d84NAa660KQw7pB2n36KrIKVoXa3A==}
+    dev: false
+
+  /string-replace-to-array/1.0.3:
+    resolution: {integrity: sha512-QIdKvmfXbdFvblXAAz6IIjR7A+C6SU6m2A+e7fE/0EYDC5yfeWNMJQ193fPsW7nG+9q52dv/UjnVrDaNVZXpmQ==}
+    dependencies:
+      invariant: 2.2.4
+      lodash.flatten: 4.4.0
+      lodash.isstring: 4.0.1
     dev: false
 
   /string-width/3.1.0:
