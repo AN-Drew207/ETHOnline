@@ -160,7 +160,7 @@ const AppLayout = ({ children }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="#FF8A00"
-                className="w-10 h-10"
+                className="w-8 h-8"
               >
                 <path
                   strokeLinecap="round"
@@ -213,9 +213,9 @@ export const Message: React.FunctionComponent<{
 
 export const Logo = () => (
   <Link href="/">
-    <div className="md:py-0 py-2 xl:pl-8 md:pl-0 pl-8 flex gap-1 cursor-pointer xl:w-full md:w-auto ">
+    <div className="md:py-0 py-2 xl:pl-8 md:pl-0 flex gap-1 cursor-pointer xl:w-full md:w-auto ">
       <img
-        className="xl:hidden block md:h-12 md:w-12 h-10 w-10"
+        className="xl:hidden block md:h-12 md:w-12 h-8 w-8"
         src={"/icons/logo_simple.svg"}
         alt="logo"
       />
