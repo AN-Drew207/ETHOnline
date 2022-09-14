@@ -33,7 +33,11 @@ const config: HardhatUserConfig = {
     },
     rinkeby: {
       url: process.env.RINKEBY_PROVIDER,
-      accounts: [process.env.PRIVATE_KEY || ""],
+      accounts: [
+        process.env.PRIVATE_KEY || "",
+        "3ced394207aacaa2b5db2b377187fb6348b2335608d1e2a39fe0e15340ddd5bb",
+        "89846662a7d1a414ebc82cd65dc2d002dceb7f871f616aebee3926ef9cf14c1a",
+      ],
       timeout: 100000,
       //gasPrice: 65000000000,
     },

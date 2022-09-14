@@ -1,10 +1,10 @@
-import { initializeConnector, Web3ReactHooks } from "@web3-react/core";
-import { WalletConnect } from "@web3-react/walletconnect";
-import { MetaMask } from "@web3-react/metamask";
-import { Connector } from "@web3-react/types";
-import { GnosisSafe } from "@web3-react/gnosis-safe";
-import { CoinbaseWallet } from "@web3-react/coinbase-wallet";
-import { Network } from "@web3-react/network";
+import {initializeConnector, Web3ReactHooks} from "@web3-react/core";
+import {WalletConnect} from "@web3-react/walletconnect";
+import {MetaMask} from "@web3-react/metamask";
+import {Connector} from "@web3-react/types";
+import {GnosisSafe} from "@web3-react/gnosis-safe";
+import {CoinbaseWallet} from "@web3-react/coinbase-wallet";
+import {Network} from "@web3-react/network";
 
 export enum ConnectionType {
   INJECTED = "INJECTED",
@@ -29,7 +29,7 @@ const [walletConnect, walletConnectHooks] = initializeConnector<WalletConnect>(
           "4": process.env.NEXT_PUBLIC_RINKEBY_PROVIDER,
         },
       },
-    }),
+    })
 );
 
 export const walletConnectConnection: Connection = {
@@ -39,7 +39,7 @@ export const walletConnectConnection: Connection = {
 };
 
 const [metaMask, metamaskHooks] = initializeConnector<MetaMask>(
-  (actions) => new MetaMask({ actions }),
+  (actions) => new MetaMask({actions})
 );
 
 export const metamaskConnection: Connection = {
@@ -49,7 +49,7 @@ export const metamaskConnection: Connection = {
 };
 
 const [gnosisSafe, gnosisSafeHooks] = initializeConnector<GnosisSafe>(
-  (actions) => new GnosisSafe({ actions }),
+  (actions) => new GnosisSafe({actions})
 );
 
 export const gnosisSafeConnection: Connection = {
@@ -62,7 +62,7 @@ const [coinbaseWallet, coinbaseHooks] = initializeConnector<Connector>(
   (actions: any) =>
     new CoinbaseWallet(actions, {
       url: "", //TODO
-    } as any) as any,
+    } as any) as any
 );
 
 export const coinbaseWalletConnection: Connection = {
@@ -78,7 +78,7 @@ export const [network, networkHooks] = initializeConnector<Network>(
       urlMap: {
         "4": process.env.NEXT_PUBLIC_MUMBAI_PROVIDER,
       },
-    }),
+    })
 );
 
 export const networkConnection: Connection = {

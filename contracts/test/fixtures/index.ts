@@ -30,6 +30,9 @@ export const basicFixture = async () => {
     ])
   );
 
+  await lensHub.whitelistFollowModule(subscriptionModule.address, true);
+  await moduleGlobals.connect(accounts[1]).whitelistCurrency(superToken.address, true);
+
   return {
     transferManager,
     subscriptionModule,

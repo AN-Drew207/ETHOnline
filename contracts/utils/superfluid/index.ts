@@ -1,14 +1,14 @@
-import { Framework, ConstantFlowAgreementV1 as CFA, WrapperSuperToken } from "@superfluid-finance/sdk-core";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { BigNumberish } from "ethers";
+import {Framework, ConstantFlowAgreementV1 as CFA, WrapperSuperToken} from "@superfluid-finance/sdk-core";
+import {HardhatRuntimeEnvironment} from "hardhat/types";
+import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
+import {BigNumberish} from "ethers";
 
-import { Superfluid, ConstantFlowAgreementV1, SuperToken } from "../../types/index";
+import {Superfluid, ConstantFlowAgreementV1, SuperToken} from "../../types/index";
 
-import { attach } from "@utils/contracts";
-import { Provider } from "@ethersproject/providers";
+import {attach} from "@utils/contracts";
+import {Provider} from "@ethersproject/providers";
 
-import { deployFramework, deployWrapperSuperToken } from "@utils/superfluid/deploy";
+import {deployFramework, deployWrapperSuperToken} from "@utils/superfluid/deploy";
 
 type MockERC20 = any; //erc20 type
 
@@ -56,8 +56,8 @@ export const approveFlow = async (
   },
 ) => {
   const {
-    cfaV1: { address: cfaAddress },
-    host: { address: hostAddress },
+    cfaV1: {address: cfaAddress},
+    host: {address: hostAddress},
   } = superfluid.contracts;
   const host = <Superfluid>await attach(hre, "Superfluid", hostAddress);
   const cfa = <ConstantFlowAgreementV1>await attach(hre, "ConstantFlowAgreementV1", cfaAddress);
@@ -90,10 +90,10 @@ export const upgradeToken = async ({
 
 export const createSuperToken = async (
   hre: HardhatRuntimeEnvironment,
-  { token, superfluid, signer }: { token: MockERC20; superfluid: Framework; signer: SignerWithAddress },
+  {token, superfluid, signer}: {token: MockERC20; superfluid: Framework; signer: SignerWithAddress},
 ) => {
   const {
-    host: { address: hostAddress },
+    host: {address: hostAddress},
   } = superfluid.contracts;
   const host = <Superfluid>await attach(hre, "Superfluid", hostAddress);
   const superToken = await deployWrapperSuperToken({
