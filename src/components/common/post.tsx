@@ -29,7 +29,7 @@ export const SimplePostComponent: React.FC<any> = ({
           alt=""
         />
       </div>
-      <div className="w-full flex lg:flex-row flex-col gap-4 justify-between">
+      <div className="w-full flex lg:flex-row flex-col md:gap-12 gap-6 justify-between">
         <div className="flex lg:flex-row flex-col">
           <div className="flex flex-col gap-2">
             <div className="flex mb-2 gap-2">

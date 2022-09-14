@@ -1,4 +1,4 @@
-import { Connector } from "@web3-react/types";
+import {Connector} from "@web3-react/types";
 import {
   ConnectionType,
   gnosisSafeConnection,
@@ -7,10 +7,7 @@ import {
   walletConnectConnection,
 } from "utils/connection";
 
-export const getConnectionName = (
-  connectionType: ConnectionType,
-  isMetaMask?: boolean,
-) => {
+export const getConnectionName = (connectionType: ConnectionType, isMetaMask?: boolean) => {
   switch (connectionType) {
     case ConnectionType.INJECTED:
       return isMetaMask ? "MetaMask" : "Injected";
@@ -34,9 +31,7 @@ const CONNECTIONS = [
 
 export function getConnection(c: Connector | ConnectionType) {
   if (c instanceof Connector) {
-    const connection = CONNECTIONS.find(
-      (connection) => connection.connector === c,
-    );
+    const connection = CONNECTIONS.find((connection) => connection.connector === c);
     if (!connection) {
       throw Error("unsupported connector");
     }
@@ -59,19 +54,19 @@ export function getConnection(c: Connector | ConnectionType) {
 
 export const WALLETS = [
   {
-    src: "/multimedia/wallets/metamask.png",
+    src: "/images/metamask.png",
     title: "Metamask",
     value: "metamask",
     connection: metamaskConnection,
   },
   {
-    src: "/multimedia/wallets/coinbase.png",
+    src: "/images/coinbase.png",
     title: "Coinbase",
     value: "coinbase",
     connection: coinbaseWalletConnection,
   },
   {
-    src: "/multimedia/wallets/walletconnect.png",
+    src: "/images/walletconnect.png",
     title: "Wallet Connect",
     value: "walletconnect",
     connection: walletConnectConnection,

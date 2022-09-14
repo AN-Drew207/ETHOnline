@@ -76,7 +76,7 @@ export const [network, networkHooks] = initializeConnector<Network>(
     new Network({
       actions,
       urlMap: {
-        "4": process.env.NEXT_PUBLIC_RINKEBY_PROVIDER,
+        "4": process.env.NEXT_PUBLIC_MUMBAI_PROVIDER,
       },
     }),
 );
