@@ -1,4 +1,4 @@
-import Document, {Html, Head, Main, NextScript} from "next/document";
+import Document, { Html, Head, Main, NextScript } from "next/document";
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
@@ -6,7 +6,7 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="icon" type="image/png" href="/icons/logo.png" />
-          <title>ShareEth</title>
+          {<title>ShareEth</title>}
         </Head>
         <body>
           <Main />
