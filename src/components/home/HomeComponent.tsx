@@ -5,7 +5,7 @@ const HomeComponent = () => {
     {
       postId: 1,
       name: "Andres",
-      photo: "/icons/logo.png",
+      photo: "/icons/logo_simple.svg",
       address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
       message:
         "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
@@ -18,7 +18,7 @@ const HomeComponent = () => {
     {
       postId: 2,
       name: "Andres",
-      photo: "/icons/logo.png",
+      photo: "/icons/logo_simple.svg",
       address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
       message:
         "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
@@ -27,7 +27,7 @@ const HomeComponent = () => {
       liked: true,
       likes: 100,
       comments: 100,
-      image: "/icons/logotype.png",
+      image: "/icons/logo.svg",
     },
   ];
   return (
