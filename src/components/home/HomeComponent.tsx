@@ -1,6 +1,19 @@
-import { SimplePostComponent } from "components/common/post";
+import {useQuery} from "@apollo/client";
+import {SimplePostComponent} from "components/common/post";
+import {GET_PUBLICATIONS} from "utils/graphql/queries";
 
 const HomeComponent = () => {
+  const {data, loading, error} = useQuery(GET_PUBLICATIONS, {
+    variables: {
+      request: {
+        profileId: "0x01",
+        publicationTypes: ["POST", "COMMENT", "MIRROR"],
+        limit: 10,
+      },
+    },
+  });
+  console.log({data, loading, error});
+
   const postsMock = [
     {
       postId: 1,
@@ -32,9 +45,7 @@ const HomeComponent = () => {
   ];
   return (
     <div className="flex flex-col md:py-8 py-4 w-full">
-      <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">
-        Home
-      </h1>
+      <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">Home</h1>
       <div className="flex w-full gap-4">
         <div className="flex flex-col 2xl:w-2/3">
           <div className="flex flex-col gap-4 w-full">
@@ -64,14 +75,12 @@ const HomeComponent = () => {
                   comments={comments}
                   image={image}
                 />
-              ),
+              )
             )}
           </div>
         </div>
         <div className="2xl:flex hidden flex-col border border-gray-300 shadow-md  w-1/3 rounded-xl p-4 sticky top-24">
-          <h2 className="font-bold text-xl text-center text-primary">
-            Suggestions
-          </h2>
+          <h2 className="font-bold text-xl text-center text-primary">Suggestions</h2>
         </div>
       </div>
     </div>
