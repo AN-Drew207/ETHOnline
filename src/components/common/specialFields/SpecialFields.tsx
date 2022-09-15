@@ -4,9 +4,7 @@ import React from "react";
 // const cards = convertArrayCards();
 
 export const AddressText = ({ text }) => {
-  return (
-    <>{+(text?.substring(0, 5) || "") + "..." + (text?.substring(36) || "")}</>
-  );
+  return <>{text?.substring(0, 5) + "..." + text?.substring(36)}</>;
 };
 
 export const TransactionText = ({ text }) => {

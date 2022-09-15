@@ -66,12 +66,12 @@ export const MessageChat: React.FC<any> = ({
       <div className="flex lg:flex-row flex-col gap-4 pt-1 justify-between xl:max-w-[calc(100vw-400px)] max-w-[calc(100vw-240px)] min-w-full overflow-hidden">
         <div className="flex lg:flex-row flex-col w-[calc(100%-10px)] min-w-full">
           <div className="flex flex-col w-full gap-2">
-            <div className="flex w-full justify-between">
+            <div className="flex w-full gap-4 justify-between">
               <p className="font-bold text-dark truncate flex gap-2 text-md">
                 {name}
               </p>
               <div>
-                <span className="text-sm font-normal place-self-end text-n-300 text-md uppercase">
+                <span className="text-[12px] font-normal place-self-end text-n-300 text-md uppercase whitespace-nowrap">
                   {formatTime(message.sent)}
                 </span>
               </div>
