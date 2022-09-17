@@ -1,8 +1,12 @@
 import {useQuery} from "@apollo/client";
 import {SimplePostComponent} from "components/common/post";
 import {GET_PUBLICATIONS} from "utils/graphql/queries";
+import useGetContract from "hooks/useGetContract";
+import {useWeb3React} from "@web3-react/core";
 
 const HomeComponent = () => {
+  const {account} = useWeb3React();
+  const getContract = useGetContract();
   const {data, loading, error} = useQuery(GET_PUBLICATIONS, {
     variables: {
       request: {
@@ -12,7 +16,24 @@ const HomeComponent = () => {
       },
     },
   });
-  console.log({data, loading, error});
+  const {publications} = data || {publications: []};
+
+  const createProfile = async () => {
+    const lensHub = getContract("LensHub", "lensHub");
+    //await lensHub.whitelistProfileCreator(user.address, true);
+
+    //CHECK https://docs.lens.xyz/docs/functions#createprofile
+    const inputStruct = {
+      to: account,
+      handle: "zer0dot",
+      imageURI: "https://ipfs.fleek.co/ipfs/ghostplant", //profile image
+      followModule: "our follow module address",
+      followModuleInitData: [],
+      followNFTURI: "https://ipfs.fleek.co/ipfs/ghostplant",
+    };
+
+    await lensHub.createProfile(inputStruct);
+  };
 
   const postsMock = [
     {
