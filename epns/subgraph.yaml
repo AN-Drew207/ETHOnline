@@ -1,4 +1,5 @@
-specVersion: 0.0.1
+specVersion: 0.0.4
+description: Lens Events for Share.ETH
 schema:
   file: ./schema.graphql
 dataSources:
@@ -10,7 +11,7 @@ dataSources:
       abi: FollowNFT
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Approval
@@ -27,3 +28,28 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/follow-nft.ts
+  - kind: ethereum
+    name: CollectNFT
+    network: mumbai
+    source:
+      address: "0xec9d9E482cE7Fb715605e18adD72B5A696880357"
+      abi: CollectNFT
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - CollectNFTApproval
+        - CollectNFTApprovalForAll
+        - CollectNFTTransfer
+      abis:
+        - name: CollectNFT
+          file: ./abis/CollectNFT.json
+      eventHandlers:
+        - event: CollectNFTApproval(indexed address,indexed address,indexed uint256)
+          handler: handleCollectNFTApproval
+        - event: CollectNFTApprovalForAll(indexed address,indexed address,bool)
+          handler: handleCollectNFTApprovalForAll
+        - event: CollectNFTTransfer(indexed address,indexed address,indexed uint256)
+          handler: handleCollectNFTTransfer
+      file: ./src/collect-nft.ts

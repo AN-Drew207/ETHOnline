@@ -1,7 +1,10 @@
 {
-    "mumbai": {
-      "FollowNFT": {
-        "address": "0xb0298c5540f4cfb3840c25d290be3ef3fe09fa8c"
-      }
+  "mumbai": {
+    "FollowNFT": {
+      "address": "0xb0298c5540f4cfb3840c25d290be3ef3fe09fa8c"
+    },
+    "CollectNFT": {
+      "address": "0xec9d9E482cE7Fb715605e18adD72B5A696880357"
     }
   }
+}
