@@ -1,12 +1,17 @@
-import { useQuery } from "@apollo/client";
 import { SimplePostComponent } from "components/common/posts/post";
-import { GET_PUBLICATIONS } from "utils/graphql/queries";
-import useGetContract from "hooks/useGetContract";
+import React from "react";
 import { useWeb3React } from "@web3-react/core";
+import { useQuery } from "@apollo/client";
+
+import useGetContract from "hooks/useGetContract";
+import useAuthClient from "hooks/useAuthClient";
+import { GET_PUBLICATIONS, CREATE_PROFILE } from "utils/graphql/queries";
+import { makeMutation } from "utils/graphql";
 
 const HomeComponent = () => {
   const { account } = useWeb3React();
   const getContract = useGetContract();
+  const client = useAuthClient();
   const { data, loading, error } = useQuery(GET_PUBLICATIONS, {
     variables: {
       request: {
@@ -18,22 +23,29 @@ const HomeComponent = () => {
   });
   const { publications } = data || { publications: [] };
 
-  const createProfile = async () => {
-    const lensHub = getContract("LensHub", "lensHub");
-    //await lensHub.whitelistProfileCreator(user.address, true);
-
-    //CHECK https://docs.lens.xyz/docs/functions#createprofile
-    const inputStruct = {
-      to: account,
-      handle: "zer0dot",
-      imageURI: "https://ipfs.fleek.co/ipfs/ghostplant", //profile image
-      followModule: "our follow module address",
-      followModuleInitData: [],
-      followNFTURI: "https://ipfs.fleek.co/ipfs/ghostplant",
-    };
-
-    await lensHub.createProfile(inputStruct);
-  };
+  React.useEffect(() => {
+    console.log("MAKE MUTATION");
+    if (client && false)
+      //to avoid error
+      makeMutation({
+        mutation: CREATE_PROFILE,
+        variables: {
+          request: {
+            handle: "handletest360Some", //must change
+            profilePictureUri: null,
+            followNFTURI: null,
+            followModule: null,
+          },
+        },
+        client,
+      })
+        .then((val) => {
+          console.log("SUCCESS", val);
+        })
+        .catch((err) => {
+          console.log("myErr", err);
+        });
+  }, [client]);
 
   const postsMock = [
     {

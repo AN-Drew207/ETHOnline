@@ -2,17 +2,17 @@ import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
 import "@nomiclabs/hardhat-web3";
 import "@typechain/hardhat";
-import {config as dotenvConfig} from "dotenv";
+import { config as dotenvConfig } from "dotenv";
 import "hardhat-gas-reporter";
 import "hardhat-contract-sizer";
-import {HardhatUserConfig} from "hardhat/config";
-import {resolve} from "path";
+import { HardhatUserConfig } from "hardhat/config";
+import { resolve } from "path";
 import "solidity-coverage";
 import "tsconfig-paths/register";
 
-//import "@tasks/index";
+import "@tasks/index";
 
-dotenvConfig({path: resolve(__dirname, "./.env")});
+dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 // Ensure that we have all the environment variables we need.
 
@@ -33,11 +33,13 @@ const config: HardhatUserConfig = {
     },
     rinkeby: {
       url: process.env.RINKEBY_PROVIDER,
-      accounts: [
-        process.env.PRIVATE_KEY || "",
-        "3ced394207aacaa2b5db2b377187fb6348b2335608d1e2a39fe0e15340ddd5bb",
-        "89846662a7d1a414ebc82cd65dc2d002dceb7f871f616aebee3926ef9cf14c1a",
-      ],
+      accounts: [process.env.PRIVATE_KEY || ""],
+      timeout: 100000,
+      //gasPrice: 65000000000,
+    },
+    mumbai: {
+      url: process.env.MUMBAI_PROVIDER,
+      accounts: [process.env.PRIVATE_KEY || ""],
       timeout: 100000,
       //gasPrice: 65000000000,
     },
