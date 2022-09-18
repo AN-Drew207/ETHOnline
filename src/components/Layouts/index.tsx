@@ -36,7 +36,7 @@ const navItems = [
     link: "/app/notifications",
     icon: <BellOutlined />,
   },
-  { name: "Messages", link: "/messages", icon: <MessageOutlined /> },
+  { name: "Messages", link: "/app/messages", icon: <MessageOutlined /> },
   {
     link: "/app/profile",
     name: "Profile",
@@ -72,11 +72,11 @@ const AppLayout = ({ children }) => {
         // overflow: "auto",
       }}
       className={clsx(
-        { ["!flex-col"]: router.asPath === "/messages" },
+        { ["!flex-col"]: router.asPath === "/app/messages" },
         "flex md:flex-row flex-col relative md:bg-primary md:p-4",
       )}
     >
-      {router.asPath === "/messages" ? (
+      {router.asPath === "/app/messages" ? (
         <nav
           className={clsx(
             "w-full shrink-0 px-8 flex flex-row items-center md:pb-4 md:py-0 py-2 bg-primary",
