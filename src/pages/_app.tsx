@@ -7,7 +7,6 @@ import Web3Provider from "components/Web3Provider";
 import XmtpProvider from "components/XMTPProvider";
 import { store } from "redux/store";
 import { apolloClient } from "utils/graphql";
-import "styles/globals.css";
 import "styles/globals.scss";
 import "styles/global-tailwind.css";
 import "styles/index.css";
@@ -23,9 +22,7 @@ const App = ({ Component, pageProps }) => (
       <ApolloProvider client={apolloClient}>
         <Web3Provider>
           <XmtpProvider>
-            <AppLayout>
-              <Component {...pageProps} />
-            </AppLayout>
+            <Component {...pageProps} />
           </XmtpProvider>
         </Web3Provider>
       </ApolloProvider>
