@@ -17,7 +17,7 @@ const Features: NextPage = () => {
           background: "linear-gradient(360deg, #F1D692 -83.4%, #FF9900 100%)",
         }}
       ></div>
-      <div className="w-full flex items-center justify-center gap-10 h-screen"></div>
+      <div className="w-full flex flex-col items-center justify-center gap-10 h-screen"></div>
     </div>
   );
 };

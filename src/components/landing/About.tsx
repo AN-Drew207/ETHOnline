@@ -18,7 +18,14 @@ const AboutUs: NextPage = () => {
         }}
       ></div>
       <div className="lg:w-[calc(100vw-100px)] pb-10 relative">
-        <div className="w-full min-h-[500px] bg-white lg:rounded-r-full flex lg:flex-row flex-col items-center justify-center xl:gap-60 lg:gap-48 gap-4 shadow-xl px-8 py-6">
+        <div
+          className="w-full min-h-[500px] bg-white lg:rounded-r-full flex lg:flex-row flex-col items-center justify-center xl:gap-60 lg:gap-48 gap-4 shadow-xl px-8 py-6"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+          data-aos-easing="ease-in-out"
+          data-aos-mirror="true"
+          data-aos-once="false"
+        >
           <div className="flex flex-col gap-10 lg:max-w-[50%]">
             <h2 className="font-bold text-primary xl:text-6xl text-3xl Oswald whitespace-nowrap">
               ABOUT US

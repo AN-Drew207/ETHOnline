@@ -43,11 +43,6 @@ const navItems = [
     icon: <UserOutlined />,
   },
   {
-    link: "/app/settings",
-    name: "Settings",
-    icon: <SettingOutlined />,
-  },
-  {
     link: "/app/shareIt",
     name: "Make a Post",
     onClick: () => {

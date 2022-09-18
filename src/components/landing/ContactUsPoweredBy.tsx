@@ -48,6 +48,7 @@ const ContactUsPoweredBy: NextPage = () => {
     "/icons/superfluid.svg",
     "/icons/lens.svg",
     "/icons/xmtp.svg",
+    "/icons/ipfs.png",
   ];
 
   return (
@@ -67,65 +68,82 @@ const ContactUsPoweredBy: NextPage = () => {
         data-aos-mirror="true"
         data-aos-once="false"
       >
-        <div className="w-[90vw] min-h-[500px] flex flex-col items-center justify-center gap-20  rounded-l-full bg-overlay px-16 relative">
+        <div className="lg:w-[90vw] w-full min-h-[500px] py-8 flex flex-col items-center justify-center md:gap-20 gap-6 lg:rounded-l-full bg-overlay lg:px-16 px-2 relative">
           <h2 className="Oswald font-bold text-primary text-center xl:text-6xl text-3xl ">
             POWERED BY
           </h2>
           <div className="flex flex-wrap gap-16 items-center justify-center w-full">
             {poweredBy.map((item) => (
-              <img src={item} className="rounded-full w-[10%]" />
+              <img src={item} className="rounded-full xl:w-[10%] w-32" />
             ))}
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center gap-10 pt-16 pb-10">
+      <div className="w-full flex flex-col items-center gap-10 md:pt-16 pb-10">
         <div>
           <h2 className="text-3xl font-bold text-white">Contact Us</h2>
         </div>
         <div
           className={clsx(
-            "flex flex-col items-center justify-center w-full h-full sm:px-10 px-4 pb-10",
+            "flex xl:flex-row flex-col gap-8 items-center justify-between lg:w-4/5 w-full h-full sm:px-10 px-4 pb-10 relative",
           )}
         >
           <form
-            className="w-2/3 flex flex-col gap-6 items-center justify-center relative"
+            className="xl:w-1/2 w-full flex flex-col md:gap-6 gap-4 items-center justify-center"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Input
-              name="fullName"
-              title="Full name *"
-              placeholder="John Doe"
-              register={register}
-              rules={rules.fullName}
-              error={errors.fullName}
-              classNameContainer="md:max-w-[472px f-22 w-full"
-            />
-            <Input
-              name="email"
-              title="Email *"
-              placeholder="jonhdoe@mail.com"
-              register={register}
-              rules={rules.fullName}
-              error={errors.fullName}
-              classNameContainer="md:max-w-[472px f-22 w-full"
-            />{" "}
-            <Input
+            <div className="flex md:flex-row flex-col justify-between w-full gap-4">
+              <Input
+                name="fullName"
+                title="Full name *"
+                placeholder="Name"
+                register={register}
+                rules={rules.fullName}
+                error={errors.fullName}
+                classNameContainer="f-22 w-full"
+                primary
+              />
+              <Input
+                name="email"
+                title="Email *"
+                placeholder="Email"
+                register={register}
+                rules={rules.fullName}
+                error={errors.fullName}
+                classNameContainer="f-22 w-full"
+                primary
+              />{" "}
+            </div>
+            <textarea
               name="message"
               title="Message *"
               placeholder="Message"
-              register={register}
-              rules={rules.fullName}
-              error={errors.fullName}
-              classNameContainer="md:max-w-[472px f-22 w-full"
+              ref={register("message", rules.fullName).ref}
+              className="p-4 rounded-xl border h-[100px] placeholder-primary !focus:border-primary !focus:text-primary border-primary text-primary bg-transparent f-22 w-full focus:outline-none focus:bg-gray-opacity-10 focus:ring-offset-transparent focus:ring-opacity-0 focus:ring-transparent "
             />
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="p-4 text-white border border-white"
-            >
-              {isLoading ? "Loading" : "Send"}
-            </Button>
+            <div className="flex  md:justify-start justify-center w-full">
+              <Button
+                type="submit"
+                disabled={isLoading}
+                decoration="fillPrimary"
+                className="px-16 py-4 text-white border-transparent bg-primary"
+              >
+                {isLoading ? "Loading" : "Send"}
+              </Button>
+            </div>
           </form>
+          <div className="xl:w-1/2 w-full gap-10 flex flex-col items-center justify-center">
+            <img src={"/icons/logo_green.svg"} className="w-96" alt="" />
+            <div className="flex gap-4">
+              {[
+                "icons/linkedIn.svg",
+                "icons/twitter.svg",
+                "icons/github.svg",
+              ].map((icon) => (
+                <img src={icon} className="w-12 h-12" />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
