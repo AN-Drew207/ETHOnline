@@ -6,6 +6,8 @@ export type Addresses = {
   transferManager: string;
   token: string;
   superToken: string;
+  cfaV1: string;
+  host: string;
 };
 
 export type Config = Record<string, {addresses: Addresses}>;
@@ -20,6 +22,8 @@ const config: Config = {
       transferManager: "0xbf3511F58E1C955e3f45c9F6ec9Dc0369c7D7c77",
       token: "0xe2E7731AC0cf86a1706425873f29Cfebaf3E1a0E",
       superToken: "0x74740f74e13C7af8e8B334FC1B70c8745c777Dd6",
+      cfaV1: "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873",
+      host: "0xEB796bdb90fFA0f28255275e16936D25d3418603",
     },
   },
 };
