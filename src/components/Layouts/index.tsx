@@ -28,28 +28,29 @@ const styles = {
 const navItems = [
   {
     name: "Home",
-    link: "/",
+    link: "/app/",
     menu: true,
     icon: <HomeOutlined />,
   },
   {
     name: "Notifications",
-    link: "/notifications",
+    link: "/app/notifications",
     icon: <BellOutlined />,
   },
   { name: "Messages", link: "/messages", icon: <MessageOutlined /> },
   {
-    link: "/profile",
+    link: "/app/profile",
     name: "Profile",
     icon: <UserOutlined />,
   },
   {
-    link: "/settings",
+    link: "/app/settings",
     name: "Settings",
     icon: <SettingOutlined />,
   },
   {
-    link: "/settings",
+    link: "/app/shareIt",
+    name: "Make a Post",
     onClick: () => {
       console.log("a");
     },

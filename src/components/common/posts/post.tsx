@@ -31,8 +31,8 @@ export const SimplePostComponent: React.FC<any> = ({
       </div>
       <div className="w-full flex lg:flex-row flex-col md:gap-12 gap-6 justify-between">
         <div className="flex lg:flex-row flex-col">
-          <div className="flex flex-col gap-2">
-            <div className="flex mb-2 gap-2">
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-2">
               <p className="font-bold text-dark truncate flex gap-2 text-md">
                 {name}
                 <span className="font-thin lowercase text-gray-500">

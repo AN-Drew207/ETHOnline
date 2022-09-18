@@ -1,11 +1,14 @@
 import Head from "next/head";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import AppLayout from "components/Layouts";
 
 const Home = () => {
   return (
     <>
-      <div id="lp-register"></div>
+      <AppLayout>
+        <div id="lp-register"></div>
+      </AppLayout>
     </>
   );
 };

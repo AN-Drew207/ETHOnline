@@ -6,7 +6,6 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="icon" type="image/png" href="/icons/logo_simple.svg" />
-          {<title>ShareEth</title>}
         </Head>
         <body>
           <Main />

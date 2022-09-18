@@ -1,9 +1,12 @@
+import AppLayout from "components/Layouts";
 import ProfileComponent from "components/Profile/MyProfile";
 
 const Home = () => {
   return (
     <>
-      <ProfileComponent />
+      <AppLayout>
+        <ProfileComponent />
+      </AppLayout>
     </>
   );
 };
