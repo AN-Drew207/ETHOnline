@@ -1,5 +1,5 @@
 import { NotificationComponent } from "components/common/notification";
-import { SimplePostComponent } from "components/common/post";
+import { SimplePostComponent } from "components/common/posts/post";
 
 const Notifications = () => {
   const postsMock = [

@@ -14,6 +14,7 @@ import {
 } from "@ant-design/icons";
 import WalletModal from "components/WalletModal";
 import { useWeb3React } from "@web3-react/core";
+import { MakeAPostButton } from "components/common/makeAPostButton";
 
 const styles = {
   content: {
@@ -49,11 +50,11 @@ const navItems = [
   },
   {
     link: "/settings",
-    name: "Make a Post",
     onClick: () => {
       console.log("a");
     },
     button: true,
+    element: <MakeAPostButton />,
   },
 ];
 
@@ -62,8 +63,6 @@ const AppLayout = ({ children }) => {
   const { account } = useWeb3React();
   const refSidebarMobile = React.useRef(null);
   const router = useRouter();
-
-  console.log(account, "xd");
 
   return (
     <div
@@ -121,17 +120,7 @@ const AppLayout = ({ children }) => {
                   <>
                     {item.button ? (
                       <div className="w-full xl:pl-8 md:pl-0 pl-8 flex items-center xl:justify-start md:justify-center">
-                        <Button
-                          decoration="fill"
-                          size="small"
-                          onClick={item.onClick}
-                        >
-                          <FormOutlined className="text-white xl:hidden md:flex hidden text-2xl" />
-
-                          <p className="xl:block md:hidden block">
-                            {item.name}
-                          </p>
-                        </Button>
+                        {item.element}
                       </div>
                     ) : (
                       <>

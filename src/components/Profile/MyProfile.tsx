@@ -1,5 +1,6 @@
 import { Button } from "components/common/button";
-import { SimplePostComponent } from "components/common/post";
+import { MakeAPostButton } from "components/common/makeAPostButton";
+import { SimplePostComponent } from "components/common/posts/post";
 
 const ProfileComponent = () => {
   const profile = {
@@ -84,9 +85,7 @@ const ProfileComponent = () => {
       </div>
       <div className="flex justify-between items-center w-full">
         <h1 className="text-dark text-xl font-bold">My Posts</h1>
-        <Button decoration="fill" size="small">
-          Make a post
-        </Button>
+        <MakeAPostButton />
       </div>
       <div className="flex flex-col w-full">
         <div className="flex flex-col gap-2 w-full">
