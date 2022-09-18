@@ -85,7 +85,7 @@ export const upgradeToken = async ({
   amount: string;
   signer: SignerWithAddress;
 }) => {
-  await superToken.connect(signer).upgrade(amount);
+  await superToken.upgrade(amount);
 };
 
 export const createSuperToken = async (
