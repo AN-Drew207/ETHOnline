@@ -5,16 +5,32 @@ export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export const makeQuery = async (query: DocumentNode, variables?: unknown) => {
-  try {
-    console.log({variables, url: process.env.NEXT_PUBLIC_LENS_SUBGRAPH});
-    const response = await apolloClient.query({
-      query,
-      variables,
-    });
-    return response.data;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
+export const makeQuery = async ({
+  query,
+  variables,
+  client,
+}: {
+  query: DocumentNode;
+  variables?: unknown;
+  client?: ApolloClient<object>;
+}) => {
+  return await client.query({
+    query,
+    variables,
+  });
+};
+
+export const makeMutation = async ({
+  mutation,
+  variables,
+  client,
+}: {
+  mutation: DocumentNode;
+  variables?: unknown;
+  client?: ApolloClient<object>;
+}) => {
+  return await client.mutate({
+    mutation,
+    variables,
+  });
 };
