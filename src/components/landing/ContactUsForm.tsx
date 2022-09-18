@@ -44,7 +44,13 @@ const ContactUs: NextPage = () => {
 
   return (
     <div className="w-full flex flex-col items-center justify-center relative min-h-screen">
-      <div className="w-full h-full absolute bottom-0 bg-gradient-to-bl via-black from-blue-900/60 to-black"></div>
+      <div
+        className="w-full h-full absolute top-0"
+        style={{
+          background:
+            "linear-gradient(193.12deg, #F8BA4D 34.57%, #FF8A00 80.51%)",
+        }}
+      ></div>
       <div
         className="w-4/5 flex flex-col items-center gap-10 pt-16 pb-10"
         data-aos="fade-up"
