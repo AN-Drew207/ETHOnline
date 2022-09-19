@@ -2,8 +2,9 @@ import React from "react";
 import Image from "next/image";
 
 import Modal from "components/common/modal";
-import {WALLETS} from "utils/connection/utils";
-import {Connection} from "utils/connection";
+import { WALLETS } from "utils/connection/utils";
+import { Connection } from "utils/connection";
+import { useRouter } from "next/router";
 
 interface WalletModalProps {
   showModal: boolean;
@@ -16,15 +17,18 @@ const ConnectionComponent: React.FunctionComponent<{
   src: string;
   title: string;
 }> = (props) => {
-  const {connection, onSelect, src, title} = props;
+  const { connection, onSelect, src, title } = props;
+
+  const router = useRouter();
 
   const handleConnection = async () => {
     try {
       await connection.connector.activate();
     } catch (err) {
-      console.log({err});
+      console.log({ err });
     }
     onSelect();
+    router.push("/app/");
   };
 
   return (

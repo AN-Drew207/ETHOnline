@@ -5,9 +5,11 @@ import {LogDescription} from "@ethersproject/abi";
 import lens from "./Lens";
 import superfluid from "./Superfluid";
 import ercs from "./ERC";
+import shareEth from "./ShareEth";
 import {TransactionResponse, Web3Provider} from "@ethersproject/providers";
 
 export const abis = {
+  ...shareEth,
   ...lens,
   ...superfluid,
   ...ercs,

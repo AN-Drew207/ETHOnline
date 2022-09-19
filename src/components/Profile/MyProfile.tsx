@@ -1,9 +1,22 @@
-import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button } from "components/common/button";
 import { MakeAPostButton } from "components/common/makeAPostButton";
 import { SimplePostComponent } from "components/common/posts/post";
+import useAuthClient from "hooks/useAuthClient";
+import { makeQuery } from "utils/graphql";
+import { GET_FOLLOWERS } from "utils/graphql/queries/follow";
 
 const ProfileComponent = () => {
+  const client = useAuthClient();
+
+  const getFollowers = async () => {
+    const { data } = await makeQuery({
+      query: GET_FOLLOWERS,
+      variables: { request: { profileId: "0x01" } },
+      client,
+    });
+    console.log(data, "followers");
+  };
+
   const profile = {
     name: "Carlos Torres",
     address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
