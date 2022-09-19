@@ -26,11 +26,11 @@ export function getPrivateKey() {
 };
 
 export async function getContracts() {
-    const lensHubAddress = "0x20f4D7DdeE23029048C53B42dc73A02De19F1c9E";
-    const lensHubAbi = require('../abi/LensHub.json');
+    const subsAdrs = "0xc9F6FB766211aF1e2fe0E4e6977a31A8Bcc4a0eC";
+    const subsAbi = require('../abi/SubscriptionModule.json');
     const channelSigner = new Wallet(getPrivateKey());
 
-    const lensContract = new Contract(lensHubAddress, lensHubAbi, channelSigner);
+    const lensContract = new Contract(subsAdrs, subsAbi, channelSigner);
 
     return lensContract;
 };
