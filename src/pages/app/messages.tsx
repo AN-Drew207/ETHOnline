@@ -43,8 +43,8 @@ const Chat = () => {
     <AppLayout>
       <>
         <div className="md:flex hidden w-full chat">
-          <div className="flex flex-col xl:w-[320px] md:w-[240px] p-2 border-r border-gray-400">
-            <h2 className="text-2xl font-bold text-primary py-4 text-center">
+          <div className="flex flex-col xl:w-[320px] md:w-[240px] p-2 gap-2 border-r border-gray-400">
+            <h2 className="text-2xl font-bold text-primary pt-4 pb-2 text-center">
               Chats
             </h2>
             {Object.keys(messages).map((chat) => {
