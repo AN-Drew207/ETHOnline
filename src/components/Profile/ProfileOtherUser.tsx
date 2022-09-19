@@ -1,7 +1,8 @@
+import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button } from "components/common/button";
 import { SimplePostComponent } from "components/common/posts/post";
 
-const ProfileComponent = () => {
+const ProfileOtherUserComponent = () => {
   const profile = {
     name: "Carlos Torres",
     address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
@@ -68,16 +69,29 @@ const ProfileComponent = () => {
                   alt=""
                 />
               </div>
-              <div className="flex flex-col items-center justify-center gap-2 md:px-16 px-4">
-                <h2 className="text-xl font-bold text-dark">{profile.name}</h2>
-                <h3 className="md:flex hidden text-sm text-gray-500 truncate">
-                  {profile.address}
-                </h3>
-                <h3 className="flex md:hidden text-sm text-center text-gray-500 truncate">
-                  {profile.address.substring(0, 10)}...
-                </h3>
-                <p className="text-sm text-center">{profile.description}</p>
-              </div>
+              <div>
+                <div className="flex flex-col items-center justify-center gap-2 md:px-16 px-4">
+                  <h2 className="text-xl font-bold text-dark">
+                    {profile.name}
+                  </h2>
+                  <h3 className="md:flex hidden text-sm text-gray-500 truncate">
+                    {profile.address}
+                  </h3>
+                  <h3 className="flex md:hidden text-sm text-center text-gray-500 truncate">
+                    {profile.address.substring(0, 10)}...
+                  </h3>
+                  <p className="text-sm text-center">{profile.description}</p>
+                </div>
+              </div>{" "}
+              {true ? (
+                <Button size="small" decoration="fill">
+                  Follow
+                </Button>
+              ) : (
+                <Button size="small" decoration="line-primary">
+                  Followed <CheckCircleOutlined />
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -121,4 +135,4 @@ const ProfileComponent = () => {
   );
 };
 
-export default ProfileComponent;
+export default ProfileOtherUserComponent;

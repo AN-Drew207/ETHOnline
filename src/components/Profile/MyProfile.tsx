@@ -1,3 +1,4 @@
+import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button } from "components/common/button";
 import { MakeAPostButton } from "components/common/makeAPostButton";
 import { SimplePostComponent } from "components/common/posts/post";
@@ -69,6 +70,7 @@ const ProfileComponent = () => {
                   alt=""
                 />
               </div>
+              {/* <div className="flex gap-2 w-full items-center"> */}
               <div className="flex flex-col items-center justify-center gap-2 md:px-16 px-4">
                 <h2 className="text-xl font-bold text-dark">{profile.name}</h2>
                 <h3 className="md:flex hidden text-sm text-gray-500 truncate">
@@ -79,6 +81,7 @@ const ProfileComponent = () => {
                 </h3>
                 <p className="text-sm text-center">{profile.description}</p>
               </div>
+              {/* </div> */}
             </div>
           </div>
         </div>

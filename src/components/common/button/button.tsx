@@ -13,7 +13,12 @@ export interface ButtonProps {
   fill?: boolean;
   labelProps?: string;
   href?: string;
-  decoration?: "fill" | "line-white" | "line-primary" | "fillPrimary";
+  decoration?:
+    | "fill"
+    | "line-white"
+    | "line-primary"
+    | "fillPrimary"
+    | "line-secondary";
   social?: "facebook" | "google";
   icon?: any;
   className?: string;
@@ -63,6 +68,11 @@ export const Button: React.FC<
           {
             "bg-white border-secondary shadow-md text-secondary":
               decoration === "fill" && disabled,
+          },
+
+          {
+            "bg-transparent border-secondary shadow-md text-secondary":
+              decoration === "line-secondary" && !disabled,
           },
 
           //global
