@@ -31,14 +31,11 @@ const AboutUs: NextPage = () => {
               ABOUT US
             </h2>
             <p className="xl:text-lg text-md text-justify">
-              ShareEth is a platform created for users that want to have content
-              by memberships in a innovative web3 enviroment. ShareEth is a
-              platform created for users that want to have content by
-              memberships in a innovative web3 enviroment. ShareEth is a
-              platform created for users that want to have content by
-              memberships in a innovative web3 enviroment. ShareEth is a
-              platform created for users that want to have content by
-              memberships in a innovative web3 enviroment.{" "}
+              ShareEth is a social networking app where readers find insighful
+              ideas and connect with their favorite content creators, creators
+              who share their great thoughts by posts that are neither private
+              or public and can they get paid for it. All this in a
+              decentralized, transparent and secure way.{" "}
             </p>
           </div>
           <div className="flex gap-4 p-4">
