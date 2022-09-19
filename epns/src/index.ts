@@ -1,11 +1,8 @@
-import express from "express";
-import { getContracts } from "./utils";
+import { subListener } from "./listeners";
 
-const app = express();
+const main = () => {
+    console.log('Initializing listener');
+    subListener();
+}
 
-const activeUsers: string[] = [];
-
-app.get('/register/:address', async(req, res) => {
-    const userAddress = req.params.address;
-    activeUsers.push(userAddress);
-})
+main();

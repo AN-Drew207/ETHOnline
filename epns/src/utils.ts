@@ -1,4 +1,4 @@
-import { utils, Contract, Wallet } from "ethers";
+import { utils, providers, Contract } from "ethers";
 import { config } from "dotenv";
 
 config();
@@ -25,12 +25,17 @@ export function getPrivateKey() {
     return new utils.SigningKey(privateKey);
 };
 
-export async function getContracts() {
+export function getProvider() {
+    const providerURL: string = getEnvVariable('PUBLIC_WS_PROVIDER');
+    return new providers.WebSocketProvider(providerURL);
+};
+
+export function getContracts() {
     const subsAdrs = "0xc9F6FB766211aF1e2fe0E4e6977a31A8Bcc4a0eC";
     const subsAbi = require('../abi/SubscriptionModule.json');
-    const channelSigner = new Wallet(getPrivateKey());
+    const wsProvider = getProvider();
 
-    const lensContract = new Contract(subsAdrs, subsAbi, channelSigner);
+    const subsContract = new Contract(subsAdrs, subsAbi, wsProvider);
 
-    return lensContract;
+    return subsContract;
 };
