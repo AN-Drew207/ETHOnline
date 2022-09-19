@@ -1,4 +1,4 @@
-import { utils } from "ethers";
+import { utils, Contract, Wallet } from "ethers";
 import { config } from "dotenv";
 
 config();
@@ -23,4 +23,14 @@ export function getPrivateKey() {
         privateKey = "0x" + inputKey
     }
     return new utils.SigningKey(privateKey);
-}
+};
+
+export async function getContracts() {
+    const lensHubAddress = "0x20f4D7DdeE23029048C53B42dc73A02De19F1c9E";
+    const lensHubAbi = require('../abi/LensHub.json');
+    const channelSigner = new Wallet(getPrivateKey());
+
+    const lensContract = new Contract(lensHubAddress, lensHubAbi, channelSigner);
+
+    return lensContract;
+};

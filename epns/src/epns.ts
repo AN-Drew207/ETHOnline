@@ -5,7 +5,7 @@ import { getPrivateKey } from "./utils";
 const pk = getPrivateKey();
 const signer = new ethers.Wallet(pk);
 
-const sendNotification = async() => {
+export const sendNotification = async() => {
     try {
         const apiResponse = await EpnsAPI.payloads.sendNotification({
             signer,
@@ -32,5 +32,3 @@ const sendNotification = async() => {
       console.error('Error: ', err);
     }
 };
-
-sendNotification();

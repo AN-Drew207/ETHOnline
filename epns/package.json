@@ -1,25 +1,15 @@
 {
-  "scripts": {
-    "codegen": "graph codegen",
-    "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ gpablo6/dev-share-eth",
-    "create-local": "graph create --node http://localhost:8020/ gpablo6/dev-share-eth",
-    "remove-local": "graph remove --node http://localhost:8020/ gpablo6/dev-share-eth",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 gpablo6/dev-share-eth",
-    "test": "graph test"
-  },
+  "scripts": {},
   "license": "UNLICENSED",
   "dependencies": {
     "@epnsproject/sdk-restapi": "^0.1.13",
-    "@graphprotocol/graph-cli": "0.33.1",
-    "@graphprotocol/graph-ts": "0.27.0"
+    "dotenv": "^16.0.2",
+    "ethers": "^5.6.8",
+    "express": "^4.18.1"
   },
   "devDependencies": {
     "@types/node": "^18.7.17",
-    "dotenv": "^16.0.2",
-    "ethers": "^5.6.8",
     "ts-node": "^10.9.1",
-    "typescript": "^4.8.3",
-    "matchstick-as": "0.5.0"
+    "typescript": "^4.8.3"
   }
 }
