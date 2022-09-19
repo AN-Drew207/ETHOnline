@@ -7,6 +7,7 @@ import { DateDivider, MessageChat } from "components/Chat/messageChat";
 import clsx from "clsx";
 import { AddressText } from "components/common/specialFields/SpecialFields";
 import AppLayout from "components/Layouts";
+import { useRouter } from "next/router";
 
 const Chat = () => {
   const [message, setMessage] = React.useState("");
@@ -38,6 +39,15 @@ const Chat = () => {
   };
 
   let lastMessageDate: Date | undefined;
+
+  const { account } = useWeb3React();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!account) {
+      router.push("/login");
+    }
+  }, [account]);
 
   return (
     <AppLayout>

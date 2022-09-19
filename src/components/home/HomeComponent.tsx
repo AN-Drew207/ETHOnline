@@ -1,7 +1,53 @@
-import { Button } from "components/common/button/button";
-import { SimplePostComponent } from "components/common/post";
+import { SimplePostComponent } from "components/common/posts/post";
+import React from "react";
+import { useWeb3React } from "@web3-react/core";
+import { useQuery } from "@apollo/client";
+
+import useGetContract from "hooks/useGetContract";
+import useAuthClient from "hooks/useAuthClient";
+import { GET_PUBLICATIONS, CREATE_PROFILE } from "utils/graphql/queries";
+import { makeMutation } from "utils/graphql";
+import { Button } from "components/common/button";
 
 const HomeComponent = () => {
+  const { account } = useWeb3React();
+  const getContract = useGetContract();
+  const client = useAuthClient();
+  const { data, loading, error } = useQuery(GET_PUBLICATIONS, {
+    variables: {
+      request: {
+        profileId: "0x01",
+        publicationTypes: ["POST", "COMMENT", "MIRROR"],
+        limit: 10,
+      },
+    },
+  });
+  const { publications } = data || { publications: [] };
+
+  React.useEffect(() => {
+    console.log("MAKE MUTATION");
+    if (client && false)
+      //to avoid error
+      makeMutation({
+        mutation: CREATE_PROFILE,
+        variables: {
+          request: {
+            handle: "handletest360Some", //must change
+            profilePictureUri: null,
+            followNFTURI: null,
+            followModule: null,
+          },
+        },
+        client,
+      })
+        .then((val) => {
+          console.log("SUCCESS", val);
+        })
+        .catch((err) => {
+          console.log("myErr", err);
+        });
+  }, [client]);
+
   const postsMock = [
     {
       postId: 1,

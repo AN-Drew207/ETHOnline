@@ -1,10 +1,12 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Provider } from "react-redux";
+import { ApolloProvider } from "@apollo/client";
 
 import Web3Provider from "components/Web3Provider";
 import XmtpProvider from "components/XMTPProvider";
 import { store } from "redux/store";
+import { apolloClient } from "utils/graphql";
 import "styles/globals.scss";
 import "styles/global-tailwind.css";
 import "styles/index.css";
@@ -17,11 +19,13 @@ const App = ({ Component, pageProps }) => (
   <>
     <Head>{<title>ShareEth</title>}</Head>
     <Provider store={store}>
-      <Web3Provider>
-        <XmtpProvider>
-          <Component {...pageProps} />
-        </XmtpProvider>
-      </Web3Provider>
+      <ApolloProvider client={apolloClient}>
+        <Web3Provider>
+          <XmtpProvider>
+            <Component {...pageProps} />
+          </XmtpProvider>
+        </Web3Provider>
+      </ApolloProvider>
     </Provider>
   </>
 );

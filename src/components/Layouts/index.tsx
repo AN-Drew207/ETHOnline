@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import clsx from "clsx";
-import { Button } from "../common/button/button";
+import { Button } from "../common/button";
 import { SidebarMobile } from "./sidebars/mobile";
 import {
   BellOutlined,
@@ -14,6 +14,7 @@ import {
 } from "@ant-design/icons";
 import WalletModal from "components/WalletModal";
 import { useWeb3React } from "@web3-react/core";
+import { MakeAPostButton } from "components/common/makeAPostButton";
 
 const styles = {
   content: {
@@ -27,7 +28,7 @@ const styles = {
 const navItems = [
   {
     name: "Home",
-    link: "/app/",
+    link: "/app",
     menu: true,
     icon: <HomeOutlined />,
   },
@@ -49,6 +50,7 @@ const navItems = [
       console.log("a");
     },
     button: true,
+    element: <MakeAPostButton />,
   },
 ];
 
@@ -57,8 +59,6 @@ const AppLayout = ({ children }) => {
   const { account } = useWeb3React();
   const refSidebarMobile = React.useRef(null);
   const router = useRouter();
-
-  console.log(account, "xd");
 
   return (
     <div
@@ -116,17 +116,17 @@ const AppLayout = ({ children }) => {
                   <>
                     {item.button ? (
                       <div className="w-full xl:pl-8 md:pl-0 pl-8 flex items-center xl:justify-start md:justify-center">
-                        <Button
-                          decoration="fill"
-                          size="small"
-                          onClick={item.onClick}
-                        >
-                          <FormOutlined className="text-white xl:hidden md:flex hidden text-2xl" />
-
-                          <p className="xl:block md:hidden block">
-                            {item.name}
-                          </p>
-                        </Button>
+                        {account ? (
+                          item.element
+                        ) : (
+                          <Button
+                            href="/app/login"
+                            decoration="fill"
+                            size="small"
+                          >
+                            Log In
+                          </Button>
+                        )}
                       </div>
                     ) : (
                       <>
@@ -182,7 +182,7 @@ const AppLayout = ({ children }) => {
       >
         {children}
       </div>
-      <WalletModal showModal={!Boolean(account)} setShowModal={() => 1} />
+      {/* <WalletModal showModal={!Boolean(account)} setShowModal={() => 1} /> */}
     </div>
   );
 };

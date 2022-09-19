@@ -1,12 +1,16 @@
-import {Contract} from "ethers";
+import {ethers, Contract} from "ethers";
 import {ContractReceipt} from "@ethersproject/contracts";
 import {LogDescription} from "@ethersproject/abi";
 
+import lens from "./Lens";
 import superfluid from "./Superfluid";
 import ercs from "./ERC";
-import {TransactionResponse} from "@ethersproject/providers";
+import shareEth from "./ShareEth";
+import {TransactionResponse, Web3Provider} from "@ethersproject/providers";
 
 export const abis = {
+  ...shareEth,
+  ...lens,
   ...superfluid,
   ...ercs,
 };
@@ -31,3 +35,7 @@ export const getReceipt = async (tx: Promise<TransactionResponse> | TransactionR
     throw err;
   }
 };
+
+export function attach(contractName: keyof typeof abis, address: string, provider: Web3Provider) {
+  return new ethers.Contract(address, abis[contractName], provider);
+}

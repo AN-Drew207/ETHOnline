@@ -1,7 +1,22 @@
 import { Button } from "components/common/button";
-import { SimplePostComponent } from "components/common/post";
+import { MakeAPostButton } from "components/common/makeAPostButton";
+import { SimplePostComponent } from "components/common/posts/post";
+import useAuthClient from "hooks/useAuthClient";
+import { makeQuery } from "utils/graphql";
+import { GET_FOLLOWERS } from "utils/graphql/queries/follow";
 
 const ProfileComponent = () => {
+  const client = useAuthClient();
+
+  const getFollowers = async () => {
+    const { data } = await makeQuery({
+      query: GET_FOLLOWERS,
+      variables: { request: { profileId: "0x01" } },
+      client,
+    });
+    console.log(data, "followers");
+  };
+
   const profile = {
     name: "Carlos Torres",
     address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
@@ -68,6 +83,7 @@ const ProfileComponent = () => {
                   alt=""
                 />
               </div>
+              {/* <div className="flex gap-2 w-full items-center"> */}
               <div className="flex flex-col items-center justify-center gap-2 md:px-16 px-4">
                 <h2 className="text-xl font-bold text-dark">{profile.name}</h2>
                 <h3 className="md:flex hidden text-sm text-gray-500 truncate">
@@ -78,15 +94,14 @@ const ProfileComponent = () => {
                 </h3>
                 <p className="text-sm text-center">{profile.description}</p>
               </div>
+              {/* </div> */}
             </div>
           </div>
         </div>
       </div>
       <div className="flex justify-between items-center w-full">
         <h1 className="text-dark text-xl font-bold">My Posts</h1>
-        <Button decoration="fill" size="small">
-          Make a post
-        </Button>
+        <MakeAPostButton />
       </div>
       <div className="flex flex-col w-full">
         <div className="flex flex-col gap-2 w-full">
