@@ -1,11 +1,11 @@
 import {SimplePostComponent} from "components/common/posts/post";
 import React, {useState} from "react";
 import {useWeb3React} from "@web3-react/core";
-import {useQuery} from "@apollo/client";
+import {useLazyQuery, useQuery} from "@apollo/client";
 
 import useGetContract from "hooks/useGetContract";
 import useAuthClient from "hooks/useAuthClient";
-import {CREATE_PROFILE, EXPLORE_PUBLICATIONS} from "utils/graphql/queries";
+import {CREATE_PROFILE, EXPLORE_PUBLICATIONS, SEARCH_PUBLICATION} from "utils/graphql/queries";
 import {makeMutation} from "utils/graphql";
 import {Button} from "components/common/button";
 import {profile} from "console";
@@ -14,6 +14,7 @@ const HomeComponent = () => {
   const {account} = useWeb3React();
   const getContract = useGetContract();
   const client = useAuthClient();
+  const [searchPublication, {data: searchedPublications}] = useLazyQuery(SEARCH_PUBLICATION);
   const {data, loading, error} = useQuery(EXPLORE_PUBLICATIONS, {
     variables: {
       request: {
@@ -24,7 +25,7 @@ const HomeComponent = () => {
     },
   });
   const publications = data ? data.explorePublications.items : [];
-  console.log({publications});
+  console.log({searchedPublications});
 
   const createProfile = async () => {
     if (client)
@@ -42,47 +43,21 @@ const HomeComponent = () => {
       });
   };
 
-  const postsMock = [
-    {
-      postId: 1,
-      name: "Carl",
-      photo: "/images/profile2.png",
-      address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
-      message:
-        "I'm having conversations with my suscribers now! Ask me something and I'll answer you!",
-      onLike: () => console.log("I like it"),
-      onMessage: () => console.log("I message it"),
-      liked: false,
-      likes: 85,
-      comments: 30,
-    },
-    {
-      postId: 2,
-      name: "Andres",
-      photo: "/images/profile1.png",
-      address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
-      message:
-        "Merge is here! Please suscribe to my content to have all the information about this and a lot of things about blockchain! Join to the best community here in ShareEth, the best Web3 membership platform!",
-      onLike: () => console.log("I like it"),
-      onMessage: () => console.log("I message it"),
-      liked: true,
-      likes: 750,
-      comments: 500,
-      image: "/images/merge.jpg",
-    },
-    {
-      postId: 3,
-      name: "Carl",
-      photo: "/images/profile2.png",
-      address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
-      message: "I'm excited for the merge! It is almost here, let's see how it goes!",
-      onLike: () => console.log("I like it"),
-      onMessage: () => console.log("I message it"),
-      liked: false,
-      likes: 145,
-      comments: 40,
-    },
-  ];
+  const search = async () => {
+    await searchPublication({
+      variables: {
+        request: {
+          query: "a",
+          type: "PUBLICATION",
+          limit: 10,
+        },
+      },
+    });
+  };
+
+  React.useEffect(() => {
+    search();
+  }, []);
 
   const suggestionsMock = [
     {
