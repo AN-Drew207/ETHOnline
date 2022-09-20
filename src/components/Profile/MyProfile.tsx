@@ -33,19 +33,20 @@ const ProfileComponent = () => {
   }, []);
 
   const profile = {
-    name: "Carlos Torres",
+    name: "Carl",
     address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
-    photo: "/icons/logo.png",
+    photo: "/images/profile2.png",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dignissim lacus eget hendrerit convallis. Morbi consectetur quam et metus tincidunt, ac ullamcorper felis dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla eget ipsum cursus, interdum magna a, dignissim enim.",
+      "Best streamer in the world, follow me to enjoy content about NFTs, crypto, blockchain and the best crypto-projects",
     posts: [
       {
         postId: 1,
-        name: "Andres",
-        photo: "/icons/logo.png",
-        address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
+        name: "Carl",
+        address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
+        photo: "/images/profile2.png",
+
         message:
-          "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
+          "I'm excited for the merge! It is almost here, let's see how it goes!",
         onLike: () => console.log("I like it"),
         onMessage: () => console.log("I message it"),
         liked: false,
@@ -54,23 +55,24 @@ const ProfileComponent = () => {
       },
       {
         postId: 2,
-        name: "Andres",
-        photo: "/icons/logo.png",
-        address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
+        name: "Carl",
+        address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
+        photo: "/images/profile2.png",
+
         message:
-          "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
+          "I'm having conversations with my suscribers now! Ask me something and I'll answer you!",
         onLike: () => console.log("I like it"),
         onMessage: () => console.log("I message it"),
         liked: true,
         likes: 100,
         comments: 100,
-        image: "/icons/logotype.png",
+        // image: "/icons/logotype.png",
       },
       {
         postId: 3,
-        name: "Andres",
-        photo: "/icons/logo.png",
-        address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
+        name: "Carl",
+        address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
+        photo: "/images/profile2.png",
         message:
           "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
         onLike: () => console.log("I like it"),

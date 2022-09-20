@@ -5,16 +5,18 @@ import {useLazyQuery, useQuery} from "@apollo/client";
 
 import useGetContract from "hooks/useGetContract";
 import useAuthClient from "hooks/useAuthClient";
-import {CREATE_PROFILE, EXPLORE_PUBLICATIONS, SEARCH} from "utils/graphql/queries";
+import {CREATE_PROFILE, EXPLORE_PUBLICATIONS, SEARCH_PUBLICATION} from "utils/graphql/queries";
 import {makeMutation} from "utils/graphql";
 import {Button} from "components/common/button";
 import {profile} from "console";
+import {LoadingOutlined} from "@ant-design/icons";
+import {convertLinkToIpfs} from "components/common/convertIPFStoLink";
 
 const HomeComponent = () => {
   const {account} = useWeb3React();
   const getContract = useGetContract();
   const client = useAuthClient();
-  const [search, {data: searchedData}] = useLazyQuery(SEARCH);
+  const [search, {data: searchedData}] = useLazyQuery(SEARCH_PUBLICATION);
   const {data, loading, error} = useQuery(EXPLORE_PUBLICATIONS, {
     variables: {
       request: {
@@ -74,7 +76,7 @@ const HomeComponent = () => {
     },
   ];
   return (
-    <div className="flex flex-col md:py-8 py-4 w-full">
+    <div className="flex flex-col md:py-8 py-4 w-full min-h-screen">
       <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">Home</h1>
       <div className="flex w-full gap-4">
         <div className="flex flex-col 2xl:w-2/3">
@@ -89,7 +91,11 @@ const HomeComponent = () => {
                 }) => (
                   <SimplePostComponent
                     name={profile["name"]}
-                    photo={profile["picture"] ? profile["picture"]["original"]["url"] : ""}
+                    photo={
+                      profile["picture"]
+                        ? convertLinkToIpfs(profile["picture"]["original"]["url"])
+                        : "/icons/logo_simple.svg"
+                    }
                     address={profile["id"]}
                     message={metadata["content"]}
                     onLike={() => null}
@@ -97,16 +103,22 @@ const HomeComponent = () => {
                     liked={stats["totalAmountOfMirrors"]}
                     likes={stats["totalAmountOfCollects"]}
                     comments={stats["totalAmountOfComments"]}
-                    image={metadata["media"]}
+                    image={
+                      metadata["media"].length > 0
+                        ? convertLinkToIpfs(metadata["media"][0].original.url)
+                        : undefined
+                    }
                   />
                 )
               )
             ) : (
-              <p>Loading...</p>
+              <div className="flex items-center justify-center h-[75vh]">
+                <LoadingOutlined className="!text-primary text-4xl" />
+              </div>
             )}
           </div>
         </div>
-        <div className="2xl:flex hidden flex-col border border-gray-300 shadow-md h-min w-1/3 rounded-xl p-4 sticky top-24 gap-4">
+        <div className="2xl:flex hidden flex-col border border-gray-300 shadow-md h-min w-1/3 rounded-xl p-4 sticky top-4 gap-4">
           <h2 className="font-bold text-xl text-center text-primary">Suggestions</h2>
           <div className="flex flex-col gap-3">
             {suggestionsMock.map(({photo, name, address}) => {

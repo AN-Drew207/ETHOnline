@@ -20,6 +20,7 @@ export const SimplePostComponent: React.FC<any> = ({
   comments,
   liked,
 }) => {
+  console.log(image, "image");
   return (
     <div className="border border-gray-300 shadow-md rounded-xl gap-2  sm:px-4 py-4 px-2 flex w-full">
       <div className="sm:w-14 w-12 p-2 shrink-0 rounded-full">
@@ -41,19 +42,23 @@ export const SimplePostComponent: React.FC<any> = ({
               </p>
             </div>
             <p className="text-justify">{message}</p>
-            {image && (
+            {image !== undefined ? (
               <img
                 src={image}
                 className="w-full rounded-xl border border-gray-300 shadow-md"
                 alt=""
               />
+            ) : (
+              ""
             )}
-            {video && (
+            {video !== undefined ? (
               <video
                 controls
                 src={video}
                 className="w-full rounded-xl border border-gray-300 shadow-md"
               />
+            ) : (
+              ""
             )}
           </div>
         </div>

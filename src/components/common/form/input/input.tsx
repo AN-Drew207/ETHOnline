@@ -22,6 +22,7 @@ export const Input: React.FC<any> = ({
   verifyValue,
   handleVerification,
   primary,
+  classNameContainer,
   ...props
 }) => {
   //@typescript-eslint/no-unused-vars
@@ -88,7 +89,10 @@ export const Input: React.FC<any> = ({
               { "pl-14 pr-4": leftImg },
               { "pr-8 pl-4": rightImg },
               { "border text-primary border-primary": isFill },
-              { "bg-transparent border-primary": primary && !error },
+              {
+                "bg-transparent !border-primary !text-primary !focus:border-primary !focus:text-primary !placeholder-primary":
+                  primary && !error,
+              },
 
               //Styles normal input
               {
@@ -102,9 +106,10 @@ export const Input: React.FC<any> = ({
               },
               "disabled:placeholder-gray-200 disabled:cursor-not-allowed disabled:text-gray-500",
               {
-                "focus:outline-none focus:bg-gray-opacity-10 focus:ring-offset-transparent focus:ring-opacity-0 focus:border-none focus:ring-transparent":
+                "focus:outline-none focus:bg-gray-opacity-10 focus:ring-offset-transparent focus:ring-opacity-0 focus:ring-transparent":
                   !error,
               },
+              classNameContainer,
             )}
             ref={registerAux && registerAux.ref}
             onChange={(e) => {

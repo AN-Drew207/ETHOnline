@@ -1,6 +1,8 @@
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button } from "components/common/button";
 import { SimplePostComponent } from "components/common/posts/post";
+import useFollow from "hooks/useFollow";
+import useSubscribe from "hooks/useSubscribe";
 
 const ProfileOtherUserComponent = () => {
   const profile = {
@@ -53,6 +55,10 @@ const ProfileOtherUserComponent = () => {
       },
     ],
   };
+
+  const { follow, txState } = useFollow();
+  const { subscribe } = useSubscribe();
+
   return (
     <div className="flex flex-col md:py-8 py-4 gap-4 w-full">
       {/* <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">
@@ -83,15 +89,34 @@ const ProfileOtherUserComponent = () => {
                   <p className="text-sm text-center">{profile.description}</p>
                 </div>
               </div>{" "}
-              {true ? (
-                <Button size="small" decoration="fill">
-                  Follow
-                </Button>
-              ) : (
-                <Button size="small" decoration="line-primary">
-                  Followed <CheckCircleOutlined />
-                </Button>
-              )}
+              <div className="w-full flex gap-4 items-center justify-center">
+                {true ? (
+                  <Button
+                    size="small"
+                    decoration="fill"
+                    onClick={() => follow(["1"])}
+                  >
+                    Follow
+                  </Button>
+                ) : (
+                  <Button size="small" decoration="line-primary">
+                    Followed <CheckCircleOutlined />
+                  </Button>
+                )}
+                {true ? (
+                  <Button
+                    size="small"
+                    decoration="fill"
+                    onClick={() => subscribe(["1"])}
+                  >
+                    Subscribe
+                  </Button>
+                ) : (
+                  <Button size="small" decoration="line-primary">
+                    Subscribed <CheckCircleOutlined />
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>

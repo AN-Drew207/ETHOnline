@@ -9,26 +9,31 @@ const HomeComponent: NextPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    AOS.init();
+    AOS.init({ once: true });
   }, []);
 
   return (
-    <div className="flex min-h-[calc(100vh-56px)] max-h-[calc(100vh-56px)] flex-col items-center justify-start mt-[56px]">
+    <div className="flex min-h-[calc(100vh)] max-h-[calc(100vh)] flex-col items-center justify-start md:pt-[56px] pt-[60px]">
       <div className="bg-primary opacity-75 absolute h-[calc(100vh-56px)] max-h-[calc(100vh-56px)] w-full z-10"></div>
-      <div className="bg-primary absolute z-0 top-0 max-h-[calc(100vh-56px)] h-[calc(100vh-56px)] w-full">
+      <div className="bg-primary absolute z-0 top-0 max-h-[100vh] h-[100vh] w-full">
         <img
           src="/images/bg_main.png"
-          className="md:block hidden w-full min-h-[calc(100vh-56px)] "
+          className="lg:block hidden w-full min-h-[100vh]"
           alt=""
         />
         <img
-          src="/images/bg_main_mobile.png"
-          className="md:hidden block w-full min-h-[calc(100vh-56px)] "
+          src="/images/bg_landing_mobile.jpg"
+          className="lg:hidden sm:block hidden w-full min-h-[100vh]"
+          alt=""
+        />
+        <img
+          src="/images/bg_landing_mobile2.jpg"
+          className="sm:hidden block w-full min-h-[100vh]"
           alt=""
         />
       </div>
       <div className="z-10 flex flex-col justify-center items-center w-full min-h-[calc(100vh-56px)] max-h-[calc(100vh-56px)]">
-        <div className="flex lg:justify-between justify-center items-center w-full pr-24 pl-24">
+        <div className="flex lg:justify-between justify-center items-center w-full md:pr-24 md:pl-24 px-4">
           <div className="lg:w-[40%] w-full flex flex-col lg:items-start items-center gap-10 Oswald">
             <h1 className="xl:text-6xl lg:text-4xl md:text-6xl text-5xl lg:text-left text-center Oswald font-bold text-white">
               CREATE CONTENT <br />
@@ -45,6 +50,7 @@ const HomeComponent: NextPage = () => {
                         .pauseFor(3000)
                         .deleteChars(2)
                         .typeString("ETH")
+                        .pauseFor(3000)
                         .deleteAll()
                         .start();
                       setInterval(() => {
@@ -53,6 +59,7 @@ const HomeComponent: NextPage = () => {
                           .pauseFor(3000)
                           .deleteChars(2)
                           .typeString("ETH")
+                          .pauseFor(3000)
                           .deleteAll()
                           .start();
                       }, 7000);
