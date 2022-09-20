@@ -41,13 +41,23 @@ const useConversation = (
 
   const sendMessage = async (message: string) => {
     handleLoading("conversation", true);
+    console.log(message, "será");
     const conv = conversations?.find(
       (conv) => conv.peerAddress === peerAddress,
     );
+    console.log(conversations, conv, "si");
     if (conv) {
       const curMessage = await conv.send(message);
       const newMessages = messages[conv.peerAddress].concat([curMessage]);
       setMessages((prev) => ({ ...prev, [conv.peerAddress]: newMessages }));
+    } else {
+      const conv = await client.conversations.newConversation(peerAddress);
+      const curMessage = await conv.send(message);
+      const newMessages = [curMessage];
+      setMessages((prev) => ({
+        ...prev,
+        [conv.peerAddress]: newMessages,
+      }));
     }
     handleLoading("conversation", false);
   };
