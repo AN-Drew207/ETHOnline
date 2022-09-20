@@ -1,23 +1,24 @@
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { Button } from "components/common/button";
 import { SimplePostComponent } from "components/common/posts/post";
+import useFollow from "hooks/useFollow";
+import useSubscribe from "hooks/useSubscribe";
 
 const ProfileOtherUserComponent = () => {
   const profile = {
-    name: "Carl",
+    name: "Carlos Torres",
     address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
-    photo: "/images/profile2.png",
+    photo: "/icons/logo.png",
     description:
-      "Best streamer in the world, follow me to enjoy content about NFTs, crypto, blockchain and the best crypto-projects",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dignissim lacus eget hendrerit convallis. Morbi consectetur quam et metus tincidunt, ac ullamcorper felis dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla eget ipsum cursus, interdum magna a, dignissim enim.",
     posts: [
       {
         postId: 1,
-        name: "Carl",
-        address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
-        photo: "/images/profile2.png",
-
+        name: "Andres",
+        photo: "/icons/logo.png",
+        address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
         message:
-          "I'm excited for the merge! It is almost here, let's see how it goes!",
+          "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
         onLike: () => console.log("I like it"),
         onMessage: () => console.log("I message it"),
         liked: false,
@@ -26,24 +27,23 @@ const ProfileOtherUserComponent = () => {
       },
       {
         postId: 2,
-        name: "Carl",
-        address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
-        photo: "/images/profile2.png",
-
+        name: "Andres",
+        photo: "/icons/logo.png",
+        address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
         message:
-          "I'm having conversations with my suscribers now! Ask me something and I'll answer you!",
+          "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
         onLike: () => console.log("I like it"),
         onMessage: () => console.log("I message it"),
         liked: true,
         likes: 100,
         comments: 100,
-        // image: "/icons/logotype.png",
+        image: "/icons/logotype.png",
       },
       {
         postId: 3,
-        name: "Carl",
-        address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
-        photo: "/images/profile2.png",
+        name: "Andres",
+        photo: "/icons/logo.png",
+        address: "0x12Ee2c0Ca07F32a177eC4c07ea8574E183FdeaC4",
         message:
           "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua pariatur. Ut enim ad minim ven",
         onLike: () => console.log("I like it"),
@@ -55,6 +55,10 @@ const ProfileOtherUserComponent = () => {
       },
     ],
   };
+
+  const { follow, txState } = useFollow();
+  const { subscribe } = useSubscribe();
+
   return (
     <div className="flex flex-col md:py-8 py-4 gap-4 w-full">
       {/* <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">
@@ -85,15 +89,34 @@ const ProfileOtherUserComponent = () => {
                   <p className="text-sm text-center">{profile.description}</p>
                 </div>
               </div>{" "}
-              {true ? (
-                <Button size="small" decoration="fill">
-                  Follow
-                </Button>
-              ) : (
-                <Button size="small" decoration="line-primary">
-                  Followed <CheckCircleOutlined />
-                </Button>
-              )}
+              <div className="w-full flex gap-4 items-center justify-center">
+                {true ? (
+                  <Button
+                    size="small"
+                    decoration="fill"
+                    onClick={() => follow(["1"])}
+                  >
+                    Follow
+                  </Button>
+                ) : (
+                  <Button size="small" decoration="line-primary">
+                    Followed <CheckCircleOutlined />
+                  </Button>
+                )}
+                {true ? (
+                  <Button
+                    size="small"
+                    decoration="fill"
+                    onClick={() => subscribe(["1"])}
+                  >
+                    Subscribe
+                  </Button>
+                ) : (
+                  <Button size="small" decoration="line-primary">
+                    Subscribed <CheckCircleOutlined />
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
         </div>
