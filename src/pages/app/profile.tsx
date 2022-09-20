@@ -10,7 +10,7 @@ const Home = () => {
 
   React.useEffect(() => {
     if (!account) {
-      router.push("/login");
+      router.push("/app/login");
     }
   }, [account]);
   return (
