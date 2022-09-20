@@ -5,7 +5,7 @@ import {useLazyQuery, useQuery} from "@apollo/client";
 
 import useGetContract from "hooks/useGetContract";
 import useAuthClient from "hooks/useAuthClient";
-import {CREATE_PROFILE, EXPLORE_PUBLICATIONS, SEARCH_PUBLICATION} from "utils/graphql/queries";
+import {CREATE_PROFILE, EXPLORE_PUBLICATIONS, SEARCH} from "utils/graphql/queries";
 import {makeMutation} from "utils/graphql";
 import {Button} from "components/common/button";
 import {profile} from "console";
@@ -14,7 +14,7 @@ const HomeComponent = () => {
   const {account} = useWeb3React();
   const getContract = useGetContract();
   const client = useAuthClient();
-  const [searchPublication, {data: searchedPublications}] = useLazyQuery(SEARCH_PUBLICATION);
+  const [search, {data: searchedData}] = useLazyQuery(SEARCH);
   const {data, loading, error} = useQuery(EXPLORE_PUBLICATIONS, {
     variables: {
       request: {
@@ -25,7 +25,7 @@ const HomeComponent = () => {
     },
   });
   const publications = data ? data.explorePublications.items : [];
-  console.log({searchedPublications});
+  console.log({searchedData});
 
   const createProfile = async () => {
     if (client)
@@ -43,12 +43,12 @@ const HomeComponent = () => {
       });
   };
 
-  const search = async () => {
-    await searchPublication({
+  const handleSearch = async () => {
+    await search({
       variables: {
         request: {
           query: "a",
-          type: "PUBLICATION",
+          type: "PUBLICATION", // type:PUBLICATION | PROFILE
           limit: 10,
         },
       },

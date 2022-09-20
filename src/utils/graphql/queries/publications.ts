@@ -658,7 +658,7 @@ export const EXPLORE_PUBLICATIONS = gql`
   }
 `;
 
-export const SEARCH_PUBLICATION = gql`
+export const SEARCH = gql`
   query ($request: SearchQueryRequest!) {
     search(request: $request) {
       ... on PublicationSearchResult {
