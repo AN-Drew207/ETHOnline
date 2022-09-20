@@ -39,7 +39,7 @@ const ContactUsPoweredBy: NextPage = () => {
   };
 
   React.useEffect(() => {
-    AOS.init();
+    AOS.init({ once: true });
   }, []);
 
   const poweredBy = [

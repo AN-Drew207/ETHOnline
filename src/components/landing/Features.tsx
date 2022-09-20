@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 const Features: NextPage = () => {
   React.useEffect(() => {
-    AOS.init();
+    AOS.init({ once: true });
   }, []);
 
   return (
@@ -61,8 +61,8 @@ const Features: NextPage = () => {
           ]?.map(({ title, image }) => {
             return (
               <SwiperSlide>
-                <div className="w-full flex flex-col gap-4 items-center relative pb-10">
-                  <img src={image} className="w-80" alt="" />
+                <div className="w-full flex flex-col gap-4 items-center relative pb-10 md:px-0 px-4">
+                  <img src={image} className="md:w-80 w-60" alt="" />
                   <p className="pt-4 Oswald text-center md:text-2xl text-lg text-primary md:w-1/2 w-full">
                     {title}
                   </p>

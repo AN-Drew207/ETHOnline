@@ -9,7 +9,7 @@ const HomeComponent: NextPage = () => {
   const router = useRouter();
 
   React.useEffect(() => {
-    AOS.init();
+    AOS.init({ once: true });
   }, []);
 
   return (

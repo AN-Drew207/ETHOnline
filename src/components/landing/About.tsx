@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 const AboutUs: NextPage = () => {
   React.useEffect(() => {
-    AOS.init();
+    AOS.init({ once: true });
   }, []);
 
   return (
@@ -27,7 +27,7 @@ const AboutUs: NextPage = () => {
           data-aos-once="false"
         >
           <div className="flex flex-col gap-10 lg:max-w-[50%]">
-            <h2 className="font-bold text-primary xl:text-6xl text-3xl Oswald whitespace-nowrap">
+            <h2 className="font-bold text-primary md:text-left text-center xl:text-6xl text-3xl Oswald whitespace-nowrap">
               ABOUT US
             </h2>
             <p className="xl:text-lg text-md text-justify">
