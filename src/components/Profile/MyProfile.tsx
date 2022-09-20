@@ -1,12 +1,16 @@
+import React from "react";
+import {useLazyQuery} from "@apollo/client";
 import {Button} from "components/common/button";
 import {MakeAPostButton} from "components/common/makeAPostButton";
 import {SimplePostComponent} from "components/common/posts/post";
 import useAuthClient from "hooks/useAuthClient";
 import {makeQuery} from "utils/graphql";
+import {GET_PROFILE_BY_HANDLE} from "utils/graphql/queries";
 import {GET_FOLLOWERS} from "utils/graphql/queries/follow";
 
 const ProfileComponent = () => {
   const client = useAuthClient();
+  const [getProfile, {data: profileData}] = useLazyQuery(GET_PROFILE_BY_HANDLE);
 
   const getFollowers = async () => {
     const {data} = await makeQuery({
@@ -16,6 +20,17 @@ const ProfileComponent = () => {
     });
     console.log(data);
   };
+  console.log({profileData});
+
+  React.useEffect(() => {
+    getProfile({
+      variables: {
+        request: {
+          handle: "lensprotocol.test",
+        },
+      },
+    });
+  }, []);
 
   const profile = {
     name: "Carlos Torres",
