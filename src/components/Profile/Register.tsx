@@ -9,7 +9,8 @@ import { CREATE_PROFILE } from "utils/graphql/queries/profile";
 import useAuthClient from "hooks/useAuthClient";
 import Link from "next/link";
 
-import defaultProfile from '../../public/icons/logo.png';
+import defaultProfile from "../../public/icons/logo.png";
+import { File } from "nft.storage";
 
 const RegisterComponent: React.FunctionComponent<{}> = () => {
   const {
@@ -19,7 +20,9 @@ const RegisterComponent: React.FunctionComponent<{}> = () => {
   } = useForm({ mode: "onChange" });
   const client = useAuthClient();
 
-  const imageFile = new File([defaultProfile.src], "logo.png", { type: 'image/png' });
+  const imageFile = new File([defaultProfile.src], "logo.png", {
+    type: "image/png",
+  });
   const [profilePicture, setProfilePicture] = React.useState<File>(imageFile);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
