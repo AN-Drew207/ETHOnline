@@ -125,7 +125,12 @@ const Chat = () => {
                       <MessageChat
                         message={message}
                         photo={"/icons/logo.png"}
-                        name={message.senderAddress}
+                        name={
+                          message.senderAddress.toLowerCase() ==
+                          client.address.toLowerCase()
+                            ? "You"
+                            : message.senderAddress
+                        }
                       />
                     </>
                   );
@@ -150,11 +155,16 @@ const Chat = () => {
         </div>
         <div className="md:hidden flex flex-col w-full chat">
           {recipient == "" ? (
-            <div className="flex flex-col w-full p-2 border-r border-gray-400">
-              <h2 className="text-2xl font-bold text-primary py-4 text-center">
+            <div className="flex flex-col w-full p-2 gap-2 ">
+              <h2 className="text-2xl font-bold text-primary pt-4 pb-2 text-center">
                 Chats
               </h2>
               {Object.keys(messages).map((chat) => {
+                console.log(
+                  messages[chat][
+                    messages[chat].length - 1
+                  ].senderAddress.toLowerCase() == client.address.toLowerCase(),
+                );
                 return (
                   <div
                     className={clsx(
@@ -217,7 +227,7 @@ const Chat = () => {
               </div>
               <div className="h-full w-full flex flex-col-reverse overflow-auto">
                 <div className="h-max max-w-full flex flex-col justify-end gap-3 py-2">
-                  {messages[recipient]?.map((message) => {
+                  {messages[recipient]?.map((message, index) => {
                     const dateHasChanged = !isOnSameDay(
                       lastMessageDate,
                       message.sent,
@@ -231,7 +241,12 @@ const Chat = () => {
                         <MessageChat
                           message={message}
                           photo={"/icons/logo.png"}
-                          name={message.senderAddress}
+                          name={
+                            message.senderAddress.toLowerCase() ==
+                            client.address.toLowerCase()
+                              ? "You"
+                              : message.senderAddress
+                          }
                         />
                       </>
                     );

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 import { FormOutlined } from "@ant-design/icons";
-import { Logo, LogoSidebar, NavbarItemSidebar } from "..";
+import { Logo, LogoSidebar, NavbarItemSidebar } from "../../Layouts/index";
 import { Button } from "components/common/button";
 import { useWeb3React } from "@web3-react/core";
 
@@ -17,7 +17,7 @@ interface LayoutDashboardProps {
   initialFocus?: any;
   navItems?: any;
 }
-export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
+export const SidebarMobileLanding: React.FC<LayoutDashboardProps> = ({
   // title = '',
   // isLoading = false,
   // children,
@@ -140,6 +140,12 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                       </div>
                     );
                   })}
+                  <button
+                    onClick={() => router.push("/app")}
+                    className="btnLanding rounded-md Poppins px-6 py-2 hover:text-secondary hover:border-secondary text-white bg-secondary border border-transparent font-bold"
+                  >
+                    Try It!
+                  </button>
                 </nav>
               </div>
             </div>

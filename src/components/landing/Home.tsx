@@ -13,17 +13,22 @@ const HomeComponent: NextPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-[calc(100vh-56px)] max-h-[calc(100vh-56px)] flex-col items-center justify-start mt-[56px]">
+    <div className="flex min-h-[calc(100vh-56px)] max-h-[calc(100vh-56px)] flex-col items-center justify-start md:mt-[56px] mt-[60px]">
       <div className="bg-primary opacity-75 absolute h-[calc(100vh-56px)] max-h-[calc(100vh-56px)] w-full z-10"></div>
-      <div className="bg-primary absolute z-0 top-0 max-h-[calc(100vh-56px)] h-[calc(100vh-56px)] w-full">
+      <div className="bg-primary absolute z-0 top-0 max-h-[100vh] h-[100vh] w-full">
         <img
           src="/images/bg_main.png"
-          className="md:block hidden w-full min-h-[calc(100vh-56px)] "
+          className="lg:block hidden w-full min-h-[100vh]"
           alt=""
         />
         <img
-          src="/images/bg_main_mobile.png"
-          className="md:hidden block w-full min-h-[calc(100vh-56px)] "
+          src="/images/bg_landing_mobile.jpg"
+          className="lg:hidden sm:block hidden w-full min-h-[100vh]"
+          alt=""
+        />
+        <img
+          src="/images/bg_landing_mobile2.jpg"
+          className="sm:hidden block w-full min-h-[100vh]"
           alt=""
         />
       </div>

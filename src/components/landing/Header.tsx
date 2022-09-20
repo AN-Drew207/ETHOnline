@@ -6,6 +6,8 @@ import clsx from "clsx";
 import { Button } from "../common/button/button";
 import { MenuIcon } from "@heroicons/react/outline";
 import { SidebarMobile } from "../Layouts/sidebars/mobile";
+import { ApartmentOutlined, HomeOutlined } from "@ant-design/icons";
+import { SidebarMobileLanding } from "./sidebars/mobile";
 const styles = {
   content: {
     display: "flex",
@@ -23,19 +25,24 @@ const styles = {
 };
 
 const navItems = [
-  { name: "Home", link: "/#home" },
-  { name: "About", link: "/#About" },
+  { name: "Home", link: "/#home", icon: <HomeOutlined /> },
+  {
+    name: "About",
+    link: "/#About",
+    icon: (
+      <div className="flex gap-1 cursor-pointer">
+        <img
+          className="md:h-12 md:w-12 h-10 w-10"
+          src={"/icons/logo_simple_white.svg"}
+          alt="logo"
+        />
+      </div>
+    ),
+  },
   {
     name: "Features",
     link: "/#Features",
-  },
-  {
-    name: "Powered by",
-    link: "/#powered",
-  },
-  {
-    name: "Contact us",
-    link: "/#contact",
+    icon: <ApartmentOutlined />,
   },
 ];
 
@@ -72,6 +79,12 @@ export default function Header() {
               </>
             );
           })}
+          <button
+            onClick={() => router.push("/app")}
+            className="btnLanding rounded-md Poppins px-4 py-1 hover:text-secondary hover:border-secondary text-white bg-secondary border border-transparent font-bold"
+          >
+            Try It!
+          </button>
         </div>
         <div
           className="md:hidden flex"
@@ -95,10 +108,11 @@ export default function Header() {
           </svg>
         </div>
       </nav>
-      <SidebarMobile
+      <SidebarMobileLanding
         initialFocus={refSidebarMobile}
         setSidebarOpen={setSidebarOpen}
         sidebarOpen={sidebarOpen}
+        navItems={navItems}
       />
     </>
   );
