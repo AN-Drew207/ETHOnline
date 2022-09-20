@@ -36,7 +36,7 @@ const useAuthClient = () => {
     if (data) {
       const token = data.authenticate.accessToken;
       const client = new ApolloClient({
-        uri: process.env.NEXT_PUBLIC_LENS_SUBGRAPH,
+        uri: process.env.NEXT_PUBLIC_LENS_SUBGRAPH_MUMBAI,
         cache: new InMemoryCache(),
         headers: {
           authorization: token ? `Bearer ${token}` : "",
