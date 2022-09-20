@@ -18,7 +18,7 @@ const ProfileComponent = () => {
       variables: {request: {profileId: "0x01"}},
       client,
     });
-    console.log(data);
+    console.log(data, "followers");
   };
   console.log({profileData});
 
@@ -94,6 +94,7 @@ const ProfileComponent = () => {
               <div className="w-28 p-2 shrink-0">
                 <img src={profile.photo} className="w-24 h-24 rounded-full" alt="" />
               </div>
+              {/* <div className="flex gap-2 w-full items-center"> */}
               <div className="flex flex-col items-center justify-center gap-2 md:px-16 px-4">
                 <h2 className="text-xl font-bold text-dark">{profile.name}</h2>
                 <h3 className="md:flex hidden text-sm text-gray-500 truncate">{profile.address}</h3>
@@ -102,6 +103,7 @@ const ProfileComponent = () => {
                 </h3>
                 <p className="text-sm text-center">{profile.description}</p>
               </div>
+              {/* </div> */}
             </div>
           </div>
         </div>

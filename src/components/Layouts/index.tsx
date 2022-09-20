@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import clsx from "clsx";
-import { Button } from "../common/button/button";
+import { Button } from "../common/button";
 import { SidebarMobile } from "./sidebars/mobile";
 import {
   BellOutlined,
@@ -28,7 +28,7 @@ const styles = {
 const navItems = [
   {
     name: "Home",
-    link: "/app/",
+    link: "/app",
     menu: true,
     icon: <HomeOutlined />,
   },
@@ -42,11 +42,6 @@ const navItems = [
     link: "/app/profile",
     name: "Profile",
     icon: <UserOutlined />,
-  },
-  {
-    link: "/app/settings",
-    name: "Settings",
-    icon: <SettingOutlined />,
   },
   {
     link: "/app/shareIt",
@@ -121,7 +116,17 @@ const AppLayout = ({ children }) => {
                   <>
                     {item.button ? (
                       <div className="w-full xl:pl-8 md:pl-0 pl-8 flex items-center xl:justify-start md:justify-center">
-                        {item.element}
+                        {account ? (
+                          item.element
+                        ) : (
+                          <Button
+                            href="/app/login"
+                            decoration="fill"
+                            size="small"
+                          >
+                            Log In
+                          </Button>
+                        )}
                       </div>
                     ) : (
                       <>
@@ -177,7 +182,7 @@ const AppLayout = ({ children }) => {
       >
         {children}
       </div>
-      <WalletModal showModal={!Boolean(account)} setShowModal={() => 1} />
+      {/* <WalletModal showModal={!Boolean(account)} setShowModal={() => 1} /> */}
     </div>
   );
 };
