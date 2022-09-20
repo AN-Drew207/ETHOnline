@@ -45,7 +45,7 @@ const Chat = () => {
 
   React.useEffect(() => {
     if (!account) {
-      router.push("/login");
+      router.push("/app/login");
     }
   }, [account]);
 

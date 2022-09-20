@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { FormOutlined } from "@ant-design/icons";
 import { Logo, LogoSidebar, NavbarItemSidebar } from "..";
 import { Button } from "components/common/button";
+import { useWeb3React } from "@web3-react/core";
 
 interface LayoutDashboardProps {
   title?: string;
@@ -26,6 +27,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
   navItems,
 }) => {
   const router = useRouter();
+  const { account } = useWeb3React();
 
   return (
     <>
@@ -102,17 +104,17 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                   {navItems?.map((item, index) => {
                     return item.button ? (
                       <div className="w-full xl:pl-8 pl-0 flex items-center xl:justify-start md:justify-center justify-start items-start">
-                        <Button
-                          decoration="fill"
-                          size="small"
-                          onClick={item.onClick}
-                        >
-                          <FormOutlined className="text-white xl:hidden md:flex hidden text-2xl" />
-
-                          <p className="xl:block md:hidden block whitespace-nowrap">
-                            {item.name}
-                          </p>
-                        </Button>
+                        {account ? (
+                          item.element
+                        ) : (
+                          <Button
+                            href="/app/login"
+                            decoration="fill"
+                            size="small"
+                          >
+                            Log In
+                          </Button>
+                        )}
                       </div>
                     ) : (
                       <div
