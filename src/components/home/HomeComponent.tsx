@@ -1,5 +1,5 @@
 import { SimplePostComponent } from "components/common/posts/post";
-import React from "react";
+import React, {useState} from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useQuery } from "@apollo/client";
 
@@ -8,6 +8,7 @@ import useAuthClient from "hooks/useAuthClient";
 import { GET_PUBLICATIONS, CREATE_PROFILE } from "utils/graphql/queries";
 import { makeMutation } from "utils/graphql";
 import { Button } from "components/common/button";
+import { profile } from "console";
 
 const HomeComponent = () => {
   const { account } = useWeb3React();
@@ -16,13 +17,18 @@ const HomeComponent = () => {
   const { data, loading, error } = useQuery(GET_PUBLICATIONS, {
     variables: {
       request: {
-        profileId: "0x01",
+        profileId: "0x02",
         publicationTypes: ["POST", "COMMENT", "MIRROR"],
         limit: 10,
       },
     },
   });
-  const { publications } = data || { publications: [] };
+
+  let publications = [];
+
+  if (!loading) {
+    publications = data.publications.items;
+  }
 
   React.useEffect(() => {
     console.log("MAKE MUTATION");
@@ -113,34 +119,30 @@ const HomeComponent = () => {
       <div className="flex w-full gap-4">
         <div className="flex flex-col 2xl:w-2/3">
           <div className="flex flex-col gap-4 w-full">
-            {postsMock.map(
-              ({
-                name,
-                photo,
-                address,
-                message,
-                onLike,
-                onMessage,
-                liked,
-                likes,
-                comments,
-                image,
-                // video,
-              }) => (
-                <SimplePostComponent
-                  name={name}
-                  photo={photo}
-                  address={address}
-                  message={message}
-                  onLike={onLike}
-                  onMessage={onMessage}
-                  liked={liked}
-                  likes={likes}
-                  comments={comments}
-                  image={image}
-                />
-              ),
-            )}
+            {!loading ?
+              publications.map(
+                ({
+                  profile,
+                  metadata,
+                  stats
+                  // video,
+                }) => (
+                  <SimplePostComponent
+                    name={profile['name']}
+                    photo={profile['picture']['original']['url']}
+                    address={profile['id']}
+                    message={metadata['content']}
+                    onLike={() => null}
+                    onMessage={() => null}
+                    liked={stats['totalAmountOfMirrors']}
+                    likes={stats['totalAmountOfCollects']}
+                    comments={stats['totalAmountOfComments']}
+                    image={metadata['media']}
+                  />
+                ),
+              ) : 
+              <p>Loading...</p>
+            }
           </div>
         </div>
         <div className="2xl:flex hidden flex-col border border-gray-300 shadow-md h-min w-1/3 rounded-xl p-4 sticky top-24 gap-4">
