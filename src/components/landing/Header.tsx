@@ -25,7 +25,7 @@ const styles = {
 };
 
 const navItems = [
-  { name: "Home", link: "/#home", icon: <HomeOutlined /> },
+  { name: "Home", link: "/#Home", icon: <HomeOutlined /> },
   {
     name: "About",
     link: "/#About",

@@ -14,7 +14,10 @@ const Features: NextPage = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center justify-center relative min-h-screen">
+    <div
+      className="w-full flex flex-col items-center justify-center relative min-h-screen"
+      id="Features"
+    >
       <div
         className="w-full h-full absolute top-0"
         style={{

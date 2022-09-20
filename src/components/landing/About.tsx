@@ -10,7 +10,7 @@ const AboutUs: NextPage = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col justify-center relative">
+    <div className="w-full flex flex-col justify-center relative" id="About">
       <div
         className="w-full h-full absolute top-0"
         style={{

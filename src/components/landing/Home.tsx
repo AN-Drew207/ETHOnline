@@ -13,7 +13,7 @@ const HomeComponent: NextPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-[calc(100vh-56px)] max-h-[calc(100vh-56px)] flex-col items-center justify-start md:mt-[56px] mt-[60px]">
+    <div className="flex min-h-[calc(100vh)] max-h-[calc(100vh)] flex-col items-center justify-start md:pt-[56px] pt-[60px]">
       <div className="bg-primary opacity-75 absolute h-[calc(100vh-56px)] max-h-[calc(100vh-56px)] w-full z-10"></div>
       <div className="bg-primary absolute z-0 top-0 max-h-[100vh] h-[100vh] w-full">
         <img

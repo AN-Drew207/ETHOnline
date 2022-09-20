@@ -8,6 +8,7 @@ import Header from "components/landing/Header";
 const Home: NextPage = () => {
   return (
     <>
+      <div className="w-full" id="Home"></div>
       <Header />
       <LadingComponent />
       <div className="bg-secondary relative">
