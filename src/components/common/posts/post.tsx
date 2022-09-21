@@ -38,8 +38,8 @@ export const SimplePostComponent: React.FC<any> = ({
               <Link href={`/app/user/${address}`}>
                 <p className="font-bold text-dark cursor-pointer truncate flex gap-2 text-md">
                   {name}
-                  <span className="font-thin lowercase text-gray-500">
-                    {address.substring(0, 10)}...
+                  <span className="font-thin lowercase text-gray-500 sm:block hidden">
+                    {address.substring(0, 20)}...
                   </span>
                 </p>
               </Link>

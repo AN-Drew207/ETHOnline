@@ -4,10 +4,11 @@ import clsx from "clsx";
 import Link from "next/link";
 
 import { useRouter } from "next/router";
-import { FormOutlined } from "@ant-design/icons";
+import { FormOutlined, SearchOutlined } from "@ant-design/icons";
 import { Logo, LogoSidebar, NavbarItemSidebar } from "..";
 import { Button } from "components/common/button";
 import { useWeb3React } from "@web3-react/core";
+import { useForm } from "react-hook-form";
 
 interface LayoutDashboardProps {
   title?: string;
@@ -28,6 +29,8 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
 }) => {
   const router = useRouter();
   const { account } = useWeb3React();
+  const [search, setSearch] = React.useState("");
+  const { handleSubmit } = useForm();
 
   return (
     <>
@@ -101,6 +104,31 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                       <LogoSidebar />
                     </a>
                   </Link>
+                  <form
+                    onSubmit={handleSubmit(() => {
+                      setSidebarOpen(false);
+                      router.push("/app/searchProfile?search=" + search);
+                    })}
+                    className="flex w-full pt-4 xl:pr-0 md:pr-2 pr-0"
+                  >
+                    <input
+                      type="text"
+                      className="rounded-l-xl border border-white xl:text-md md:text-sm text-md !border-r-none text-primary bg-white placeholder-primary p-2 focus:outline-none w-[80%]"
+                      placeholder="Look at sharers!"
+                      onChange={(e) => {
+                        setSearch(e.target.value);
+                      }}
+                      value={search}
+                    />
+                    <Link href={"/app/searchProfile?search=" + search}>
+                      <button
+                        type="submit"
+                        className="p-2 bg-white border border-white !border-l-none rounded-r-xl flex items-center justify-center text-primary cursor-pointer"
+                      >
+                        <SearchOutlined></SearchOutlined>
+                      </button>
+                    </Link>
+                  </form>
                   {navItems?.map((item, index) => {
                     return item.button ? (
                       <div className="w-full xl:pl-8 pl-0 flex items-center xl:justify-start md:justify-center justify-start items-start">
@@ -136,7 +164,6 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                           route={router.asPath}
                           onClick={() => setSidebarOpen(false)}
                         />
-                        <div className="divider mx-3 mt-4"></div>
                       </div>
                     );
                   })}

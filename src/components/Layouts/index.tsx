@@ -18,6 +18,7 @@ import { useWeb3React } from "@web3-react/core";
 import { MakeAPostButton } from "components/common/makeAPostButton";
 import { useLazyQuery } from "@apollo/client";
 import { SEARCH } from "utils/graphql/queries";
+import { useForm } from "react-hook-form";
 
 const styles = {
   content: {
@@ -63,6 +64,8 @@ const AppLayout = ({ children }) => {
   const { account } = useWeb3React();
   const refSidebarMobile = React.useRef(null);
   const router = useRouter();
+
+  const { handleSubmit } = useForm();
 
   return (
     <div
@@ -115,20 +118,28 @@ const AppLayout = ({ children }) => {
           <div className="flex md:flex-col items-center md:justify-start justify-between w-full sticky top-12">
             <Logo />
             <div className="md:flex flex-col pt-10 hidden items-start w-full relative">
-              <div className="flex w-full py-2">
+              <form
+                onSubmit={handleSubmit(() =>
+                  router.push("/app/searchProfile?search=" + search),
+                )}
+                className="flex w-full py-2 xl:pr-0 md:pr-2 pr-0"
+              >
                 <input
                   type="text"
-                  className="rounded-l-xl border border-white !border-r-none text-primary bg-white placeholder-primary p-2 focus:outline-none w-[80%]"
+                  className="rounded-l-xl border border-white xl:text-md md:text-sm text-md !border-r-none text-primary bg-white placeholder-primary p-2 focus:outline-none w-[80%]"
                   placeholder="Look at sharers!"
                   onChange={(e) => setSearch(e.target.value)}
                   value={search}
                 />
                 <Link href={"/app/searchProfile?search=" + search}>
-                  <div className="p-2 bg-white border border-white !border-l-none rounded-r-xl flex items-center justify-center text-primary cursor-pointer">
+                  <button
+                    type="submit"
+                    className="p-2 bg-white border border-white !border-l-none rounded-r-xl flex items-center justify-center text-primary cursor-pointer"
+                  >
                     <SearchOutlined></SearchOutlined>
-                  </div>
+                  </button>
                 </Link>
-              </div>
+              </form>
               {navItems.map((item, index) => {
                 return (
                   <>
@@ -320,7 +331,7 @@ export const NavbarItemSidebar = ({ name, link, route, icon, onClick }) => {
           {
             "text-white rounded-l-full": link === route,
           },
-          "pl-8 xl:pr-12 pr-8 py-2 relative w-full",
+          "pl-8 xl:pr-12 pr-8 relative w-full",
         )}
         // href={link}
         onClick={onClick}
