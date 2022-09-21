@@ -1,6 +1,7 @@
-export const convertLinkToIpfs = (ipfs: string) => {
-  if (ipfs.includes("ipfs://")) {
-    return "https://ipfs.io/ipfs/" + ipfs.substring(6);
+export const convertLinkToIpfs = (inputURI: string) => {
+  if (inputURI.includes("ipfs://")) {
+    return "https://ipfs.io/ipfs/" + inputURI.substring(6);
+  } else {
+    return inputURI;
   }
-  return ipfs;
 };

@@ -26,8 +26,17 @@ const HomeComponent = () => {
       },
     },
   });
-  const publications = data ? data.explorePublications.items : [];
-  console.log({searchedData});
+
+  let publications = [];
+  const filterPosts = (item) => {
+    if (item.__typename === 'Post') {
+      return item;
+    }
+  }
+  if (!loading) {
+    const rawRequest = data['explorePublications']['items'];
+    publications = rawRequest.filter(filterPosts);
+  }
 
   const createProfile = async () => {
     if (client)
@@ -93,7 +102,7 @@ const HomeComponent = () => {
                     name={profile["name"]}
                     photo={
                       profile["picture"]
-                        ? convertLinkToIpfs(profile["picture"]["original"]["url"])
+                        ? profile["picture"]["uri"]
                         : "/icons/logo_simple.svg"
                     }
                     address={profile["id"]}
