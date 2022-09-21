@@ -6,6 +6,7 @@ import {
 } from "@ant-design/icons";
 import React from "react";
 import clsx from "clsx";
+import Link from "next/link";
 
 export const SimplePostComponent: React.FC<any> = ({
   photo,
@@ -34,12 +35,14 @@ export const SimplePostComponent: React.FC<any> = ({
         <div className="flex lg:flex-row flex-col">
           <div className="flex flex-col gap-1">
             <div className="flex gap-2">
-              <p className="font-bold text-dark truncate flex gap-2 text-md">
-                {name}
-                <span className="font-thin lowercase text-gray-500">
-                  {address.substring(0, 10)}...
-                </span>
-              </p>
+              <Link href={`/app/user/${address}`}>
+                <p className="font-bold text-dark cursor-pointer truncate flex gap-2 text-md">
+                  {name}
+                  <span className="font-thin lowercase text-gray-500">
+                    {address.substring(0, 10)}...
+                  </span>
+                </p>
+              </Link>
             </div>
             <p className="text-justify">{message}</p>
             {image !== undefined ? (

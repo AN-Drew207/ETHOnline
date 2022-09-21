@@ -107,7 +107,7 @@ const ProfileOtherUserComponent = () => {
                   <Button
                     size="small"
                     decoration="fill"
-                    onClick={() => subscribe(["1"])}
+                    onClick={() => subscribe("1")}
                   >
                     Subscribe
                   </Button>

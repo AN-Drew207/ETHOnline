@@ -3,19 +3,20 @@ import useSendTransaction from "./useSendTransaction";
 
 const useFollow = () => {
   const getContract = useGetContract();
-  const {onSendTransaction, txState} = useSendTransaction();
+  const { onSendTransaction, txState } = useSendTransaction();
   const lensHub = getContract("LensHub", "lensHub");
 
   const follow = async (profileIds: string[]) => {
+    console.log(profileIds);
     await onSendTransaction(
       lensHub.follow(
         profileIds,
-        profileIds.map(() => "")
-      )
+        profileIds.map(() => ""),
+      ),
     );
   };
 
-  return {txState, follow};
+  return { txState, follow };
 };
 
 export default useFollow;

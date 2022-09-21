@@ -9,9 +9,14 @@ const useGetContract = () => {
     contractName: keyof typeof abis,
     address: `0x${string}` | keyof Addresses,
   ) => {
-    const { addresses } = config[chainId ? chainId : 80001];
-    if (addresses[address])
-      return attach(contractName, addresses[address], provider);
+    console.log(chainId);
+    const { addresses } = config[chainId ? chainId : "80001"];
+    console.log(addresses);
+    if (addresses[address]) {
+      const contract = attach(contractName, addresses[address], provider);
+      console.log("by name", contract);
+      return contract;
+    }
     return attach(contractName, address, provider);
   };
 };

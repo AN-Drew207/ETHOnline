@@ -1,23 +1,27 @@
-import {SimplePostComponent} from "components/common/posts/post";
-import React, {useState} from "react";
-import {useWeb3React} from "@web3-react/core";
-import {useLazyQuery, useQuery} from "@apollo/client";
+import { SimplePostComponent } from "components/common/posts/post";
+import React, { useState } from "react";
+import { useWeb3React } from "@web3-react/core";
+import { useLazyQuery, useQuery } from "@apollo/client";
 
 import useGetContract from "hooks/useGetContract";
 import useAuthClient from "hooks/useAuthClient";
-import {CREATE_PROFILE, EXPLORE_PUBLICATIONS, SEARCH} from "utils/graphql/queries";
-import {makeMutation} from "utils/graphql";
-import {Button} from "components/common/button";
-import {profile} from "console";
-import {LoadingOutlined} from "@ant-design/icons";
-import {convertLinkToIpfs} from "components/common/convertIPFStoLink";
+import {
+  CREATE_PROFILE,
+  EXPLORE_PUBLICATIONS,
+  SEARCH,
+} from "utils/graphql/queries";
+import { makeMutation } from "utils/graphql";
+import { Button } from "components/common/button";
+import { profile } from "console";
+import { LoadingOutlined } from "@ant-design/icons";
+import { convertLinkToIpfs } from "components/common/convertIPFStoLink";
 
 const HomeComponent = () => {
-  const {account} = useWeb3React();
+  const { account } = useWeb3React();
   const getContract = useGetContract();
   const client = useAuthClient();
-  const [search, {data: searchedData}] = useLazyQuery(SEARCH);
-  const {data, loading, error} = useQuery(EXPLORE_PUBLICATIONS, {
+  const [search, { data: searchedData }] = useLazyQuery(SEARCH);
+  const { data, loading, error } = useQuery(EXPLORE_PUBLICATIONS, {
     variables: {
       request: {
         sortCriteria: "LATEST",
@@ -29,12 +33,12 @@ const HomeComponent = () => {
 
   let publications = [];
   const filterPosts = (item) => {
-    if (item.__typename === 'Post') {
+    if (item.__typename === "Post") {
       return item;
     }
-  }
+  };
   if (!loading) {
-    const rawRequest = data['explorePublications']['items'];
+    const rawRequest = data["explorePublications"]["items"];
     publications = rawRequest.filter(filterPosts);
   }
 
@@ -70,6 +74,8 @@ const HomeComponent = () => {
     search();
   }, []);
 
+  console.log(publications, "posts");
+
   const suggestionsMock = [
     {
       suggestionId: 1,
@@ -86,7 +92,9 @@ const HomeComponent = () => {
   ];
   return (
     <div className="flex flex-col md:py-8 py-4 w-full min-h-screen">
-      <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">Home</h1>
+      <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">
+        Home
+      </h1>
       <div className="flex w-full gap-4">
         <div className="flex flex-col 2xl:w-2/3">
           <div className="flex flex-col gap-4 w-full">
@@ -101,8 +109,12 @@ const HomeComponent = () => {
                   <SimplePostComponent
                     name={profile["name"]}
                     photo={
-                      profile["picture"]
-                        ? convertLinkToIpfs(profile["picture"]["uri"] || "")
+                      profile.picture?.uri
+                        ? convertLinkToIpfs(profile.picture["uri"] || "")
+                        : profile.picture?.original
+                        ? convertLinkToIpfs(
+                            profile.picture?.original?.url || "",
+                          )
                         : "/icons/logo_simple.svg"
                     }
                     address={profile["id"]}
@@ -118,7 +130,7 @@ const HomeComponent = () => {
                         : undefined
                     }
                   />
-                )
+                ),
               )
             ) : (
               <div className="flex items-center justify-center h-[75vh]">
@@ -128,14 +140,20 @@ const HomeComponent = () => {
           </div>
         </div>
         <div className="2xl:flex hidden flex-col border border-gray-300 shadow-md h-min w-1/3 rounded-xl p-4 sticky top-4 gap-4">
-          <h2 className="font-bold text-xl text-center text-primary">Suggestions</h2>
+          <h2 className="font-bold text-xl text-center text-primary">
+            Suggestions
+          </h2>
           <div className="flex flex-col gap-3">
-            {suggestionsMock.map(({photo, name, address}) => {
+            {suggestionsMock.map(({ photo, name, address }) => {
               return (
                 <div className="flex border border-gray-300 shadow-md gap-2 max-w-[100%] w-full rounded-md items-center justify-between">
                   <div className="w-2/3 flex gap-2 truncate">
                     <div className="sm:w-14 w-12 p-2 shrink-0 rounded-full">
-                      <img src={photo} className="sm:w-10 sm:h-10 w-8 h-8 rounded-full" alt="" />
+                      <img
+                        src={photo}
+                        className="sm:w-10 sm:h-10 w-8 h-8 rounded-full"
+                        alt=""
+                      />
                     </div>
                     <div className="flex flex-col p-2 shrink-0 rounded-full truncate w-2/3">
                       <h3 className="font-bold text-md">{name}</h3>
@@ -143,7 +161,11 @@ const HomeComponent = () => {
                     </div>
                   </div>
                   <div className="p-2 shrink-0">
-                    <Button size="small" className="py-1 text-[14px]" decoration="fill">
+                    <Button
+                      size="small"
+                      className="py-1 text-[14px]"
+                      decoration="fill"
+                    >
                       Follow
                     </Button>
                   </div>
