@@ -102,7 +102,7 @@ const HomeComponent = () => {
                     name={profile["name"]}
                     photo={
                       profile["picture"]
-                        ? profile["picture"]["uri"]
+                        ? convertLinkToIpfs(profile["picture"]["uri"] || "")
                         : "/icons/logo_simple.svg"
                     }
                     address={profile["id"]}
