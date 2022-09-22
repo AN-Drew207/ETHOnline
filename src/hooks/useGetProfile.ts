@@ -1,10 +1,18 @@
-import { useWeb3React } from "@web3-react/core";
-import { attach, abis } from "utils/contracts";
-import config, { Addresses } from "utils/contracts/networks";
+import {useLazyQuery} from "@apollo/client";
+import {GET_PROFILE} from "utils/graphql/queries";
 
 const useGetProfile = () => {
-  const { provider, chainId } = useWeb3React();
-  return "";
+  return useLazyQuery(GET_PROFILE);
 };
+
+// [makeQuery, {data,loading,info}]
+// makeQuery({
+//variables: { request: {
+//query: "a",
+//type: "PUBLICATION", // type:PUBLICATION | PROFILE
+//limit: 10,
+//},
+//},
+// })
 
 export default useGetProfile;
