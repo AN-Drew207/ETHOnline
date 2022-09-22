@@ -76,7 +76,8 @@ const SearchProfileComponent = () => {
                     metadata,
                     profile,
                     hasCollectedByMe,
-
+                    id,
+                    createdAt,
                     // video,
                   }) =>
                     type == "PROFILE" ? (
@@ -93,6 +94,7 @@ const SearchProfileComponent = () => {
                       />
                     ) : (
                       <SimplePostComponent
+                        id={id}
                         name={profile?.name}
                         photo={
                           profile?.picture?.uri
@@ -114,7 +116,9 @@ const SearchProfileComponent = () => {
                           metadata?.media.length > 0
                             ? convertLinkToIpfs(metadata?.media[0].original.url)
                             : undefined
+                    timestamp={createdAt}
                         }
+
                       />
                     ),
                 )

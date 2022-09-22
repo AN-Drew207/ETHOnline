@@ -1,26 +1,28 @@
 import React from "react";
-import {useLazyQuery} from "@apollo/client";
-import {Button} from "components/common/button";
-import {MakeAPostButton} from "components/common/makeAPostButton";
-import {SimplePostComponent} from "components/common/posts/post";
+import { useLazyQuery } from "@apollo/client";
+import { Button } from "components/common/button";
+import { MakeAPostButton } from "components/common/makeAPostButton";
+import { SimplePostComponent } from "components/common/posts/post";
 import useAuthClient from "hooks/useAuthClient";
-import {makeQuery} from "utils/graphql";
-import {GET_PROFILE_BY_HANDLE} from "utils/graphql/queries";
-import {GET_FOLLOWERS} from "utils/graphql/queries/follow";
+import { makeQuery } from "utils/graphql";
+import { GET_PROFILE_BY_HANDLE } from "utils/graphql/queries";
+import { GET_FOLLOWERS } from "utils/graphql/queries/follow";
 
 const ProfileComponent = () => {
   const client = useAuthClient();
-  const [getProfile, {data: profileData}] = useLazyQuery(GET_PROFILE_BY_HANDLE);
+  const [getProfile, { data: profileData }] = useLazyQuery(
+    GET_PROFILE_BY_HANDLE,
+  );
 
   const getFollowers = async () => {
-    const {data} = await makeQuery({
+    const { data } = await makeQuery({
       query: GET_FOLLOWERS,
-      variables: {request: {profileId: "0x01"}},
+      variables: { request: { profileId: "0x01" } },
       client,
     });
     console.log(data, "followers");
   };
-  console.log({profileData});
+  console.log({ profileData });
 
   React.useEffect(() => {
     getProfile({
@@ -40,7 +42,7 @@ const ProfileComponent = () => {
       "Best streamer in the world, follow me to enjoy content about NFTs, crypto, blockchain and the best crypto-projects",
     posts: [
       {
-        postId: 1,
+        id: 1,
         name: "Carl",
         address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
         photo: "/images/profile2.png",
@@ -54,7 +56,7 @@ const ProfileComponent = () => {
         comments: 100,
       },
       {
-        postId: 2,
+        id: 2,
         name: "Carl",
         address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
         photo: "/images/profile2.png",
@@ -69,7 +71,7 @@ const ProfileComponent = () => {
         // image: "/icons/logotype.png",
       },
       {
-        postId: 3,
+        id: 3,
         name: "Carl",
         address: "0x11BD80De9438C2737aFD411893bde7d28254bAAd",
         photo: "/images/profile2.png",
@@ -94,12 +96,18 @@ const ProfileComponent = () => {
           <div className="border border-gray-300 shadow-md  rounded-xl gap-2 p-4 flex">
             <div className="flex flex-col gap-4 w-full items-center justify-center">
               <div className="w-28 p-2 shrink-0">
-                <img src={profile.photo} className="w-24 h-24 rounded-full" alt="" />
+                <img
+                  src={profile.photo}
+                  className="w-24 h-24 rounded-full"
+                  alt=""
+                />
               </div>
               {/* <div className="flex gap-2 w-full items-center"> */}
               <div className="flex flex-col items-center justify-center gap-2 md:px-16 px-4">
                 <h2 className="text-xl font-bold text-dark">{profile.name}</h2>
-                <h3 className="md:flex hidden text-sm text-gray-500 truncate">{profile.address}</h3>
+                <h3 className="md:flex hidden text-sm text-gray-500 truncate">
+                  {profile.address}
+                </h3>
                 <h3 className="flex md:hidden text-sm text-center text-gray-500 truncate">
                   {profile.address.substring(0, 10)}...
                 </h3>
@@ -118,6 +126,7 @@ const ProfileComponent = () => {
         <div className="flex flex-col gap-2 w-full">
           {profile.posts.map(
             ({
+              id,
               name,
               photo,
               address,
@@ -131,6 +140,7 @@ const ProfileComponent = () => {
               // video,
             }) => (
               <SimplePostComponent
+                id={id}
                 name={name}
                 photo={photo}
                 address={address}
@@ -142,7 +152,7 @@ const ProfileComponent = () => {
                 comments={comments}
                 image={image}
               />
-            )
+            ),
           )}
         </div>
       </div>

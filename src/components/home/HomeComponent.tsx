@@ -99,10 +99,7 @@ const HomeComponent = () => {
         Home
       </h1>
       <div
-        className={clsx(
-          { ["justify-center"]: loading },
-          "flex w-full gap-4",
-        )}
+        className={clsx({ ["justify-center"]: loading }, "flex w-full gap-4")}
       >
         <div className="flex flex-col 2xl:w-2/3">
           <div className={clsx("flex flex-col gap-4 w-full")}>
@@ -113,9 +110,12 @@ const HomeComponent = () => {
                   metadata,
                   stats,
                   hasCollectedByMe,
+                  id,
+                  createdAt,
                   // video,
                 }) => (
                   <SimplePostComponent
+                    id={id}
                     name={profile["name"]}
                     photo={
                       profile.picture?.uri
@@ -138,6 +138,7 @@ const HomeComponent = () => {
                         ? convertLinkToIpfs(metadata["media"][0].original.url)
                         : undefined
                     }
+                    timestamp={createdAt}
                   />
                 ),
               )

@@ -1,8 +1,8 @@
 import { useLazyQuery } from "@apollo/client";
-import { GET_PROFILE } from "utils/graphql/queries";
+import { GET_PUBLICATION } from "utils/graphql/queries";
 
-const useGetProfile = () => {
-  return useLazyQuery(GET_PROFILE);
+const useGetPublication = () => {
+  return useLazyQuery(GET_PUBLICATION);
 };
 
 // [makeQuery, {data,loading,info}]
@@ -15,4 +15,4 @@ const useGetProfile = () => {
 //},
 // })
 
-export default useGetProfile;
+export default useGetPublication;

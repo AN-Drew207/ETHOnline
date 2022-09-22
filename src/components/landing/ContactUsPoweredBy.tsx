@@ -85,7 +85,7 @@ const ContactUsPoweredBy: NextPage = () => {
       <div className="w-full flex flex-col items-center gap-10 md:pt-16 pb-10 relative pt-10">
         <button
           onClick={() => router.push("/app")}
-          className="btnLanding rounded-md Poppins px-8 py-3 hover:text-primary hover:border-primary text-white bg-primary border border-white font-bold"
+          className="btnLanding rounded-md Poppins px-8 py-3 hover:text-primary hover:border-primary text-white bg-primary border border-transparent font-bold"
         >
           Try It!
         </button>
