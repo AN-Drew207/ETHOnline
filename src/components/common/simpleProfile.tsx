@@ -32,7 +32,7 @@ export const SimpleProfileComponent: React.FC<any> = ({
                 <p className="font-bold text-dark cursor-pointer truncate flex gap-2 text-md">
                   {name}
                   <span className="font-thin lowercase text-gray-500">
-                    {address.substring(0, 10)}...
+                    {address}
                   </span>
                 </p>
               </Link>

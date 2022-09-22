@@ -39,7 +39,7 @@ export const SimplePostComponent: React.FC<any> = ({
                 <p className="font-bold text-dark cursor-pointer truncate flex gap-2 text-md">
                   {name}
                   <span className="font-thin lowercase text-gray-500 sm:block hidden">
-                    {address.substring(0, 20)}...
+                    {address}
                   </span>
                 </p>
               </Link>

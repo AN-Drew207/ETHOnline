@@ -1,5 +1,5 @@
 import AppLayout from "components/Layouts";
-import SearchProfileComponent from "components/SearchProfile";
+import SearchProfileComponent from "components/Search";
 
 const SearchProfilePage = () => {
   return (

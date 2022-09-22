@@ -107,7 +107,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                   <form
                     onSubmit={handleSubmit(() => {
                       setSidebarOpen(false);
-                      router.push("/app/searchProfile?search=" + search);
+                      router.push("/app/search?search=" + search);
                     })}
                     className="flex w-full pt-4 xl:pr-0 md:pr-2 pr-0"
                   >
@@ -120,7 +120,7 @@ export const SidebarMobile: React.FC<LayoutDashboardProps> = ({
                       }}
                       value={search}
                     />
-                    <Link href={"/app/searchProfile?search=" + search}>
+                    <Link href={"/app/search?search=" + search}>
                       <button
                         type="submit"
                         className="p-2 bg-white border border-white !border-l-none rounded-r-xl flex items-center justify-center text-primary cursor-pointer"

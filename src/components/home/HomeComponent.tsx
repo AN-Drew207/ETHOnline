@@ -15,6 +15,7 @@ import { Button } from "components/common/button";
 import { profile } from "console";
 import { LoadingOutlined } from "@ant-design/icons";
 import { convertLinkToIpfs } from "components/common/convertIPFStoLink";
+import clsx from "clsx";
 
 const HomeComponent = () => {
   const { account } = useWeb3React();
@@ -30,6 +31,8 @@ const HomeComponent = () => {
       },
     },
   });
+
+  console.log(error);
 
   let publications = [];
   const filterPosts = (item) => {
@@ -95,15 +98,21 @@ const HomeComponent = () => {
       <h1 className="text-primary text-3xl font-bold pb-8 w-full text-center">
         Home
       </h1>
-      <div className="flex w-full gap-4">
+      <div
+        className={clsx(
+          { ["justify-center"]: loading },
+          "flex w-full gap-4",
+        )}
+      >
         <div className="flex flex-col 2xl:w-2/3">
-          <div className="flex flex-col gap-4 w-full">
+          <div className={clsx("flex flex-col gap-4 w-full")}>
             {!loading ? (
               publications.map(
                 ({
                   profile,
                   metadata,
                   stats,
+                  hasCollectedByMe,
                   // video,
                 }) => (
                   <SimplePostComponent
@@ -121,7 +130,7 @@ const HomeComponent = () => {
                     message={metadata["content"]}
                     onLike={() => null}
                     onMessage={() => null}
-                    liked={stats["totalAmountOfMirrors"]}
+                    liked={hasCollectedByMe}
                     likes={stats["totalAmountOfCollects"]}
                     comments={stats["totalAmountOfComments"]}
                     image={
@@ -133,7 +142,7 @@ const HomeComponent = () => {
                 ),
               )
             ) : (
-              <div className="flex items-center justify-center h-[75vh]">
+              <div className="flex items-center justify-center w-full h-[75vh]">
                 <LoadingOutlined className="!text-primary text-4xl" />
               </div>
             )}
