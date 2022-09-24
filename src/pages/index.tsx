@@ -1,24 +1,23 @@
-import Head from "next/head";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import LadingComponent from "components/landing/Home";
+import Features from "components/landing/Features";
+import AboutUs from "components/landing/About";
+import ContactUsPoweredBy from "components/landing/ContactUsPoweredBy";
+import { NextPage } from "next";
+import Header from "components/landing/Header";
 
-const Home = ({ userId }: { userId: string | null }) => {
+const Home: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Home</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <div id="lp-register"></div>
+      <div className="w-full" id="Home"></div>
+      <Header />
+      <LadingComponent />
+      <div className="bg-secondary relative">
+        <AboutUs />
+        <Features />
+        <ContactUsPoweredBy />
+      </div>
     </>
   );
-};
-
-Home.getInitialProps = async ({ req }) => {
-  return {
-    userId: null,
-  };
 };
 
 export default Home;
