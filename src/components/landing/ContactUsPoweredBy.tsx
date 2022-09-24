@@ -1,20 +1,20 @@
 import React from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import type { NextPage } from "next";
+import type {NextPage} from "next";
 import clsx from "clsx";
-import { useForm } from "react-hook-form";
-import { Input } from "components/common/form/input";
-import { Button } from "components/common/button";
-import { useRouter } from "next/router";
+import {useForm} from "react-hook-form";
+import {Input} from "components/common/form/input";
+import {Button} from "components/common/button";
+import {useRouter} from "next/router";
 
 const ContactUsPoweredBy: NextPage = () => {
   // const { addToast } = useToasts();
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: "onChange" });
+    formState: {errors},
+  } = useForm({mode: "onChange"});
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const router = useRouter();
@@ -25,28 +25,27 @@ const ContactUsPoweredBy: NextPage = () => {
 
   const rules = {
     fullName: {
-      required: { value: true, message: "This is required" },
+      required: {value: true, message: "This is required"},
     },
     lastname: {
-      required: { value: true, message: "This is required" },
+      required: {value: true, message: "This is required"},
     },
     email: {
-      required: { value: true, message: "This is required" },
+      required: {value: true, message: "This is required"},
     },
     phoneNumber: {
-      required: { value: true, message: "This is required" },
+      required: {value: true, message: "This is required"},
     },
     message: {
-      required: { value: true, message: "This is required" },
+      required: {value: true, message: "This is required"},
     },
   };
 
   React.useEffect(() => {
-    AOS.init({ once: true });
+    AOS.init({once: true});
   }, []);
 
   const poweredBy = [
-    "/icons/epns.svg",
     "/icons/matic.svg",
     "/icons/superfluid.svg",
     "/icons/lens.svg",
@@ -59,8 +58,7 @@ const ContactUsPoweredBy: NextPage = () => {
       <div
         className="w-full h-full absolute top-0"
         style={{
-          background:
-            "linear-gradient(193.12deg, #F8BA4D 34.57%, #FF8A00 80.51%)",
+          background: "linear-gradient(193.12deg, #F8BA4D 34.57%, #FF8A00 80.51%)",
         }}
       ></div>
       <div
@@ -91,7 +89,7 @@ const ContactUsPoweredBy: NextPage = () => {
         </button>
         <div
           className={clsx(
-            "flex xl:flex-row flex-col gap-8 items-center justify-between lg:w-4/5 w-full h-full sm:px-10 px-4 pb-10 relative",
+            "flex xl:flex-row flex-col gap-8 items-center justify-between lg:w-4/5 w-full h-full sm:px-10 px-4 pb-10 relative"
           )}
         >
           <form
@@ -141,10 +139,7 @@ const ContactUsPoweredBy: NextPage = () => {
           <div className="xl:w-1/2 w-full gap-5 flex flex-col items-center justify-center">
             <img src={"/icons/logo_green.svg"} className="w-[80%]" alt="" />
             <div className="flex gap-4">
-              <a
-                href="https://github.com/AN-Drew207/ETHOnline"
-                target={"_blank"}
-              >
+              <a href="https://github.com/AN-Drew207/ETHOnline" target={"_blank"}>
                 <img src="icons/github.svg" className="w-10 h-10" />
               </a>
             </div>

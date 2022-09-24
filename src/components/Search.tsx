@@ -1,23 +1,23 @@
-import { SimplePostComponent } from "components/common/posts/post";
-import React, { useState } from "react";
-import { useWeb3React } from "@web3-react/core";
-import { useLazyQuery, useQuery } from "@apollo/client";
+import {SimplePostComponent} from "components/common/posts/post";
+import React, {useState} from "react";
+import {useWeb3React} from "@web3-react/core";
+import {useLazyQuery, useQuery} from "@apollo/client";
 
 import useGetContract from "hooks/useGetContract";
 import useAuthClient from "hooks/useAuthClient";
-import { SEARCH } from "utils/graphql/queries";
-import { LoadingOutlined } from "@ant-design/icons";
-import { convertLinkToIpfs } from "components/common/convertIPFStoLink";
-import { useRouter } from "next/router";
-import { SimpleProfileComponent } from "./common/simpleProfile";
+import {SEARCH} from "utils/graphql/queries";
+import {LoadingOutlined} from "@ant-design/icons";
+import {convertLinkToIpfs} from "components/common/convertIPFStoLink";
+import {useRouter} from "next/router";
+import {SimpleProfileComponent} from "./common/simpleProfile";
 import clsx from "clsx";
 
 const SearchProfileComponent = () => {
-  const { account } = useWeb3React();
+  const {account} = useWeb3React();
   const getContract = useGetContract();
   const client = useAuthClient();
-  const { search: searched } = useRouter().query;
-  const [search, { data: searchedData }] = useLazyQuery(SEARCH);
+  const {search: searched} = useRouter().query;
+  const [search, {data: searchedData}] = useLazyQuery(SEARCH);
   const [type, setType] = React.useState("PROFILE");
 
   const handleSearch = async () => {
@@ -46,7 +46,7 @@ const SearchProfileComponent = () => {
         <h2
           className={clsx(
             "text-primary text-xl p-4 font-bold w-32 text-center rounded-xl border border-primary cursor-pointer",
-            { ["!text-white !bg-primary"]: type == "PROFILE" },
+            {["!text-white !bg-primary"]: type == "PROFILE"}
           )}
           onClick={() => setType("PROFILE")}
         >
@@ -55,7 +55,7 @@ const SearchProfileComponent = () => {
         <h2
           className={clsx(
             "text-primary text-xl p-4 font-bold w-32 text-center rounded-xl border border-primary cursor-pointer",
-            { ["!text-white !bg-primary"]: type == "PUBLICATION" },
+            {["!text-white !bg-primary"]: type == "PUBLICATION"}
           )}
           onClick={() => setType("PUBLICATION")}
         >
@@ -87,8 +87,8 @@ const SearchProfileComponent = () => {
                           picture?.uri
                             ? convertLinkToIpfs(picture["uri"] || "")
                             : picture?.original
-                            ? convertLinkToIpfs(picture?.original?.url || "")
-                            : "/icons/logo_simple.svg"
+                              ? convertLinkToIpfs(picture?.original?.url || "")
+                              : "/icons/logo_simple.svg"
                         }
                         address={profileId}
                       />
@@ -100,10 +100,8 @@ const SearchProfileComponent = () => {
                           profile?.picture?.uri
                             ? convertLinkToIpfs(profile?.picture["uri"] || "")
                             : profile?.picture?.original
-                            ? convertLinkToIpfs(
-                                profile?.picture?.original?.url || "",
-                              )
-                            : "/icons/logo_simple.svg"
+                              ? convertLinkToIpfs(profile?.picture?.original?.url || "")
+                              : "/icons/logo_simple.svg"
                         }
                         address={profile?.id}
                         message={metadata?.content}
@@ -116,11 +114,10 @@ const SearchProfileComponent = () => {
                           metadata?.media.length > 0
                             ? convertLinkToIpfs(metadata?.media[0].original.url)
                             : undefined
-                    timestamp={createdAt}
                         }
-
+                        timestamp={createdAt}
                       />
-                    ),
+                    )
                 )
               ) : (
                 <div className="flex items-center justify-center h-[70vh] text-primary text-3xl font-bold px-10">
