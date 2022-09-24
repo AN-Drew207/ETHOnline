@@ -100,18 +100,20 @@ const ProfileComponent = () => {
               {/* <div className="flex gap-2 w-full items-center"> */}
               <div className="flex flex-col items-center justify-center gap-2 md:px-16 px-4">
                 <h2 className="text-xl font-bold text-dark">{profile.name}</h2>
-                <div className="flex justify-around items-center">
+                <div className="flex flex-col justify-around items-center">
                   <h3 className="md:flex hidden text-sm text-gray-500 truncate">
                     {profile.address}
                   </h3>
                   <span className="ml-10 text-md">
-                    <span className="mr-3">Balance:</span>
-                    <FlowingBalance
-                      balance={ethers.utils.parseEther("3").toString()}
-                      balanceTimestamp={Math.floor(Date.now() / 1000 - 3600 * 3)}
-                      flowRate={ethers.utils.parseEther("1").toString()}
-                    />{" "}
-                    USDC
+                    <span className="mr-3 font-bold">Balance:</span>
+                    <span className="text-sm">
+                      <FlowingBalance
+                        balance={ethers.utils.parseEther("3").toString()}
+                        balanceTimestamp={Math.floor(Date.now() / 1000 - 3600 * 3)}
+                        flowRate={ethers.utils.parseEther("1").toString()}
+                      />{" "}
+                      USDC
+                    </span>
                   </span>
                 </div>
                 <h3 className="flex md:hidden text-sm text-center text-gray-500 truncate">
