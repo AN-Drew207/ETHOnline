@@ -7,6 +7,7 @@ import {
 import React from "react";
 import clsx from "clsx";
 import dayjs from "dayjs";
+import Link from "next/link";
 
 export const PostComponent: React.FC<any> = ({
   photo,
@@ -35,13 +36,16 @@ export const PostComponent: React.FC<any> = ({
         <div className="flex flex-col">
           <div className="flex flex-col gap-2">
             <div className="flex mb-2 gap-2">
-              <p className="font-bold text-dark truncate flex gap-2 text-md">
-                {name}
-                <span className="font-thin lowercase text-gray-500">
-                  {address}
-                </span>
-              </p>
+              <Link href={`/app/user/${address}`}>
+                <p className="font-bold text-dark truncate flex gap-2 text-md cursor-pointer">
+                  {name}
+                  <span className="font-thin lowercase text-gray-500">
+                    {address}
+                  </span>
+                </p>
+              </Link>
             </div>
+
             <p className="text-justify">{message}</p>
             {image && (
               <img

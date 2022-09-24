@@ -116,9 +116,8 @@ const SearchProfileComponent = () => {
                           metadata?.media.length > 0
                             ? convertLinkToIpfs(metadata?.media[0].original.url)
                             : undefined
-                    timestamp={createdAt}
                         }
-
+                        timestamp={createdAt}
                       />
                     ),
                 )
