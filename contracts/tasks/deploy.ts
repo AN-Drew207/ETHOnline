@@ -8,8 +8,6 @@ import {LensHub, MockERC20, ModuleGlobals, SubscriptionModule, TransferManager} 
 import config from "@utils/contracts/network";
 
 task("deploy", "deploy our follow module")
-  .addOptionalParam("protocol", "owner of chelo protocol address")
-  .addOptionalParam("fee", "fee of protocol")
   .setAction(async (taskArgs, hre) => {
     const {ethers, network} = hre;
     const accounts = await ethers.getSigners();

@@ -6,6 +6,7 @@ import {
 } from "@ant-design/icons";
 import React from "react";
 import clsx from "clsx";
+import dayjs from "dayjs";
 
 export const PostComponent: React.FC<any> = ({
   photo,
@@ -19,6 +20,7 @@ export const PostComponent: React.FC<any> = ({
   likes,
   comments,
   liked,
+  timestamp,
 }) => {
   return (
     <div className="border border-gray-300 shadow-md rounded-xl gap-2  sm:px-4 py-4 px-2 flex">
@@ -36,7 +38,7 @@ export const PostComponent: React.FC<any> = ({
               <p className="font-bold text-dark truncate flex gap-2 text-md">
                 {name}
                 <span className="font-thin lowercase text-gray-500">
-                  {address.substring(0, 10)}...
+                  {address}
                 </span>
               </p>
             </div>
@@ -58,7 +60,9 @@ export const PostComponent: React.FC<any> = ({
           </div>
         </div>
         <p className="text-sm text-gray-500">
-          04:40AM - 25 feb 2022 via ShareEth
+          <span>
+            {dayjs(new Date(timestamp)).format("hh:mm A · MMM D, YYYY")}
+          </span>
         </p>
         <div className="flex flex-row-reverse items-center justify-end shrink-0 w-full gap-10">
           <EllipsisOutlined className="cursor-pointer" />

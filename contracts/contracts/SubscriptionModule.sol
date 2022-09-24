@@ -35,6 +35,8 @@ contract SubscriptionModule is FollowValidatorFollowModuleBase {
 
     mapping(uint256 => ProfileData) internal _dataByProfile;
 
+    event PayedSubscription(address reciever, int96 ammount);
+
     constructor(
         ITransferManager _transferManager,
         address hub,
@@ -90,6 +92,7 @@ contract SubscriptionModule is FollowValidatorFollowModuleBase {
         address recipient = _dataByProfile[profileId].recipient;
 
         transferManager.createFlow(ISuperfluidToken(currency), follower, recipient, flowRate);
+        emit PayedSubscription(recipient, flowRate);
     }
 
     function followModuleTransferHook(

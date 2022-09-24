@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useForm } from "react-hook-form";
 import { Input } from "components/common/form/input";
 import { Button } from "components/common/button";
+import { useRouter } from "next/router";
 
 const ContactUsPoweredBy: NextPage = () => {
   // const { addToast } = useToasts();
@@ -15,6 +16,8 @@ const ContactUsPoweredBy: NextPage = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+  const router = useRouter();
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -79,10 +82,13 @@ const ContactUsPoweredBy: NextPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center gap-10 md:pt-16 pb-10">
-        <div>
-          <h2 className="text-3xl font-bold text-white">Contact Us</h2>
-        </div>
+      <div className="w-full flex flex-col items-center gap-10 md:pt-16 pb-10 relative pt-10">
+        <button
+          onClick={() => router.push("/app")}
+          className="btnLanding rounded-md Poppins px-8 py-3 hover:text-primary hover:border-primary text-white bg-primary border border-transparent font-bold"
+        >
+          Try It!
+        </button>
         <div
           className={clsx(
             "flex xl:flex-row flex-col gap-8 items-center justify-between lg:w-4/5 w-full h-full sm:px-10 px-4 pb-10 relative",
@@ -132,16 +138,15 @@ const ContactUsPoweredBy: NextPage = () => {
               </Button>
             </div>
           </form>
-          <div className="xl:w-1/2 w-full gap-10 flex flex-col items-center justify-center">
-            <img src={"/icons/logo_green.svg"} className="w-96" alt="" />
+          <div className="xl:w-1/2 w-full gap-5 flex flex-col items-center justify-center">
+            <img src={"/icons/logo_green.svg"} className="w-[80%]" alt="" />
             <div className="flex gap-4">
-              {[
-                "icons/linkedIn.svg",
-                "icons/twitter.svg",
-                "icons/github.svg",
-              ].map((icon) => (
-                <img src={icon} className="w-12 h-12" />
-              ))}
+              <a
+                href="https://github.com/AN-Drew207/ETHOnline"
+                target={"_blank"}
+              >
+                <img src="icons/github.svg" className="w-10 h-10" />
+              </a>
             </div>
           </div>
         </div>
